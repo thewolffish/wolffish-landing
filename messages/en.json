@@ -1,0 +1,37 @@
+{
+  "meta": {
+    "title": "Wolffish — Your Local AI Agent",
+    "description": "A local-first, markdown-powered personal AI desktop agent. Your brain, your rules, your machine."
+  },
+  "hero": {
+    "name": "Wolffish",
+    "tagline": "AI that doesn't just think — it acts",
+    "subtitle": "A desktop agent with full access to your machine. Automate, create, and execute — entirely local.",
+    "version": "v1.0.47"
+  },
+  "features": {
+    "local": "100% Local-First",
+    "localDesc": "Runs offline with local models. Your data never leaves your machine.",
+    "markdown": "Markdown-Powered",
+    "markdownDesc": "Your agent's brain is readable, editable markdown. No code needed.",
+    "extensible": "Extensible",
+    "extensibleDesc": "Drop a folder with a SKILL.md to add new capabilities instantly."
+  },
+  "download": {
+    "title": "Download",
+    "macos": "macOS",
+    "windows": "Windows",
+    "linux": "Linux",
+    "macosFile": "Wolffish-1.0.47-universal.dmg",
+    "windowsFile": "Wolffish-1.0.47-setup.exe",
+    "linuxFile": "Wolffish-1.0.47.AppImage",
+    "compatible": "Compatible"
+  },
+  "footer": {
+    "rights": "© 2025 Wolffish. All rights reserved.",
+    "docs": "Docs",
+    "github": "GitHub",
+    "discord": "Discord",
+    "x": "X"
+  }
+}
