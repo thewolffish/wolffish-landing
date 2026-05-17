@@ -55,10 +55,11 @@ export default function LandingOverlay() {
   useEffect(() => {
     async function fetchRelease() {
       try {
+        const noCache = { cache: "no-store" as RequestCache };
         const [mac, win, linux] = await Promise.all([
-          fetch(`${RELEASE_BASE}/latest-mac.yml`).then((r) => r.text()),
-          fetch(`${RELEASE_BASE}/latest.yml`).then((r) => r.text()),
-          fetch(`${RELEASE_BASE}/latest-linux.yml`).then((r) => r.text()),
+          fetch(`${RELEASE_BASE}/latest-mac.yml`, noCache).then((r) => r.text()),
+          fetch(`${RELEASE_BASE}/latest.yml`, noCache).then((r) => r.text()),
+          fetch(`${RELEASE_BASE}/latest-linux.yml`, noCache).then((r) => r.text()),
         ]);
         const macInfo = parseYaml(mac);
         const winInfo = parseYaml(win);
