@@ -7,7 +7,7 @@
     "name": "Wolffish",
     "tagline": "AI that doesn't just think — it acts",
     "subtitle": "A desktop agent with full access to your machine. Automate, create, and execute — entirely local.",
-    "version": "v1.0.47"
+    "version": "latest"
   },
   "features": {
     "local": "100% Local-First",
@@ -22,9 +22,9 @@
     "macos": "macOS",
     "windows": "Windows",
     "linux": "Linux",
-    "macosFile": "Wolffish-1.0.47-universal.dmg",
-    "windowsFile": "Wolffish-1.0.47-setup.exe",
-    "linuxFile": "Wolffish-1.0.47.AppImage",
+    "macosFile": "Loading...",
+    "windowsFile": "Loading...",
+    "linuxFile": "Loading...",
     "compatible": "Compatible"
   },
   "footer": {

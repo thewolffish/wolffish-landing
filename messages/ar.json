@@ -7,7 +7,7 @@
     "name": "وولف فيش",
     "tagline": "ذكاء لا يكتفي بالتفكير — بل يُنفّذ",
     "subtitle": "وكيل ذكي يعمل على جهازك مباشرة. يفكّر، يُنفّذ، ويتفاعل مع ملفاتك وأدواتك. بلا سحابة. بلا حدود. كل شيء تحت سيطرتك.",
-    "version": "v1.0.47"
+    "version": "أحدث إصدار"
   },
   "features": {
     "local": "محلي بالكامل",
@@ -22,9 +22,9 @@
     "macos": "ماك",
     "windows": "ويندوز",
     "linux": "لينكس",
-    "macosFile": "Wolffish-1.0.47-universal.dmg",
-    "windowsFile": "Wolffish-1.0.47-setup.exe",
-    "linuxFile": "Wolffish-1.0.47.AppImage",
+    "macosFile": "wolffish-app.dmg",
+    "windowsFile": "wolffish-app-setup.exe",
+    "linuxFile": "wolffish-app.AppImage",
     "compatible": "متوافق"
   },
   "footer": {
