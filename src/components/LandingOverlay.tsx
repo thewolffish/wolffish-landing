@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { useEffect, useState, useSyncExternalStore, useTransition } from "react";
+import { useSyncExternalStore, useTransition } from "react";
 import {
   FaApple,
   FaBook,
@@ -13,20 +13,12 @@ import {
   FaXTwitter,
 } from "react-icons/fa6";
 
-const RELEASE_BASE = "https://releases.wolffi.sh";
-
 interface ReleaseInfo {
   version: string;
   files: Record<
     "macos" | "windows" | "linux",
     { url: string; filename: string }
   >;
-}
-
-function parseYaml(text: string) {
-  const version = text.match(/^version:\s*(.+)$/m)?.[1]?.trim() ?? "";
-  const fileUrl = text.match(/^\s+-\s+url:\s*(.+)$/m)?.[1]?.trim() ?? "";
-  return { version, fileUrl };
 }
 
 function getClientOS(): string | null {
@@ -43,56 +35,12 @@ function setLocaleCookie(locale: string) {
   document.cookie = `locale=${locale};path=/;max-age=31536000`;
 }
 
-export default function LandingOverlay() {
+export default function LandingOverlay({ release }: { release: ReleaseInfo | null }) {
   const t = useTranslations();
   const router = useRouter();
   const [, startTransition] = useTransition();
 
   const userOS = useSyncExternalStore(noopSubscribe, getClientOS, serverOS);
-
-  const [release, setRelease] = useState<ReleaseInfo | null>(null);
-
-  useEffect(() => {
-    async function fetchRelease() {
-      try {
-        const noCache = { cache: "no-store" as RequestCache };
-        const [mac, win, linux] = await Promise.all([
-          fetch(`${RELEASE_BASE}/latest-mac.yml`, noCache).then((r) => r.text()),
-          fetch(`${RELEASE_BASE}/latest.yml`, noCache).then((r) => r.text()),
-          fetch(`${RELEASE_BASE}/latest-linux.yml`, noCache).then((r) => r.text()),
-        ]);
-        const macInfo = parseYaml(mac);
-        const winInfo = parseYaml(win);
-        const linuxInfo = parseYaml(linux);
-        const version = macInfo.version || winInfo.version || linuxInfo.version;
-
-        const macDmg =
-          mac.match(/^\s+-\s+url:\s*(.+\.dmg)$/m)?.[1]?.trim() ??
-          macInfo.fileUrl;
-
-        setRelease({
-          version,
-          files: {
-            macos: {
-              url: `${RELEASE_BASE}/${macDmg}`,
-              filename: macDmg.split("/").pop() ?? "",
-            },
-            windows: {
-              url: `${RELEASE_BASE}/${winInfo.fileUrl}`,
-              filename: winInfo.fileUrl.split("/").pop() ?? "",
-            },
-            linux: {
-              url: `${RELEASE_BASE}/${linuxInfo.fileUrl}`,
-              filename: linuxInfo.fileUrl.split("/").pop() ?? "",
-            },
-          },
-        });
-      } catch {
-        // keep hardcoded fallback from translations
-      }
-    }
-    fetchRelease();
-  }, []);
 
   const switchLocale = (locale: string) => {
     setLocaleCookie(locale);
