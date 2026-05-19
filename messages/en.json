@@ -10,12 +10,12 @@
     "version": "latest"
   },
   "features": {
-    "local": "100% Local-First",
-    "localDesc": "Runs offline with local models. Your data never leaves your machine.",
-    "markdown": "Markdown-Powered",
-    "markdownDesc": "Your agent's brain is readable, editable markdown. No code needed.",
+    "local": "Local & Markdown-First",
+    "localDesc": "Runs entirely offline using local models — your data never leaves your machine. Your agent's brain is plain markdown you can read, edit, and version control. No cloud. No code. Full privacy.",
+    "brain": "Brain-Inspired Architecture",
+    "brainDesc": "Built like a human brain — memory, reasoning, and action work together in one agentic architecture. The agent remembers context, thinks step by step, and acts on your behalf.",
     "extensible": "Extensible",
-    "extensibleDesc": "Drop a folder with a SKILL.md to add new capabilities instantly."
+    "extensibleDesc": "Drop a folder with a SKILL.md to teach your agent something new instantly. Add tools, workflows, or entire capabilities — no config, no setup, just plug and go."
   },
   "download": {
     "title": "Download",

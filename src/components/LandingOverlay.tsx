@@ -98,7 +98,7 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
 
         {/* Features */}
         <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl">
-          {(["local", "markdown", "extensible"] as const).map((key) => (
+          {(["local", "brain", "extensible"] as const).map((key) => (
             <div
               key={key}
               className="backdrop-blur-md bg-white/5 border border-white/8 rounded-2xl px-8 py-7 text-center"
