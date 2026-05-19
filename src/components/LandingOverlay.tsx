@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useSyncExternalStore, useTransition } from "react";
@@ -71,6 +72,14 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-20 md:py-0">
         {/* Title + Version */}
         <div className="flex items-center gap-4 md:gap-6">
+          <Image
+            src="/icon_transparent.png"
+            alt="Wolffish logo"
+            width={96}
+            height={96}
+            className="w-16 h-16 md:w-24 md:h-24 drop-shadow-[0_0_40px_rgba(40,80,180,0.4)]"
+            priority
+          />
           <h1
             className="text-6xl md:text-9xl font-bold text-white tracking-tight"
             style={{

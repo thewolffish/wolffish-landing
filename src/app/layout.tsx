@@ -1,7 +1,40 @@
 import type { Metadata, Viewport } from "next";
+import localFont from "next/font/local";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import "./globals.css";
+
+const ibmPlexSansArabic = localFont({
+  src: [
+    {
+      path: "../../public/fonts/IBMPlexSansArabic-Light.ttf",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/IBMPlexSansArabic-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/IBMPlexSansArabic-Medium.ttf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/IBMPlexSansArabic-SemiBold.ttf",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/IBMPlexSansArabic-Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  display: "swap",
+  fallback: ["system-ui", "-apple-system", "sans-serif"],
+});
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
@@ -60,7 +93,7 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
+    <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} className={ibmPlexSansArabic.className}>
       <body className="bg-[#040a18]">
         <NextIntlClientProvider messages={messages}>
           {children}
