@@ -6,7 +6,7 @@
   "hero": {
     "name": "Wolffish",
     "tagline": "AI that doesn't just think — it acts",
-    "subtitle": "A desktop agent with full access to your machine. Automate, create, and execute — entirely local.",
+    "subtitle": "A personal AI agent that runs on your machine with full system access. It thinks, acts, and learns — entirely local.",
     "version": "latest"
   },
   "features": {
