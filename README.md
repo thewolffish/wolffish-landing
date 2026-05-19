@@ -20,9 +20,9 @@ Large animated title with a live version badge pulled from the release server. T
 
 | Feature | Description |
 |---------|-------------|
-| **100% Local-First** | Runs offline with local models. Your data never leaves your machine. |
-| **Markdown-Powered** | The agent's brain is readable, editable markdown — fork it, diff it, version it. |
-| **Extensible** | Drop a folder with a SKILL.md to teach it new capabilities instantly. |
+| **Local & Markdown-First** | Runs offline with local models. Your data never leaves your machine. The agent's brain is plain markdown you can read, edit, and version control. |
+| **Brain-Inspired Architecture** | Built like a human brain — memory, reasoning, and action work together in one agentic architecture. The agent remembers context, thinks step by step, and acts on your behalf. |
+| **Extensible** | Drop a folder with a SKILL.md to teach your agent something new instantly. Add tools, workflows, or entire capabilities — no config, no setup, just plug and go. |
 
 ### Downloads
 
@@ -77,7 +77,9 @@ messages/
 ├── en.json                     English translations
 └── ar.json                     Arabic translations
 
-public/fonts/                   IBM Plex Sans Arabic (.ttf)
+public/
+├── icon_transparent.png        Wolffish logo (displayed next to title)
+└── fonts/                      IBM Plex Sans Arabic (.ttf)
 ```
 
 ---
