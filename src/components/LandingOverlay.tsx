@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useSyncExternalStore, useTransition } from "react";
 import {
@@ -38,6 +38,7 @@ function setLocaleCookie(locale: string) {
 
 export default function LandingOverlay({ release }: { release: ReleaseInfo | null }) {
   const t = useTranslations();
+  const locale = useLocale();
   const router = useRouter();
   const [, startTransition] = useTransition();
 
@@ -53,18 +54,12 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
   return (
     <div className="relative z-10 min-h-screen flex flex-col pointer-events-none">
       {/* Language toggle — top right */}
-      <div className="fixed top-5 inset-e-6 pointer-events-auto flex gap-2 z-20">
+      <div className="fixed top-5 inset-e-6 pointer-events-auto z-20">
         <button
-          onClick={() => switchLocale("en")}
+          onClick={() => switchLocale(locale === "en" ? "ar" : "en")}
           className="px-3 py-1.5 text-xs font-medium rounded-full bg-white/5 border border-white/10 text-white/80 hover:bg-white/10 hover:text-white transition-all backdrop-blur-sm"
         >
-          EN
-        </button>
-        <button
-          onClick={() => switchLocale("ar")}
-          className="px-3 py-1.5 text-xs font-medium rounded-full bg-white/5 border border-white/10 text-white/80 hover:bg-white/10 hover:text-white transition-all backdrop-blur-sm"
-        >
-          عربي
+          {locale === "en" ? "عربي" : "EN"}
         </button>
       </div>
 
