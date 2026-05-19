@@ -22,13 +22,12 @@
     "macos": "macOS",
     "windows": "Windows",
     "linux": "Linux",
-    "macosFile": "Loading...",
-    "windowsFile": "Loading...",
-    "linuxFile": "Loading...",
+    "macosFile": "wolffish-app.dmg",
+    "windowsFile": "wolffish-app-setup.exe",
+    "linuxFile": "wolffish-app.AppImage",
     "compatible": "Compatible"
   },
   "footer": {
-    "rights": "© 2025 Wolffish. All rights reserved.",
     "docs": "Docs",
     "github": "GitHub",
     "discord": "Discord",
