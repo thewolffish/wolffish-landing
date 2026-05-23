@@ -57,7 +57,7 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
       <div className="fixed top-5 inset-e-6 pointer-events-auto z-20">
         <button
           onClick={() => switchLocale(locale === "en" ? "ar" : "en")}
-          className="px-3 py-1.5 text-xs font-medium rounded-full bg-white/5 border border-white/10 text-white/80 hover:bg-white/10 hover:text-white transition-all backdrop-blur-sm"
+          className="px-3 py-1.5 text-xs font-medium rounded-full bg-white/5 border border-white/10 text-white/80 hover:bg-white/10 hover:text-white transition-all backdrop-blur-sm cursor-pointer"
         >
           {locale === "en" ? "عربي" : "EN"}
         </button>
