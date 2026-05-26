@@ -27,9 +27,16 @@
     "linuxFile": "wolffish-app.AppImage",
     "compatible": "متوافق"
   },
+  "blog": {
+    "title": "المدونة",
+    "back": "رجوع",
+    "readMore": "اقرأ المزيد",
+    "empty": "لا توجد مقالات بعد."
+  },
   "footer": {
     "docs": "الوثائق",
-    "github": "جيتهب",
+    "blog": "المدونة",
+    "github": "جيت هب",
     "discord": "ديسكورد",
     "x": "إكس"
   }

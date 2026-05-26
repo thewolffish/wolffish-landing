@@ -1,4 +1,3 @@
-import OceanSceneClient from "@/components/OceanSceneClient";
 import LandingOverlay from "@/components/LandingOverlay";
 
 const RELEASE_BASE = "https://releases.wolffi.sh";
@@ -51,7 +50,6 @@ export default async function Home() {
 
   return (
     <main className="relative">
-      <OceanSceneClient />
       <LandingOverlay release={release} />
     </main>
   );

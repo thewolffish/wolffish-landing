@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
+import OceanSceneClient from "@/components/OceanSceneClient";
 import "./globals.css";
 
 const ibmPlexSansArabic = localFont({
@@ -96,6 +97,7 @@ export default async function RootLayout({
     <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} className={ibmPlexSansArabic.className}>
       <body className="bg-[#040a18]">
         <NextIntlClientProvider messages={messages}>
+          <OceanSceneClient />
           {children}
         </NextIntlClientProvider>
       </body>

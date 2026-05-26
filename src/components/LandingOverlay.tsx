@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useSyncExternalStore, useTransition } from "react";
@@ -8,6 +9,7 @@ import {
   FaApple,
   FaBook,
   FaDiscord,
+  FaFeather,
   FaGithub,
   FaLinux,
   FaWindows,
@@ -176,6 +178,13 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
             <FaBook className="w-3.5 h-3.5" />
             {t("footer.docs")}
           </a>
+          <Link
+            href="/blog"
+            className="flex items-center gap-1.5 hover:text-white/70 transition-colors"
+          >
+            <FaFeather className="w-3.5 h-3.5" />
+            {t("footer.blog")}
+          </Link>
           <a
             href="https://github.com/thewolffish/wolffish-app"
             target="_blank"
