@@ -33,6 +33,11 @@
     "readMore": "Read more",
     "empty": "No posts yet."
   },
+  "extension": {
+    "title": "Extension Connected",
+    "description": "The Wolffish browser extension is working correctly.",
+    "home": "Home"
+  },
   "footer": {
     "docs": "Docs",
     "blog": "Blog",
