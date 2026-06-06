@@ -4,14 +4,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { useSyncExternalStore, useTransition } from "react";
+import { useCallback, useState, useSyncExternalStore, useTransition } from "react";
 import {
   FaApple,
   FaBook,
+  FaCheck,
+  FaCopy,
   FaDiscord,
   FaFeather,
   FaGithub,
   FaLinux,
+  FaTerminal,
   FaWindows,
   FaXTwitter,
 } from "react-icons/fa6";
@@ -119,6 +122,9 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
           ))}
         </div>
 
+        {/* Install commands */}
+        <InstallCommands />
+
         {/* Downloads — same max-w-5xl grid as features */}
         <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl pointer-events-auto">
           {(
@@ -214,6 +220,75 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
           </a>
         </div>
       </div>
+    </div>
+  );
+}
+
+function CopyButton({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const copy = useCallback(() => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }, [text]);
+
+  return (
+    <button
+      onClick={copy}
+      className="shrink-0 p-2 rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
+      aria-label="Copy to clipboard"
+    >
+      {copied ? (
+        <FaCheck className="w-3.5 h-3.5 text-emerald-400" />
+      ) : (
+        <FaCopy className="w-3.5 h-3.5 text-white/40 hover:text-white/70" />
+      )}
+    </button>
+  );
+}
+
+function InstallCommands() {
+  const t = useTranslations();
+
+  const commands = [
+    {
+      labelKey: "install.shell" as const,
+      command: "curl -fsSL https://releases.wolffi.sh/install.sh | sh",
+      Icon: FaTerminal,
+    },
+    {
+      labelKey: "install.powershell" as const,
+      command: "irm https://releases.wolffi.sh/install.ps1 | iex",
+      Icon: FaWindows,
+    },
+  ];
+
+  return (
+    <div className="mt-10 w-full max-w-5xl pointer-events-auto space-y-3">
+      {commands.map(({ labelKey, command, Icon }) => (
+        <div
+          key={labelKey}
+          dir="ltr"
+          className="flex items-center gap-4 px-5 py-3.5 rounded-2xl backdrop-blur-md bg-white/4 border border-white/8"
+        >
+          <Icon className="w-4 h-4 text-white/30 shrink-0" />
+          <div className="min-w-0 flex-1">
+            <div className="text-[10px] text-white/40 uppercase tracking-wider font-medium mb-1">
+              {t(labelKey, {
+                macos: t("download.macos"),
+                windows: t("download.windows"),
+                linux: t("download.linux"),
+              })}
+            </div>
+            <code className="text-xs text-white/80 font-mono block truncate">
+              {command}
+            </code>
+          </div>
+          <CopyButton text={command} />
+        </div>
+      ))}
     </div>
   );
 }

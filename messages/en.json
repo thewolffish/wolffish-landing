@@ -17,6 +17,10 @@
     "extensible": "Extensible",
     "extensibleDesc": "Drop a folder with a SKILL.md to teach your agent something new instantly. Add tools, workflows, or entire capabilities — no config, no setup, just plug and go."
   },
+  "install": {
+    "shell": "{macos} / {linux} / {windows}",
+    "powershell": "{windows} (PowerShell)"
+  },
   "download": {
     "title": "Download",
     "macos": "macOS",

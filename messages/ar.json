@@ -17,6 +17,10 @@
     "extensible": "قابل للتوسيع",
     "extensibleDesc": "أضف مجلد فيه SKILL.md وعلّم الوكيل شيء جديد فوراً. أضف أدوات أو سير عمل أو قدرات كاملة — بلا إعدادات، بلا تعقيد، فقط أضف شغّل وابدأ."
   },
+  "install": {
+    "shell": "{macos} / {linux} / {windows}",
+    "powershell": "{windows} (PowerShell)"
+  },
   "download": {
     "title": "تحميل",
     "macos": "ماك",
