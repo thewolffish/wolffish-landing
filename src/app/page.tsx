@@ -8,6 +8,15 @@ function parseYaml(text: string) {
   return { version, fileUrl };
 }
 
+function linuxFile(text: string, ext: string) {
+  const url = text
+    .match(new RegExp(`^\\s+-\\s+url:\\s*(\\S+\\.${ext})\\s*$`, "m"))?.[1]
+    ?.trim();
+  return url
+    ? { url: `${RELEASE_BASE}/${url}`, filename: url.split("/").pop() ?? "" }
+    : undefined;
+}
+
 async function fetchRelease() {
   try {
     const [mac, win, linux] = await Promise.all([
@@ -35,8 +44,9 @@ async function fetchRelease() {
           filename: winInfo.fileUrl.split("/").pop() ?? "",
         },
         linux: {
-          url: `${RELEASE_BASE}/${linuxInfo.fileUrl}`,
-          filename: linuxInfo.fileUrl.split("/").pop() ?? "",
+          deb: linuxFile(linux, "deb"),
+          rpm: linuxFile(linux, "rpm"),
+          appimage: linuxFile(linux, "AppImage"),
         },
       },
     };

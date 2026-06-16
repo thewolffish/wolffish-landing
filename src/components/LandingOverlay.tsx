@@ -19,12 +19,18 @@ import {
   FaXTwitter,
 } from "react-icons/fa6";
 
+interface ReleaseFile {
+  url: string;
+  filename: string;
+}
+
 interface ReleaseInfo {
   version: string;
-  files: Record<
-    "macos" | "windows" | "linux",
-    { url: string; filename: string }
-  >;
+  files: {
+    macos: ReleaseFile;
+    windows: ReleaseFile;
+    linux: { deb?: ReleaseFile; rpm?: ReleaseFile; appimage?: ReleaseFile };
+  };
 }
 
 function getClientOS(): string | null {
@@ -36,6 +42,15 @@ function getClientOS(): string | null {
 }
 const noopSubscribe = () => () => {};
 const serverOS = () => null;
+
+const LINUX_TAGS = [
+  { key: "deb", label: ".deb" },
+  { key: "rpm", label: ".rpm" },
+  { key: "appimage", label: ".AppImage" },
+] as const;
+
+const stripExt = (filename: string) =>
+  filename.replace(/\.(AppImage|deb|rpm)$/, "");
 
 function setLocaleCookie(locale: string) {
   document.cookie = `locale=${locale};path=/;max-age=31536000`;
@@ -136,6 +151,67 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
           ).map(({ os, Icon }) => {
             const match = userOS === os;
             const dimmed = userOS !== null && !match;
+
+            const badge = match && (
+              <span className="absolute top-2.5 inset-e-2.5 flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-400/30">
+                <span className="w-1 h-1 rounded-full bg-emerald-400" />
+                <span className="text-[8px] text-emerald-300 font-medium">
+                  {t("download.compatible")}
+                </span>
+              </span>
+            );
+            const label = (
+              <div className="text-[10px] text-white/40 uppercase tracking-wider font-medium">
+                {t(`download.${os}`)}
+              </div>
+            );
+
+            // Linux ships three installers — the card itself isn't clickable;
+            // each format is a small tag that downloads its specific installer.
+            if (os === "linux") {
+              const linuxFiles = release?.files.linux;
+              const name = stripExt(
+                (linuxFiles?.appimage ?? linuxFiles?.deb ?? linuxFiles?.rpm)
+                  ?.filename ?? t("download.linuxFile")
+              );
+              return (
+                <div
+                  key={os}
+                  className={`relative flex items-center gap-4 px-7 py-5 rounded-2xl backdrop-blur-md transition-all ${
+                    dimmed
+                      ? "bg-white/3 border border-white/5 opacity-50"
+                      : "bg-white/6 border border-white/8"
+                  }`}
+                >
+                  {badge}
+                  <Icon
+                    className={`w-5 h-5 ${dimmed ? "text-white/30" : "text-white/50"}`}
+                  />
+                  <div className="text-start min-w-0">
+                    {label}
+                    <div className="text-xs text-white font-medium mt-0.5">
+                      {name}
+                    </div>
+                    <div className="flex flex-wrap gap-1.5 mt-1.5">
+                      {LINUX_TAGS.map(({ key, label }) => {
+                        const file = release?.files.linux[key];
+                        return file ? (
+                          <a
+                            key={key}
+                            href={file.url}
+                            dir="ltr"
+                            className="px-2 py-0.5 rounded-md text-[10px] leading-none font-medium bg-white/8 border border-white/10 text-white/70 hover:bg-white/16 hover:text-white hover:border-white/20 transition-colors"
+                          >
+                            {label}
+                          </a>
+                        ) : null;
+                      })}
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+
             const file = release?.files[os];
             return (
               <a
@@ -147,21 +223,12 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
                     : "bg-white/6 border border-white/8 hover:bg-white/12 hover:border-white/18"
                 }`}
               >
-                {match && (
-                  <span className="absolute top-2.5 inset-e-2.5 flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-400/30">
-                    <span className="w-1 h-1 rounded-full bg-emerald-400" />
-                    <span className="text-[8px] text-emerald-300 font-medium">
-                      {t("download.compatible")}
-                    </span>
-                  </span>
-                )}
+                {badge}
                 <Icon
                   className={`w-5 h-5 transition-colors ${dimmed ? "text-white/30" : "text-white/50 group-hover:text-white"}`}
                 />
                 <div className="text-start">
-                  <div className="text-[10px] text-white/40 uppercase tracking-wider font-medium">
-                    {t(`download.${os}`)}
-                  </div>
+                  {label}
                   <div className="text-xs text-white font-medium mt-0.5">
                     {file?.filename ?? t(`download.${os}File`)}
                   </div>
