@@ -7,7 +7,7 @@ import { FaCirclePlay } from "react-icons/fa6";
 // Each video link opens its own YouTube embed. The cinematic reveal and the
 // demo walkthrough are distinct videos.
 const YT_EMBEDS = {
-  cinematic: "https://www.youtube.com/embed/pF75Jy43SQo?autoplay=1&rel=0",
+  cinematic: "https://www.youtube.com/embed/TKdTWd6BXR8?autoplay=1&rel=0",
   demo: "https://www.youtube.com/embed/PqmrJoaNs6I?autoplay=1&rel=0",
 } as const;
 
