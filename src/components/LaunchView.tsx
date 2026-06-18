@@ -4,17 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState, useTransition } from "react";
-import {
-  FaApple,
-  FaCheck,
-  FaCirclePlay,
-  FaLinux,
-  FaWindows,
-} from "react-icons/fa6";
-
-const YT_EMBED =
-  "https://www.youtube.com/embed/PqmrJoaNs6I?autoplay=1&rel=0";
+import { useTransition } from "react";
+import { FaApple, FaCheck, FaLinux, FaWindows } from "react-icons/fa6";
+import VideoLinks from "@/components/VideoLinks";
 
 const POINTS = [
   "local",
@@ -42,30 +34,12 @@ export default function LaunchView({ version }: { version: string | null }) {
   const router = useRouter();
   const [, startTransition] = useTransition();
 
-  // Holds the title of the video being shown, or null when the dialog is closed.
-  const [video, setVideo] = useState<string | null>(null);
-
   const switchLocale = (next: string) => {
     setLocaleCookie(next);
     startTransition(() => {
       router.refresh();
     });
   };
-
-  const closeVideo = useCallback(() => setVideo(null), []);
-
-  useEffect(() => {
-    if (!video) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeVideo();
-    };
-    document.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
-    };
-  }, [video, closeVideo]);
 
   return (
     <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 py-20 text-center">
@@ -119,20 +93,7 @@ export default function LaunchView({ version }: { version: string | null }) {
       </p>
 
       {/* Video links */}
-      <div className="mt-6 flex items-center gap-5">
-        {(["cinematic", "demo"] as const).map((key, i) => (
-          <div key={key} className="flex items-center gap-5">
-            {i > 0 && <span className="w-px h-4 bg-white/15" />}
-            <button
-              onClick={() => setVideo(t(key))}
-              className="group flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors cursor-pointer"
-            >
-              <FaCirclePlay className="w-4 h-4 text-white/50 group-hover:text-emerald-400 transition-colors" />
-              {t(key)}
-            </button>
-          </div>
-        ))}
-      </div>
+      <VideoLinks className="mt-6" />
 
       {/* Supported platforms */}
       <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
@@ -170,34 +131,6 @@ export default function LaunchView({ version }: { version: string | null }) {
           wolffi.sh
         </span>
       </Link>
-
-      {/* Video dialog */}
-      {video && (
-        <div
-          onClick={closeVideo}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-6"
-          role="dialog"
-          aria-modal="true"
-          aria-label={video}
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="relative"
-            style={{
-              width: "min(80vw, calc(80vh * 16 / 9))",
-              aspectRatio: "16 / 9",
-            }}
-          >
-            <iframe
-              src={YT_EMBED}
-              title={video}
-              className="w-full h-full rounded-2xl border border-white/10 shadow-2xl"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-            />
-          </div>
-        </div>
-      )}
     </div>
   );
 }
