@@ -9,6 +9,22 @@
     "subtitle": "A personal AI agent that runs on your machine with full system access. It thinks, acts, and learns — entirely local.",
     "version": "latest"
   },
+  "launch": {
+    "badge": "Just launched",
+    "title": "Wolffish is live",
+    "subtitle": "Your personal AI agent — local, private, and built to act. The wait is over.",
+    "cinematic": "Cinematic reveal",
+    "demo": "Demo walkthrough",
+    "cta": "Available now at",
+    "points": {
+      "local": "100% local & private",
+      "act": "Acts on your machine — not just chats",
+      "brain": "Brain-inspired memory & reasoning",
+      "markdown": "A Markdown brain you can read & edit",
+      "extensible": "Extensible with a single SKILL.md",
+      "nocloud": "No cloud, no code, no setup"
+    }
+  },
   "features": {
     "local": "Local & Markdown-First",
     "localDesc": "Runs entirely offline using local models — your data never leaves your machine. Your agent's brain is plain markdown you can read, edit, and version control. No cloud. No code. Full privacy.",
@@ -40,6 +56,11 @@
   "extension": {
     "title": "Extension Connected",
     "description": "The Wolffish browser extension is working correctly.",
+    "home": "Home"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "Looks like this page drifted into the deep. The link may be broken, or the page may have moved.",
     "home": "Home"
   },
   "footer": {
