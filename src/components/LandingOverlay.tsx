@@ -247,7 +247,7 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
 
       {/* Footer */}
       <div className="pb-6 pt-5 flex justify-center">
-        <div className="grid grid-cols-2 justify-items-center gap-x-10 gap-y-4 sm:flex sm:items-center sm:gap-6 text-xs text-white/40 pointer-events-auto">
+        <div className="grid grid-cols-3 justify-items-center gap-x-5 gap-y-3 sm:flex sm:items-center sm:gap-6 text-xs text-white/40 pointer-events-auto">
           <a
             href="https://docs.wolffi.sh"
             target="_blank"
@@ -293,7 +293,7 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
           </a>
           <a
             href="mailto:younes@wolffi.sh"
-            className="flex items-center gap-1.5 hover:text-white/70 transition-colors"
+            className="hidden sm:flex items-center gap-1.5 hover:text-white/70 transition-colors"
           >
             <FaEnvelope className="w-3.5 h-3.5" />
             {t("footer.email")}
@@ -302,7 +302,7 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
             href="https://wa.me/966538654514"
             target="_blank"
             rel="noopener noreferrer"
-            className="col-span-2 flex items-center gap-1.5 hover:text-white/70 transition-colors sm:col-auto"
+            className="flex items-center gap-1.5 hover:text-white/70 transition-colors"
           >
             <FaWhatsapp className="w-3.5 h-3.5" />
             {t("footer.whatsapp")}
