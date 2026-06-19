@@ -247,7 +247,7 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
 
       {/* Footer */}
       <div className="pb-6 pt-5 flex justify-center">
-        <div className="flex items-center gap-6 text-xs text-white/40 pointer-events-auto">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-3 sm:flex sm:items-center sm:gap-6 text-xs text-white/40 pointer-events-auto">
           <a
             href="https://docs.wolffi.sh"
             target="_blank"
