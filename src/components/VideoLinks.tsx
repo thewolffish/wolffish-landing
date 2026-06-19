@@ -8,7 +8,7 @@ import { FaCirclePlay } from "react-icons/fa6";
 // demo walkthrough are distinct videos.
 const YT_EMBEDS = {
   cinematic: "https://www.youtube.com/embed/TKdTWd6BXR8?autoplay=1&rel=0",
-  demo: "https://www.youtube.com/embed/PqmrJoaNs6I?autoplay=1&rel=0",
+  demo: "https://www.youtube.com/embed/MA6KkeZyFF4?autoplay=1&rel=0",
 } as const;
 
 type VideoKey = keyof typeof YT_EMBEDS;
