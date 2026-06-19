@@ -11,10 +11,12 @@ import {
   FaCheck,
   FaCopy,
   FaDiscord,
+  FaEnvelope,
   FaFeather,
   FaGithub,
   FaLinux,
   FaTerminal,
+  FaWhatsapp,
   FaWindows,
   FaXTwitter,
 } from "react-icons/fa6";
@@ -288,6 +290,22 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
           >
             <FaXTwitter className="w-3.5 h-3.5" />
             {t("footer.x")}
+          </a>
+          <a
+            href="mailto:younes@wolffi.sh"
+            className="flex items-center gap-1.5 hover:text-white/70 transition-colors"
+          >
+            <FaEnvelope className="w-3.5 h-3.5" />
+            {t("footer.email")}
+          </a>
+          <a
+            href="https://wa.me/966538654514"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 hover:text-white/70 transition-colors"
+          >
+            <FaWhatsapp className="w-3.5 h-3.5" />
+            {t("footer.whatsapp")}
           </a>
         </div>
       </div>

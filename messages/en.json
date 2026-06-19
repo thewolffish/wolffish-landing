@@ -68,6 +68,8 @@
     "blog": "Blog",
     "github": "GitHub",
     "discord": "Discord",
-    "x": "X"
+    "x": "X",
+    "email": "Email",
+    "whatsapp": "WhatsApp"
   }
 }
