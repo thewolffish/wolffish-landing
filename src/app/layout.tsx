@@ -63,7 +63,7 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: "Wolffish",
       images: [
         {
-          url: "https://cdn.wolffi.sh/branding/og_image.jpg",
+          url: "https://cdn.wolffi.sh/general/ogimage.jpg",
           width: 1200,
           height: 630,
           alt: "Wolffish",
@@ -76,7 +76,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title,
       description,
-      images: ["https://cdn.wolffi.sh/branding/og_image.jpg"],
+      images: ["https://cdn.wolffi.sh/general/ogimage.jpg"],
     },
   };
 }

@@ -30,13 +30,13 @@ export async function generateMetadata({
       siteName: "Wolffish",
       type: "article",
       publishedTime: post.date,
-      images: [{ url: "https://cdn.wolffi.sh/branding/og_image.jpg", width: 1200, height: 630 }],
+      images: [{ url: "https://cdn.wolffi.sh/general/ogimage.jpg", width: 1200, height: 630 }],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description: post.description,
-      images: ["https://cdn.wolffi.sh/branding/og_image.jpg"],
+      images: ["https://cdn.wolffi.sh/general/ogimage.jpg"],
     },
   };
 }
