@@ -5,8 +5,8 @@
   },
   "hero": {
     "name": "Wolffish",
-    "tagline": "AI that doesn't just think — it acts",
-    "subtitle": "A personal AI agent that runs on your machine with full system access. It thinks, acts, and learns — entirely local.",
+    "tagline": "Open Source Personal Desktop AI Agent",
+    "subtitle": "An open-source desktop AI agent for Mac, Windows, and Linux. Offload complex tasks — it acts, automates, and remembers, fully local or with the model of your choice.",
     "version": "latest"
   },
   "launch": {
@@ -27,15 +27,15 @@
   },
   "features": {
     "local": "Local & Markdown-First",
-    "localDesc": "Runs entirely offline using local models — your data never leaves your machine. Your agent's brain is plain markdown you can read, edit, and version control. No cloud. No code. Full privacy.",
+    "localDesc": "Runs offline using local models — data never leaves your machine. Your agent's brain is markdown you can read, edit, and version control. No cloud. No code. Full privacy.",
     "brain": "Brain-Inspired Architecture",
-    "brainDesc": "Built like a human brain — memory, reasoning, and action work together in one agentic architecture. The agent remembers context, thinks step by step, and acts on your behalf.",
+    "brainDesc": "Built like a human brain — memory, reasoning, and action in one agentic architecture. The agent remembers context, thinks step by step, and acts on your behalf.",
     "extensible": "Extensible",
     "extensibleDesc": "Drop a folder with a SKILL.md to teach your agent something new instantly. Add tools, workflows, or entire capabilities — no config, no setup, just plug and go."
   },
   "install": {
     "shell": "{macos} / {linux} / {windows}",
-    "powershell": "{windows} (PowerShell)"
+    "powershell": "for {windows} only (PowerShell)"
   },
   "download": {
     "title": "Download",

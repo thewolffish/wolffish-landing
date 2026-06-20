@@ -90,17 +90,17 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
       {/* ── Center column ── */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-16 md:py-0">
         {/* Title + Version */}
-        <div className="flex items-center gap-3 md:gap-5">
+        <div className="flex items-center gap-2.5 md:gap-4">
           <Image
             src="/icon_transparent.png"
             alt="Wolffish logo"
             width={96}
             height={96}
-            className="w-14 h-14 md:w-20 md:h-20 drop-shadow-[0_0_40px_rgba(40,80,180,0.4)]"
+            className="w-12 h-12 md:w-16 md:h-16 drop-shadow-[0_0_40px_rgba(40,80,180,0.4)]"
             priority
           />
           <h1
-            className="text-5xl md:text-8xl font-bold text-white tracking-tight"
+            className="text-4xl md:text-7xl font-bold text-white tracking-tight"
             style={{
               textShadow:
                 "0 0 80px rgba(40,80,180,0.3), 0 2px 30px rgba(0,0,0,0.5)",
@@ -108,33 +108,33 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
           >
             {t("hero.name")}
           </h1>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/4 border border-white/6 self-center">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/4 border border-white/6 self-center">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-xs text-white/60 font-medium">
+            <span className="text-[11px] text-white/60 font-medium">
               {release ? `v${release.version}` : t("hero.version")}
             </span>
           </div>
         </div>
 
-        <p className="mt-5 text-base md:text-xl text-white/80 font-light tracking-wide">
+        <p className="mt-4 text-sm md:text-lg text-white/80 font-light tracking-wide">
           {t("hero.tagline")}
         </p>
 
-        <p className="mt-2.5 text-[13px] md:text-sm text-white/50 max-w-md text-center leading-relaxed">
+        <p className="mt-2 text-xs md:text-[13px] text-white/50 max-w-xl text-center leading-relaxed">
           {t("hero.subtitle")}
         </p>
 
         {/* Cinematic reveal & demo walkthrough */}
-        <VideoLinks className="mt-6 pointer-events-auto" />
+        <VideoLinks className="mt-5 pointer-events-auto" />
 
         {/* Features */}
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-5 w-full max-w-5xl">
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-5xl">
           {(["local", "brain", "extensible"] as const).map((key) => (
             <div
               key={key}
-              className="backdrop-blur-md bg-white/5 border border-white/8 rounded-2xl px-6 py-5 text-center"
+              className="backdrop-blur-md bg-white/5 border border-white/8 rounded-2xl px-5 py-4 text-center"
             >
-              <div className="text-xs font-semibold text-white/90 mb-2">
+              <div className="text-[11px] font-semibold text-white/90 mb-1.5">
                 {t(`features.${key}`)}
               </div>
               <div className="text-[11px] text-white/50 leading-relaxed">
@@ -148,7 +148,7 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
         <InstallCommands />
 
         {/* Downloads — same max-w-5xl grid as features */}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-5 w-full max-w-5xl pointer-events-auto">
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-5xl pointer-events-auto">
           {(
             [
               { os: "macos", Icon: FaApple },
@@ -184,7 +184,7 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
               return (
                 <div
                   key={os}
-                  className={`relative flex items-center gap-3 px-6 py-4 rounded-2xl backdrop-blur-md transition-all ${
+                  className={`relative flex items-center gap-3 px-5 py-3.5 rounded-2xl backdrop-blur-md transition-all ${
                     dimmed
                       ? "bg-white/3 border border-white/5 opacity-50"
                       : "bg-white/6 border border-white/8"
@@ -224,7 +224,7 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
               <a
                 key={os}
                 href={file?.url ?? "#"}
-                className={`group relative flex items-center gap-3 px-6 py-4 rounded-2xl backdrop-blur-md transition-all ${
+                className={`group relative flex items-center gap-3 px-5 py-3.5 rounded-2xl backdrop-blur-md transition-all ${
                   dimmed
                     ? "bg-white/3 border border-white/5 opacity-50 hover:opacity-80 hover:bg-white/6"
                     : "bg-white/6 border border-white/8 hover:bg-white/12 hover:border-white/18"
@@ -247,7 +247,7 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
       </div>
 
       {/* Footer */}
-      <div className="pb-6 pt-5 flex justify-center">
+      <div className="pb-5 pt-4 flex justify-center">
         <div className="grid grid-cols-3 justify-items-center gap-x-5 gap-y-3 sm:flex sm:items-center sm:gap-6 text-xs text-white/40 pointer-events-auto">
           <a
             href="https://docs.wolffi.sh"
@@ -365,23 +365,23 @@ function InstallCommands() {
   ];
 
   return (
-    <div className="mt-8 w-full max-w-5xl pointer-events-auto space-y-2.5">
+    <div
+      dir="ltr"
+      className="mt-6 w-full max-w-5xl pointer-events-auto rounded-2xl backdrop-blur-md bg-white/4 border border-white/8 px-4 py-3 font-mono divide-y divide-white/8"
+    >
       {commands.map(({ labelKey, command, Icon }) => (
-        <div
-          key={labelKey}
-          dir="ltr"
-          className="flex items-center gap-3 px-4 py-3 rounded-2xl backdrop-blur-md bg-white/4 border border-white/8"
-        >
-          <Icon className="w-4 h-4 text-white/30 shrink-0" />
+        <div key={labelKey} className="flex items-center gap-3 py-2 first:pt-0 last:pb-0">
+          <Icon className="w-3.5 h-3.5 text-white/30 shrink-0" />
           <div className="min-w-0 flex-1">
-            <div className="text-[10px] text-white/40 uppercase tracking-wider font-medium mb-1">
-              {t(labelKey, {
+            {/* Shell-style comment marking which OS each command is for */}
+            <div className="text-[10px] text-emerald-400/60 mb-0.5">
+              # {t(labelKey, {
                 macos: t("download.macos"),
                 windows: t("download.windows"),
                 linux: t("download.linux"),
               })}
             </div>
-            <code className="text-xs text-white/80 font-mono block truncate">
+            <code className="text-[11px] text-white/80 block truncate">
               {command}
             </code>
           </div>

@@ -42,7 +42,7 @@ export default function LaunchView({ version }: { version: string | null }) {
   };
 
   return (
-    <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 py-20 text-center">
+    <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 py-16 text-center">
       {/* Language toggle — top end */}
       <div className="fixed top-5 inset-e-6 z-20">
         <button
@@ -73,13 +73,13 @@ export default function LaunchView({ version }: { version: string | null }) {
         alt="Wolffish logo"
         width={96}
         height={96}
-        className="mt-8 w-16 h-16 md:w-20 md:h-20 drop-shadow-[0_0_40px_rgba(40,80,180,0.4)]"
+        className="mt-6 w-12 h-12 md:w-16 md:h-16 drop-shadow-[0_0_40px_rgba(40,80,180,0.4)]"
         priority
       />
 
       {/* Title */}
       <h1
-        className="mt-5 text-5xl md:text-7xl font-bold text-white tracking-tight"
+        className="mt-4 text-4xl md:text-6xl font-bold text-white tracking-tight"
         style={{
           textShadow: "0 0 80px rgba(40,80,180,0.3), 0 2px 30px rgba(0,0,0,0.5)",
         }}
@@ -88,32 +88,32 @@ export default function LaunchView({ version }: { version: string | null }) {
       </h1>
 
       {/* Subtitle */}
-      <p className="mt-5 max-w-xl text-base md:text-lg text-white/60 font-light leading-relaxed">
+      <p className="mt-4 max-w-xl text-sm md:text-base text-white/60 font-light leading-relaxed">
         {t("subtitle")}
       </p>
 
       {/* Video links */}
-      <VideoLinks className="mt-6" />
+      <VideoLinks className="mt-5" />
 
       {/* Supported platforms */}
-      <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+      <div className="mt-8 flex flex-wrap items-center justify-center gap-2.5">
         {PLATFORMS.map(({ key, Icon }) => (
           <div
             key={key}
-            className="flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-white/5 border border-white/8"
+            className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/8"
           >
-            <Icon className="w-5 h-5 text-white/55" />
-            <span className="text-sm text-white/70 font-medium">{td(key)}</span>
+            <Icon className="w-4 h-4 text-white/55" />
+            <span className="text-[13px] text-white/70 font-medium">{td(key)}</span>
           </div>
         ))}
       </div>
 
-      {/* Why Wolffish — 6 points */}
-      <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 w-full max-w-2xl text-start">
+      {/* Why Wolffish — 6 points: items left-aligned, block centered */}
+      <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 w-fit mx-auto text-start">
         {POINTS.map((key) => (
           <div key={key} className="flex items-center gap-3">
-            <FaCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-            <span className="text-base text-white/75">{t(`points.${key}`)}</span>
+            <FaCheck className="w-3 h-3 text-emerald-400 shrink-0" />
+            <span className="text-sm text-white/75">{t(`points.${key}`)}</span>
           </div>
         ))}
       </div>
@@ -121,7 +121,7 @@ export default function LaunchView({ version }: { version: string | null }) {
       {/* CTA */}
       <Link
         href="/"
-        className="mt-12 group inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-white text-[#040a18] font-semibold text-sm hover:bg-white/90 transition-all shadow-[0_0_40px_rgba(255,255,255,0.15)]"
+        className="mt-10 group inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-white text-[#040a18] font-semibold text-sm hover:bg-white/90 transition-all shadow-[0_0_40px_rgba(255,255,255,0.15)]"
       >
         {t("cta")}
         <span
