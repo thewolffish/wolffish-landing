@@ -15,6 +15,7 @@ import {
   FaFeather,
   FaGithub,
   FaLinux,
+  FaReddit,
   FaTerminal,
   FaWhatsapp,
   FaWindows,
@@ -283,7 +284,7 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
             {t("footer.discord")}
           </a>
           <a
-            href="https://x.com/the_wolffish"
+            href="https://x.com/younesbites"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1.5 hover:text-white/70 transition-colors"
@@ -292,8 +293,17 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
             {t("footer.x")}
           </a>
           <a
+            href="https://www.reddit.com/user/younesbites"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 hover:text-white/70 transition-colors"
+          >
+            <FaReddit className="w-3.5 h-3.5" />
+            {t("footer.reddit")}
+          </a>
+          <a
             href="mailto:younes@wolffi.sh"
-            className="hidden sm:flex items-center gap-1.5 hover:text-white/70 transition-colors"
+            className="flex items-center gap-1.5 hover:text-white/70 transition-colors"
           >
             <FaEnvelope className="w-3.5 h-3.5" />
             {t("footer.email")}
