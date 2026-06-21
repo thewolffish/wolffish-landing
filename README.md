@@ -147,7 +147,7 @@ Deployed on [Vercel](https://vercel.com). Any push to `main` triggers a producti
 - **Live site** — [wolffi.sh](https://wolffi.sh)
 - **App repo** — [wolffish-app](https://github.com/thewolffish/wolffish-app)
 - **Documentation** — [docs.wolffi.sh](https://docs.wolffi.sh/)
-- **Discord** — [Join](https://discord.com/invite/F5Ue36PzQ)
+- **Discord** — [Join](https://discord.gg/zWJpD3SgTt)
 - **X** — [@the_wolffish](https://x.com/the_wolffish)
 
 ---

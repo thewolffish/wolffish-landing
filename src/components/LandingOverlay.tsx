@@ -275,7 +275,7 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
             {t("footer.github")}
           </a>
           <a
-            href="https://discord.com/invite/F5Ue36PzQ"
+            href="https://discord.gg/zWJpD3SgTt"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1.5 hover:text-white/70 transition-colors"
