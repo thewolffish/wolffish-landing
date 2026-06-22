@@ -4,9 +4,10 @@ import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useState } from "react";
 import { FaCirclePlay } from "react-icons/fa6";
 
-// Each video link opens its own YouTube embed. The cinematic reveal and the
-// demo walkthrough are distinct videos.
+// Each video link opens its own YouTube embed. The cinematic launch, the
+// cinematic reveal, and the demo walkthrough are distinct videos.
 const YT_EMBEDS = {
+  launch: "https://www.youtube.com/embed/XZdBttn-99E?autoplay=1&rel=0",
   cinematic: "https://www.youtube.com/embed/TKdTWd6BXR8?autoplay=1&rel=0",
   demo: "https://www.youtube.com/embed/MA6KkeZyFF4?autoplay=1&rel=0",
 } as const;
@@ -40,15 +41,15 @@ export default function VideoLinks({ className = "" }: { className?: string }) {
   return (
     <>
       {/* Video links */}
-      <div className={`flex items-center gap-5 ${className}`}>
-        {(["cinematic", "demo"] as const).map((key, i) => (
-          <div key={key} className="flex items-center gap-5">
-            {i > 0 && <span className="w-px h-4 bg-white/15" />}
+      <div className={`flex flex-wrap items-center justify-center gap-3 ${className}`}>
+        {(["launch", "cinematic", "demo"] as const).map((key, i) => (
+          <div key={key} className="flex items-center gap-3">
+            {i > 0 && <span className="w-px h-3.5 bg-white/15" />}
             <button
               onClick={() => setVideo(key)}
-              className="group flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors cursor-pointer"
+              className="group flex items-center gap-1.5 text-xs text-white/70 hover:text-white transition-colors cursor-pointer"
             >
-              <FaCirclePlay className="w-4 h-4 text-white/50 group-hover:text-emerald-400 transition-colors" />
+              <FaCirclePlay className="w-3.5 h-3.5 text-white/50 group-hover:text-emerald-400 transition-colors" />
               {t(key)}
             </button>
           </div>

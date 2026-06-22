@@ -5,14 +5,15 @@
   },
   "hero": {
     "name": "Wolffish",
-    "tagline": "Open Source Personal Desktop AI Agent",
-    "subtitle": "An open-source desktop AI agent for Mac, Windows, and Linux. Offload complex tasks — it acts, automates, and remembers, fully local or with the model of your choice.",
+    "tagline": "Personal AI Agent For Everyone",
+    "subtitle": "The personal AI agent that gets out of your way. It acts, automates, and remembers on Mac, Windows, and Linux — fully local or with the model of your choice.",
     "version": "latest"
   },
   "launch": {
     "badge": "Just launched",
     "title": "Wolffish is live",
     "subtitle": "Your personal AI agent — local, private, and built to act. The wait is over.",
+    "launch": "Cinematic launch",
     "cinematic": "Cinematic reveal",
     "demo": "Demo walkthrough",
     "cta": "Available now at",
