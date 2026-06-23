@@ -9,7 +9,7 @@ import { FaCirclePlay } from "react-icons/fa6";
 const YT_EMBEDS = {
   launch: "https://www.youtube.com/embed/XZdBttn-99E?autoplay=1&rel=0",
   cinematic: "https://www.youtube.com/embed/TKdTWd6BXR8?autoplay=1&rel=0",
-  demo: "https://www.youtube.com/embed/MA6KkeZyFF4?autoplay=1&rel=0",
+  demo: "https://www.youtube.com/embed/oog1q7T8H-s?autoplay=1&rel=0",
 } as const;
 
 type VideoKey = keyof typeof YT_EMBEDS;
