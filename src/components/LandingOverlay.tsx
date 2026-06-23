@@ -244,24 +244,6 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
             );
           })}
         </div>
-
-        {/* Product Hunt — centered under downloads on mobile; pinned to the
-            start side (left in LTR, right in RTL) on desktop so it never
-            overlaps the centered content. */}
-        <a
-          href="https://www.producthunt.com/products/wolffish-personal-desktop-ai-agent?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-wolffish-personal-ai-agent-for-everyone"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-8 pointer-events-auto md:mt-0 md:fixed md:top-5 md:inset-s-6 md:z-20"
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1175927&theme=light&t=1782212425880"
-            alt={t("productHunt.alt")}
-            width={250}
-            height={54}
-          />
-        </a>
       </div>
 
       {/* Footer */}

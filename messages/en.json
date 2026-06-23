@@ -48,9 +48,6 @@
     "linuxFile": "wolffish-app.AppImage",
     "compatible": "Compatible"
   },
-  "productHunt": {
-    "alt": "Wolffish — featured on Product Hunt"
-  },
   "blog": {
     "title": "Blog",
     "back": "Back",

@@ -48,9 +48,6 @@
     "linuxFile": "wolffish-app.AppImage",
     "compatible": "متوافق"
   },
-  "productHunt": {
-    "alt": "وولف فيش — مميّز على Product Hunt"
-  },
   "blog": {
     "title": "المدونة",
     "back": "رجوع",
