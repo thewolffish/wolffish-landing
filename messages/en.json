@@ -1,11 +1,11 @@
 {
   "meta": {
-    "title": "Wolffish — Your Local AI Agent",
+    "title": "Wolffish: The Personal AI Agent For Everyone",
     "description": "A local-first, markdown-powered personal AI desktop agent. Your brain, your rules, your machine."
   },
   "hero": {
     "name": "Wolffish",
-    "tagline": "Personal AI Agent For Everyone",
+    "tagline": "The Personal AI Agent For Everyone",
     "subtitle": "The personal AI agent that gets out of your way. It acts, automates, and remembers on Mac, Windows, and Linux — fully local or with the model of your choice.",
     "version": "latest"
   },

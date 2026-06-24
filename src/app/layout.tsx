@@ -42,8 +42,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
   const title =
     locale === "ar"
-      ? "وولف فيش — ذكاء لا يكتفي بالتفكير بل يُنفّذ"
-      : "Wolffish — AI that doesn't just think, it acts";
+      ? "وولف فيش: وكيل الذكاء الاصطناعي الشخصي للجميع"
+      : "Wolffish: The Personal AI Agent For Everyone";
   const description =
     locale === "ar"
       ? "وكيل ذكي يعمل على جهازك مباشرة. يفكّر، يُنفّذ، ويتفاعل مع ملفاتك وأدواتك. بلا سحابة. بلا حدود."
