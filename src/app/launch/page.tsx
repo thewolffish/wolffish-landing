@@ -40,14 +40,14 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: "Wolffish",
       type: "website",
       images: [
-        { url: "https://cdn.wolffi.sh/general/ogimage.jpg", width: 1200, height: 630 },
+        { url: "https://cdn.wolffi.sh/general/og_image.jpg", width: 1200, height: 630 },
       ],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: ["https://cdn.wolffi.sh/general/ogimage.jpg"],
+      images: ["https://cdn.wolffi.sh/general/og_image.jpg"],
     },
   };
 }
