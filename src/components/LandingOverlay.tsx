@@ -53,6 +53,10 @@ const LINUX_TAGS = [
   { key: "appimage", label: ".AppImage" },
 ] as const;
 
+// Toggle to show/hide the Reddit and WhatsApp footer links.
+const SHOW_REDDIT = false;
+const SHOW_WHATSAPP = false;
+
 const stripExt = (filename: string) =>
   filename.replace(/\.(AppImage|deb|rpm)$/, "");
 
@@ -292,15 +296,17 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
             <FaXTwitter className="w-3.5 h-3.5" />
             {t("footer.x")}
           </a>
-          <a
-            href="https://www.reddit.com/user/younesbites"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 hover:text-white/70 transition-colors"
-          >
-            <FaReddit className="w-3.5 h-3.5" />
-            {t("footer.reddit")}
-          </a>
+          {SHOW_REDDIT && (
+            <a
+              href="https://www.reddit.com/user/younesbites"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 hover:text-white/70 transition-colors"
+            >
+              <FaReddit className="w-3.5 h-3.5" />
+              {t("footer.reddit")}
+            </a>
+          )}
           <a
             href="mailto:younes@wolffi.sh"
             className="flex items-center gap-1.5 hover:text-white/70 transition-colors"
@@ -308,15 +314,17 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
             <FaEnvelope className="w-3.5 h-3.5" />
             {t("footer.email")}
           </a>
-          <a
-            href="https://wa.me/966538654514"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 hover:text-white/70 transition-colors"
-          >
-            <FaWhatsapp className="w-3.5 h-3.5" />
-            {t("footer.whatsapp")}
-          </a>
+          {SHOW_WHATSAPP && (
+            <a
+              href="https://wa.me/966538654514"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 hover:text-white/70 transition-colors"
+            >
+              <FaWhatsapp className="w-3.5 h-3.5" />
+              {t("footer.whatsapp")}
+            </a>
+          )}
         </div>
       </div>
     </div>
