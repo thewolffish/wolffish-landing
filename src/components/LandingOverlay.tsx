@@ -20,6 +20,7 @@ import {
   FaWhatsapp,
   FaWindows,
   FaXTwitter,
+  FaYoutube,
 } from "react-icons/fa6";
 import VideoLinks from "@/components/VideoLinks";
 
@@ -52,6 +53,9 @@ const LINUX_TAGS = [
   { key: "rpm", label: ".rpm" },
   { key: "appimage", label: ".AppImage" },
 ] as const;
+
+// WhatsApp footer link is omitted for now; flip to true to bring it back.
+const SHOW_WHATSAPP = false;
 
 const stripExt = (filename: string) =>
   filename.replace(/\.(AppImage|deb|rpm)$/, "");
@@ -302,20 +306,32 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
             {t("footer.reddit")}
           </a>
           <a
+            href="https://www.youtube.com/@younesbites"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 hover:text-white/70 transition-colors"
+          >
+            <FaYoutube className="w-3.5 h-3.5" />
+            {t("footer.youtube")}
+          </a>
+          {/* WhatsApp omitted for now — kept here so it can be re-enabled. */}
+          {SHOW_WHATSAPP && (
+            <a
+              href="https://wa.me/966538654514"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 hover:text-white/70 transition-colors"
+            >
+              <FaWhatsapp className="w-3.5 h-3.5" />
+              {t("footer.whatsapp")}
+            </a>
+          )}
+          <a
             href="mailto:younes@wolffi.sh"
             className="flex items-center gap-1.5 hover:text-white/70 transition-colors"
           >
             <FaEnvelope className="w-3.5 h-3.5" />
             {t("footer.email")}
-          </a>
-          <a
-            href="https://wa.me/966538654514"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 hover:text-white/70 transition-colors"
-          >
-            <FaWhatsapp className="w-3.5 h-3.5" />
-            {t("footer.whatsapp")}
           </a>
         </div>
       </div>
