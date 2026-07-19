@@ -48,12 +48,6 @@
     "linuxFile": "wolffish-app.AppImage",
     "compatible": "Compatible"
   },
-  "blog": {
-    "title": "Blog",
-    "back": "Back",
-    "readMore": "Read more",
-    "empty": "No posts yet."
-  },
   "extension": {
     "title": "Extension Connected",
     "description": "The Wolffish browser extension is working correctly.",
@@ -66,7 +60,6 @@
   },
   "footer": {
     "docs": "Docs",
-    "blog": "Blog",
     "github": "GitHub",
     "discord": "Discord",
     "x": "X",

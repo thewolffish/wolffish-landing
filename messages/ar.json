@@ -48,12 +48,6 @@
     "linuxFile": "wolffish-app.AppImage",
     "compatible": "متوافق"
   },
-  "blog": {
-    "title": "المدونة",
-    "back": "رجوع",
-    "readMore": "اقرأ المزيد",
-    "empty": "لا توجد مقالات بعد."
-  },
   "extension": {
     "title": "الإضافة متصلة",
     "description": "إضافة وولف فيش للمتصفح تعمل بشكل صحيح.",
@@ -66,7 +60,6 @@
   },
   "footer": {
     "docs": "الوثائق",
-    "blog": "المدونة",
     "github": "جيت هب",
     "discord": "ديسكورد",
     "x": "إكس",
