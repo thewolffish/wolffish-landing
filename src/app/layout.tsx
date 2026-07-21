@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
+import { Analytics } from "@vercel/analytics/next";
 import OceanSceneClient from "@/components/OceanSceneClient";
 import "./globals.css";
 
@@ -100,6 +101,7 @@ export default async function RootLayout({
           <OceanSceneClient />
           {children}
         </NextIntlClientProvider>
+        <Analytics />
       </body>
     </html>
   );
