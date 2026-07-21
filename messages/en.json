@@ -58,6 +58,10 @@
     "description": "Looks like this page drifted into the deep. The link may be broken, or the page may have moved.",
     "home": "Home"
   },
+  "legal": {
+    "home": "Home",
+    "lastUpdated": "Last updated"
+  },
   "footer": {
     "docs": "Docs",
     "github": "GitHub",
@@ -66,6 +70,8 @@
     "reddit": "Reddit",
     "email": "Email",
     "youtube": "YouTube",
-    "whatsapp": "WhatsApp"
+    "whatsapp": "WhatsApp",
+    "terms": "Terms",
+    "privacy": "Privacy"
   }
 }

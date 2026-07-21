@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useCallback, useState, useSyncExternalStore, useTransition } from "react";
@@ -11,9 +12,11 @@ import {
   FaCopy,
   FaDiscord,
   FaEnvelope,
+  FaFileContract,
   FaGithub,
   FaLinux,
   FaReddit,
+  FaShieldHalved,
   FaTerminal,
   FaWhatsapp,
   FaWindows,
@@ -324,6 +327,20 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
             <FaEnvelope className="w-3.5 h-3.5" />
             {t("footer.email")}
           </a>
+          <Link
+            href="/terms"
+            className="flex items-center gap-1.5 hover:text-white/70 transition-colors"
+          >
+            <FaFileContract className="w-3.5 h-3.5" />
+            {t("footer.terms")}
+          </Link>
+          <Link
+            href="/privacy"
+            className="flex items-center gap-1.5 hover:text-white/70 transition-colors"
+          >
+            <FaShieldHalved className="w-3.5 h-3.5" />
+            {t("footer.privacy")}
+          </Link>
         </div>
       </div>
     </div>
