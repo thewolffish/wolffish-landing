@@ -54,8 +54,8 @@ export async function generateMetadata(): Promise<Metadata> {
     title,
     description,
     icons: {
-      icon: "https://cdn.wolffi.sh/branding/icon.png",
-      apple: "https://cdn.wolffi.sh/branding/icon.png",
+      icon: "https://cdn.wolffi.sh/generic/icon.png",
+      apple: "https://cdn.wolffi.sh/generic/icon.png",
     },
     openGraph: {
       title,
