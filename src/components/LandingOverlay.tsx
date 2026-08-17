@@ -14,6 +14,7 @@ import {
   FaEnvelope,
   FaFileContract,
   FaGithub,
+  FaGooglePlay,
   FaLinux,
   FaReddit,
   FaShieldHalved,
@@ -132,9 +133,6 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
         {/* Cinematic reveal & demo walkthrough */}
         <VideoLinks className="mt-5 pointer-events-auto" />
 
-        {/* Phone app — the same chip shape as the version pill */}
-        <StoreChips />
-
         {/* Features */}
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-5xl">
           {(["local", "brain", "extensible"] as const).map((key) => (
@@ -154,6 +152,9 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
 
         {/* Install commands */}
         <InstallCommands />
+
+        {/* Phone app — the stores, in the same shape as the commands above */}
+        <StoreLinks />
 
         {/* Downloads — same max-w-5xl grid as features */}
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-5xl pointer-events-auto">
@@ -375,47 +376,49 @@ function CopyButton({ text }: { text: string }) {
   );
 }
 
-// The store badges for the companion phone app. Both badges are vector, so they
-// are served as-is from the CDN rather than through the image optimizer.
+// The companion phone app. Same card shape as the install commands, so the
+// link is there to read and copy rather than hidden behind a badge.
 const STORES = [
   {
     key: "appStore" as const,
-    href: "https://apps.apple.com/us/app/wolffish/id6792797989",
-    src: "https://cdn.wolffi.sh/generic/app-store.svg",
-    width: 168,
-    height: 56,
+    url: "https://apps.apple.com/us/app/wolffish/id6792797989",
+    Icon: FaApple,
   },
   {
     key: "googlePlay" as const,
-    href: "https://play.google.com/store/apps/details?id=sh.wolffi.mobile",
-    src: "https://cdn.wolffi.sh/generic/google-play.svg",
-    width: 189,
-    height: 56,
+    url: "https://play.google.com/store/apps/details?id=sh.wolffi.mobile",
+    Icon: FaGooglePlay,
   },
 ];
 
-function StoreChips() {
+function StoreLinks() {
   const t = useTranslations();
 
   return (
-    <div className="mt-4 flex items-center justify-center gap-2.5 pointer-events-auto">
-      {STORES.map(({ key, href, src, width, height }) => (
-        <a
+    <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-5xl pointer-events-auto">
+      {STORES.map(({ key, url, Icon }) => (
+        <div
           key={key}
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center px-2.5 py-1 rounded-full bg-white/4 border border-white/6 hover:bg-white/10 hover:border-white/15 transition-colors"
+          dir="ltr"
+          className="flex items-center gap-3 rounded-2xl backdrop-blur-md bg-white/4 border border-white/8 px-4 py-3 font-mono"
         >
-          <Image
-            src={src}
-            alt={t(`mobile.${key}`)}
-            width={width}
-            height={height}
-            unoptimized
-            className="h-4 w-auto"
-          />
-        </a>
+          <Icon className="w-3.5 h-3.5 text-white/30 shrink-0" />
+          <div className="min-w-0 flex-1">
+            {/* Shell-style comment marking which store the link opens */}
+            <div className="text-[10px] text-emerald-400/60 mb-0.5">
+              # {t(`mobile.${key}`)}
+            </div>
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[11px] text-white/80 block truncate hover:text-white transition-colors"
+            >
+              {url}
+            </a>
+          </div>
+          <CopyButton text={url} />
+        </div>
       ))}
     </div>
   );

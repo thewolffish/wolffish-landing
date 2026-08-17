@@ -39,8 +39,8 @@
     "powershell": "for {windows} only (PowerShell)"
   },
   "mobile": {
-    "appStore": "Download on the App Store",
-    "googlePlay": "Get it on Google Play"
+    "appStore": "App Store",
+    "googlePlay": "Google Play"
   },
   "download": {
     "title": "Download",
