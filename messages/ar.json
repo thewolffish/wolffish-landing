@@ -39,7 +39,6 @@
     "powershell": "لـ {windows} فقط (PowerShell)"
   },
   "mobile": {
-    "tagline": "خذه معك — اربط تطبيق الجوال بجهازك عبر مسح رمز QR.",
     "appStore": "حمّله من App Store",
     "googlePlay": "احصل عليه من Google Play"
   },

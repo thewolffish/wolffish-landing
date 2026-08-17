@@ -132,6 +132,9 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
         {/* Cinematic reveal & demo walkthrough */}
         <VideoLinks className="mt-5 pointer-events-auto" />
 
+        {/* Phone app — the same chip shape as the version pill */}
+        <StoreChips />
+
         {/* Features */}
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-5xl">
           {(["local", "brain", "extensible"] as const).map((key) => (
@@ -151,9 +154,6 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
 
         {/* Install commands */}
         <InstallCommands />
-
-        {/* Phone app — the desktop pairs with it over the tunnel */}
-        <MobileApps />
 
         {/* Downloads — same max-w-5xl grid as features */}
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-5xl pointer-events-auto">
@@ -394,34 +394,29 @@ const STORES = [
   },
 ];
 
-function MobileApps() {
+function StoreChips() {
   const t = useTranslations();
 
   return (
-    <div className="mt-4 w-full max-w-5xl pointer-events-auto rounded-2xl backdrop-blur-md bg-white/4 border border-white/8 px-4 py-4 flex flex-col items-center gap-3">
-      <div className="text-[11px] text-white/50 text-center leading-relaxed">
-        {t("mobile.tagline")}
-      </div>
-      <div className="flex flex-wrap items-center justify-center gap-3">
-        {STORES.map(({ key, href, src, width, height }) => (
-          <a
-            key={key}
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="opacity-85 hover:opacity-100 transition-opacity"
-          >
-            <Image
-              src={src}
-              alt={t(`mobile.${key}`)}
-              width={width}
-              height={height}
-              unoptimized
-              className="h-11 w-auto"
-            />
-          </a>
-        ))}
-      </div>
+    <div className="mt-4 flex items-center justify-center gap-2.5 pointer-events-auto">
+      {STORES.map(({ key, href, src, width, height }) => (
+        <a
+          key={key}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center px-2.5 py-1 rounded-full bg-white/4 border border-white/6 hover:bg-white/10 hover:border-white/15 transition-colors"
+        >
+          <Image
+            src={src}
+            alt={t(`mobile.${key}`)}
+            width={width}
+            height={height}
+            unoptimized
+            className="h-4 w-auto"
+          />
+        </a>
+      ))}
     </div>
   );
 }

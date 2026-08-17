@@ -39,7 +39,6 @@
     "powershell": "for {windows} only (PowerShell)"
   },
   "mobile": {
-    "tagline": "Take it with you — pair the phone app with your desktop by scanning a QR code.",
     "appStore": "Download on the App Store",
     "googlePlay": "Get it on Google Play"
   },
