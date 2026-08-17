@@ -152,6 +152,9 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
         {/* Install commands */}
         <InstallCommands />
 
+        {/* Phone app — the desktop pairs with it over the tunnel */}
+        <MobileApps />
+
         {/* Downloads — same max-w-5xl grid as features */}
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-5xl pointer-events-auto">
           {(
@@ -369,6 +372,57 @@ function CopyButton({ text }: { text: string }) {
         <FaCopy className="w-3.5 h-3.5 text-white/40 hover:text-white/70" />
       )}
     </button>
+  );
+}
+
+// The store badges for the companion phone app. Both badges are vector, so they
+// are served as-is from the CDN rather than through the image optimizer.
+const STORES = [
+  {
+    key: "appStore" as const,
+    href: "https://apps.apple.com/us/app/wolffish/id6792797989",
+    src: "https://cdn.wolffi.sh/generic/app-store.svg",
+    width: 168,
+    height: 56,
+  },
+  {
+    key: "googlePlay" as const,
+    href: "https://play.google.com/store/apps/details?id=sh.wolffi.mobile",
+    src: "https://cdn.wolffi.sh/generic/google-play.svg",
+    width: 189,
+    height: 56,
+  },
+];
+
+function MobileApps() {
+  const t = useTranslations();
+
+  return (
+    <div className="mt-4 w-full max-w-5xl pointer-events-auto rounded-2xl backdrop-blur-md bg-white/4 border border-white/8 px-4 py-4 flex flex-col items-center gap-3">
+      <div className="text-[11px] text-white/50 text-center leading-relaxed">
+        {t("mobile.tagline")}
+      </div>
+      <div className="flex flex-wrap items-center justify-center gap-3">
+        {STORES.map(({ key, href, src, width, height }) => (
+          <a
+            key={key}
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="opacity-85 hover:opacity-100 transition-opacity"
+          >
+            <Image
+              src={src}
+              alt={t(`mobile.${key}`)}
+              width={width}
+              height={height}
+              unoptimized
+              className="h-11 w-auto"
+            />
+          </a>
+        ))}
+      </div>
+    </div>
   );
 }
 
