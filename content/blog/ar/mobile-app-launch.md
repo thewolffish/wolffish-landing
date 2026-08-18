@@ -1,9 +1,9 @@
 ---
 title: وكيلك في جيبك، تطبيق وولف فيش للجوال
 description: تطبيق وولف فيش للآيفون والأندرويد جهاز تحكم بالوكيل على حاسوبك — محادثة وموافقات وإشعارات وإعدادات، عبر نفق مشفّر من الطرف إلى الطرف.
-date: 2026-07-05
+date: 2026-08-17
 categories: [news, product]
-image: https://cdn.wolffi.sh/generic/banner.jpg
+image: https://cdn.wolffi.sh/blog/mobile-app-launch/og.png
 ---
 
 تطبيق وولف فيش للجوال متاح الآن على [الآيفون](https://apps.apple.com/us/app/wolffish/id6792797989) و[الأندرويد](https://play.google.com/store/apps/details?id=sh.wolffi.mobile). بُني على فكرة واحدة واضحة: سطح المكتب يحمل النماذج والقدرات والذاكرة والملفات — والجوال جهاز تحكم به.

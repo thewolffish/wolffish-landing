@@ -1,9 +1,9 @@
 ---
 title: "Your Agent, in Your Pocket: the Wolffish Mobile App"
 description: The Wolffish app for iPhone and Android is a remote control for the agent on your computer — chat, approvals, notifications, and settings, over an end-to-end encrypted tunnel.
-date: 2026-07-05
+date: 2026-08-17
 categories: [news, product]
-image: https://cdn.wolffi.sh/generic/banner.jpg
+image: https://cdn.wolffi.sh/blog/mobile-app-launch/og.png
 ---
 
 The Wolffish mobile app is out for [iPhone](https://apps.apple.com/us/app/wolffish/id6792797989) and [Android](https://play.google.com/store/apps/details?id=sh.wolffi.mobile). It's built on one clear idea: the desktop holds the models, the capabilities, the memory, and the files — and the phone is a remote for it.
