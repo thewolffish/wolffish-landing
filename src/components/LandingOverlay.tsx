@@ -16,7 +16,6 @@ import {
   FaFileContract,
   FaGithub,
   FaLinux,
-  FaReddit,
   FaShieldHalved,
   FaTerminal,
   FaWhatsapp,
@@ -293,15 +292,6 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
           >
             <FaXTwitter className="w-3.5 h-3.5" />
             {t("footer.x")}
-          </a>
-          <a
-            href="https://www.reddit.com/user/younesbites"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 hover:text-white/70 transition-colors"
-          >
-            <FaReddit className="w-3.5 h-3.5" />
-            {t("footer.reddit")}
           </a>
           <a
             href="https://www.youtube.com/@younesbites"
