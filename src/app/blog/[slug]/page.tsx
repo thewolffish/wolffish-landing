@@ -43,6 +43,8 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   return {
     title,
     description: post.description,
+    keywords: post.keywords.length > 0 ? post.keywords : undefined,
+    authors: [{ name: post.author }],
     alternates: { canonical: `${SITE_URL}/blog/${post.slug}` },
     openGraph: {
       title,
@@ -51,7 +53,8 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       siteName: "Wolffish",
       type: "article",
       publishedTime: post.date,
-      images: [{ url: image }],
+      authors: [post.author],
+      images: [{ url: image, width: 1200, height: 630, alt: post.title }],
       locale: locale === "ar" ? "ar_SA" : "en_US",
     },
     twitter: {
@@ -81,6 +84,8 @@ export default async function BlogPostPage({ params }: Params) {
     description: post.description,
     dateFormatted: dateFormat.format(new Date(post.date)),
     categories: post.categories.map((key) => ({ key, label: labels[key] ?? key })),
+    author: post.author,
+    authorImage: post.authorImage,
     image: post.image,
     content: post.content,
   };
@@ -102,10 +107,11 @@ export default async function BlogPostPage({ params }: Params) {
     inLanguage: locale === "ar" ? "ar" : "en",
     url: `${SITE_URL}/blog/${post.slug}`,
     image: post.image ?? "https://cdn.wolffi.sh/generic/banner.jpg",
+    keywords: post.keywords.length > 0 ? post.keywords.join(", ") : undefined,
     author: {
-      "@type": "Organization",
-      name: "Wolffish",
-      url: SITE_URL,
+      "@type": "Person",
+      name: post.author,
+      image: post.authorImage,
     },
     publisher: {
       "@type": "Organization",

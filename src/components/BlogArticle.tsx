@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import ReactMarkdown from "react-markdown";
 import type { Components } from "react-markdown";
+import remarkGfm from "remark-gfm";
 import {
   FaArrowLeft,
   FaBook,
@@ -20,6 +21,8 @@ export interface BlogArticleData {
   description: string;
   dateFormatted: string;
   categories: { key: string; label: string }[];
+  author: string;
+  authorImage: string;
   image?: string;
   content: string;
 }
@@ -108,6 +111,56 @@ const markdownComponents: Components = {
     />
   ),
   hr: () => <hr className="border-neutral-200 my-8" />,
+  // Media embeds, all through markdown image syntax: a .pdf renders in the
+  // browser's native PDF viewer, an .html page embeds as an iframe, and
+  // everything else is a plain image (any host — next/image needs a whitelist).
+  img: ({ src, alt }) => {
+    const url = typeof src === "string" ? src : "";
+    const clean = url.split(/[?#]/)[0].toLowerCase();
+    if (clean.endsWith(".pdf")) {
+      return (
+        <iframe
+          src={url}
+          title={alt || "PDF document"}
+          className="w-full h-[75vh] rounded-xl border border-neutral-200 bg-white my-3"
+        />
+      );
+    }
+    if (clean.endsWith(".html") || clean.endsWith(".htm")) {
+      return (
+        <iframe
+          src={url}
+          title={alt || "Embedded page"}
+          loading="lazy"
+          className="w-full aspect-[16/10] rounded-xl border border-neutral-200 bg-white my-3"
+        />
+      );
+    }
+    return (
+      // eslint-disable-next-line @next/next/no-img-element -- markdown images come from arbitrary hosts
+      <img
+        src={url}
+        alt={alt ?? ""}
+        loading="lazy"
+        className="w-full rounded-xl border border-neutral-200 my-3"
+      />
+    );
+  },
+  table: (props) => (
+    <div className="overflow-x-auto mb-5 rounded-xl border border-neutral-200 bg-white">
+      <table className="w-full text-[14px] text-neutral-700" {...props} />
+    </div>
+  ),
+  thead: (props) => <thead className="bg-neutral-50 text-neutral-900" {...props} />,
+  th: (props) => (
+    <th
+      className="text-start font-semibold px-4 py-2.5 border-b border-neutral-200 whitespace-nowrap"
+      {...props}
+    />
+  ),
+  td: (props) => (
+    <td className="px-4 py-2.5 border-b border-neutral-100 align-top" {...props} />
+  ),
 };
 
 export default function BlogArticle({
@@ -158,10 +211,6 @@ export default function BlogArticle({
                 {cat.label}
               </span>
             ))}
-            <span className="flex items-center gap-1.5 text-xs text-neutral-400">
-              <FaCalendar className="w-3 h-3" />
-              {post.dateFormatted}
-            </span>
           </div>
 
           <h1 className="mt-4 text-3xl md:text-4xl font-bold text-neutral-900 tracking-tight leading-tight">
@@ -170,6 +219,26 @@ export default function BlogArticle({
           <p className="mt-4 text-base leading-relaxed text-neutral-500">
             {post.description}
           </p>
+
+          {/* Byline */}
+          <div className="mt-6 flex items-center gap-3">
+            <Image
+              src={post.authorImage}
+              alt={post.author}
+              width={72}
+              height={72}
+              className="w-9 h-9 rounded-full object-cover border border-neutral-200"
+            />
+            <div className="leading-tight">
+              <div className="text-[13px] font-semibold text-neutral-900">
+                {post.author}
+              </div>
+              <div className="mt-0.5 flex items-center gap-1.5 text-xs text-neutral-400">
+                <FaCalendar className="w-3 h-3" />
+                {post.dateFormatted}
+              </div>
+            </div>
+          </div>
 
           {post.image && (
             <div className="relative aspect-[2/1] mt-7 rounded-2xl overflow-hidden bg-neutral-100 border border-neutral-200">
@@ -185,7 +254,10 @@ export default function BlogArticle({
           )}
 
           <div className="mt-8">
-            <ReactMarkdown components={markdownComponents}>
+            <ReactMarkdown
+              components={markdownComponents}
+              remarkPlugins={[remarkGfm]}
+            >
               {post.content}
             </ReactMarkdown>
           </div>

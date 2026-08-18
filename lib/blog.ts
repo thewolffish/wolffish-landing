@@ -12,6 +12,11 @@ export const BLOG_CATEGORIES = [
 ] as const;
 export type BlogCategory = (typeof BLOG_CATEGORIES)[number];
 
+// Every post carries an author; when the frontmatter doesn't say otherwise,
+// it's Younes. The avatar renders as the circular byline image.
+export const DEFAULT_AUTHOR = "Younes Alturkey";
+export const DEFAULT_AUTHOR_IMAGE = "https://cdn.wolffi.sh/generic/younes.jpeg";
+
 export interface BlogPostMeta {
   slug: string;
   title: string;
@@ -19,6 +24,11 @@ export interface BlogPostMeta {
   /** ISO date (YYYY-MM-DD) from frontmatter. */
   date: string;
   categories: BlogCategory[];
+  /** SEO keywords from frontmatter — meta keywords + structured data. */
+  keywords: string[];
+  author: string;
+  authorImage: string;
+  /** Social/OG image (1200×630) — also the card and article hero. */
   image?: string;
 }
 
@@ -44,12 +54,18 @@ function parseFrontmatter(raw: string): {
   return { fields, content: match[2] };
 }
 
-function parseCategories(value: string | undefined): BlogCategory[] {
+function parseList(value: string | undefined): string[] {
   if (!value) return [];
   return value
     .replace(/^\[|\]$/g, "")
     .split(",")
-    .map((c) => c.trim().replace(/^['"]|['"]$/g, "").toLowerCase())
+    .map((item) => item.trim().replace(/^['"]|['"]$/g, ""))
+    .filter(Boolean);
+}
+
+function parseCategories(value: string | undefined): BlogCategory[] {
+  return parseList(value)
+    .map((c) => c.toLowerCase())
     .filter((c): c is BlogCategory =>
       (BLOG_CATEGORIES as readonly string[]).includes(c)
     );
@@ -68,6 +84,9 @@ function readPost(slug: string, locale: string): BlogPost | null {
     description: fields.description ?? "",
     date: fields.date,
     categories: parseCategories(fields.categories),
+    keywords: parseList(fields.keywords),
+    author: fields.author || DEFAULT_AUTHOR,
+    authorImage: fields.authorImage || DEFAULT_AUTHOR_IMAGE,
     image: fields.image || undefined,
     content,
   };

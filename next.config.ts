@@ -5,7 +5,7 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const nextConfig: NextConfig = {
   images: {
-    remotePatterns: [new URL("https://cdn.wolffi.sh/generic/**")],
+    remotePatterns: [new URL("https://cdn.wolffi.sh/**")],
   },
 };
 
