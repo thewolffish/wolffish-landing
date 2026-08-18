@@ -96,6 +96,11 @@
       "docs": "Docs",
       "github": "GitHub",
       "discord": "Discord",
+      "start": {
+        "title": "Get started in minutes",
+        "body": "Reading about it is one thing. Every guide on the start page is a complete recipe — from installing Wolffish to your first real result.",
+        "cta": "Start here"
+      },
       "categories": {
         "news": "News",
         "product": "Product",

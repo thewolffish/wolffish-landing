@@ -11,6 +11,7 @@ import {
   FaDiscord,
   FaGithub,
 } from "react-icons/fa6";
+import StartCard, { type StartCardUi } from "./StartCard";
 
 export interface BlogCardData {
   slug: string;
@@ -31,6 +32,7 @@ export interface BlogIndexUi {
   docs: string;
   github: string;
   discord: string;
+  start: StartCardUi;
 }
 
 export interface BlogIndexData {
@@ -192,6 +194,11 @@ export default function BlogIndex({
             </Link>
           ))}
         </div>
+      </section>
+
+      {/* Start here */}
+      <section className="w-full max-w-6xl mx-auto px-6 pb-4">
+        <StartCard ui={ui.start} />
       </section>
 
       {/* Footer */}

@@ -9,6 +9,13 @@ import { getBlogPost } from "../../../../lib/blog";
 
 const SITE_URL = "https://wolffi.sh";
 
+// Used only if the locale messages are missing the blog block entirely.
+const START_CARD_FALLBACK = {
+  title: "Get started in minutes",
+  body: "Every guide on the start page is a complete recipe — from installing Wolffish to your first real result.",
+  cta: "Start here",
+};
+
 interface BlogMessages {
   meta: { title: string; description: string };
   ui: BlogArticleUi & { categories: Record<string, string> };
@@ -83,6 +90,7 @@ export default async function BlogPostPage({ params }: Params) {
     docs: "Docs",
     github: "GitHub",
     discord: "Discord",
+    start: START_CARD_FALLBACK,
   };
 
   const jsonLd = {

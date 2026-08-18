@@ -9,6 +9,13 @@ import { BLOG_CATEGORIES, daysFromToday, getBlogPosts } from "../../../lib/blog"
 
 const SITE_URL = "https://wolffi.sh";
 
+// Used only if the locale messages are missing the blog block entirely.
+const START_CARD_FALLBACK = {
+  title: "Get started in minutes",
+  body: "Every guide on the start page is a complete recipe — from installing Wolffish to your first real result.",
+  cta: "Start here",
+};
+
 interface BlogMessages {
   meta: { title: string; description: string };
   ui: BlogIndexUi & { categories: Record<string, string> };
@@ -109,6 +116,7 @@ export default async function BlogPage() {
       docs: "Docs",
       github: "GitHub",
       discord: "Discord",
+      start: START_CARD_FALLBACK,
     },
     posts,
     categories,

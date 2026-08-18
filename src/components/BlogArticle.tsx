@@ -13,6 +13,7 @@ import {
   FaDiscord,
   FaGithub,
 } from "react-icons/fa6";
+import StartCard, { type StartCardUi } from "./StartCard";
 
 export interface BlogArticleData {
   title: string;
@@ -28,6 +29,7 @@ export interface BlogArticleUi {
   docs: string;
   github: string;
   discord: string;
+  start: StartCardUi;
 }
 
 const DOCS_URL = "https://docs.wolffi.sh";
@@ -189,8 +191,13 @@ export default function BlogArticle({
           </div>
         </article>
 
+        {/* Start here */}
+        <div className="mt-12">
+          <StartCard ui={ui.start} />
+        </div>
+
         {/* Bottom nav */}
-        <div className="mt-12 pt-6 border-t border-neutral-200 flex flex-wrap items-center justify-between gap-3">
+        <div className="mt-8 pt-6 border-t border-neutral-200 flex flex-wrap items-center justify-between gap-3">
           <Link
             href="/blog"
             className="flex items-center gap-2 text-sm font-medium text-neutral-500 hover:text-neutral-900 transition-colors"
