@@ -58,8 +58,28 @@ async function fetchRelease() {
 export default async function Home() {
   const release = await fetchRelease();
 
+  // Structured data: the downloadable app itself.
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "Wolffish",
+    operatingSystem: "macOS, Windows, Linux",
+    applicationCategory: "UtilitiesApplication",
+    description:
+      "A personal AI agent that lives on your own computer. Chat with it from Telegram, WhatsApp, a terminal, or the Wolffish mobile app — it acts, automates, and remembers.",
+    url: "https://wolffi.sh",
+    downloadUrl: "https://wolffi.sh",
+    softwareVersion: release?.version,
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    publisher: { "@id": "https://wolffi.sh/#organization" },
+  };
+
   return (
     <main className="relative">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <LandingOverlay release={release} />
     </main>
   );

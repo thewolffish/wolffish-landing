@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { getLocale, getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import StartView, {
@@ -37,12 +37,21 @@ async function getStartMessages(): Promise<StartMessages | undefined> {
     | undefined;
 }
 
+// The /start page is light, unlike the rest of the site.
+export const viewport: Viewport = {
+  themeColor: "#f7f8fa",
+};
+
 export async function generateMetadata(): Promise<Metadata> {
   const start = await getStartMessages();
   const locale = await getLocale();
   if (!start?.meta) return {};
 
-  const { title, description } = start.meta;
+  // The case count appears in titles via {count} so future additions
+  // update the copy automatically.
+  const count = String(START_CASES.length);
+  const title = start.meta.title.replaceAll("{count}", count);
+  const description = start.meta.description.replaceAll("{count}", count);
   return {
     title,
     description,

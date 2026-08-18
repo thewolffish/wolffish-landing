@@ -93,15 +93,49 @@ export default async function RootLayout({
 }) {
   const locale = await getLocale();
   const messages = await getMessages();
-  // The /start guides are a large namespace consumed server-side by that route
+  // The /start and /blog namespaces are consumed server-side by their routes
   // only — keep them out of the client messages shipped with every page.
   const clientMessages = Object.fromEntries(
-    Object.entries(messages).filter(([key]) => key !== "start")
+    Object.entries(messages).filter(([key]) => key !== "start" && key !== "blog")
   ) as typeof messages;
+
+  // Site-wide structured data for search engines and AI crawlers.
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://wolffi.sh/#organization",
+        name: "Wolffish",
+        url: "https://wolffi.sh",
+        logo: "https://cdn.wolffi.sh/generic/icon.png",
+        sameAs: [
+          "https://github.com/thewolffish/wolffish-app",
+          "https://discord.gg/zWJpD3SgTt",
+          "https://x.com/younesbites",
+          "https://www.youtube.com/@younesbites",
+          "https://apps.apple.com/us/app/wolffish/id6792797989",
+          "https://play.google.com/store/apps/details?id=sh.wolffi.mobile",
+        ],
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://wolffi.sh/#website",
+        name: "Wolffish",
+        url: "https://wolffi.sh",
+        publisher: { "@id": "https://wolffi.sh/#organization" },
+        inLanguage: ["en", "ar"],
+      },
+    ],
+  };
 
   return (
     <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} className={ibmPlexSansArabic.className}>
       <body className="bg-[#040a18]">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <NextIntlClientProvider messages={clientMessages}>
           <OceanSceneClient />
           {children}

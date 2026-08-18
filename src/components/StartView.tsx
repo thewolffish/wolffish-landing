@@ -18,7 +18,6 @@ import {
   FaBell,
   FaBook,
   FaBoxArchive,
-  FaBriefcase,
   FaCalendarCheck,
   FaChartLine,
   FaCheck,
@@ -26,26 +25,27 @@ import {
   FaCircleInfo,
   FaClock,
   FaCoins,
+  FaComments,
   FaCopy,
   FaDiscord,
   FaDumbbell,
   FaEnvelopeOpenText,
   FaFaceLaughSquint,
   FaFilePdf,
-  FaGlobe,
+  FaGithub,
   FaGooglePlay,
-  FaGraduationCap,
   FaHashtag,
-  FaLanguage,
   FaListCheck,
   FaMagnifyingGlass,
   FaMobileScreen,
   FaMugHot,
   FaNewspaper,
   FaPaperPlane,
+  FaPenNib,
   FaPlane,
   FaPlug,
   FaServer,
+  FaShieldHalved,
   FaTag,
   FaTerminal,
   FaUsers,
@@ -95,15 +95,22 @@ export interface StartUi {
   moreTitle: string;
   moreBody: string;
   docs: string;
+  github: string;
   discord: string;
+  blog: string;
   stepsLabel: string;
+}
+
+export interface StartFeature {
+  icon: string;
+  title: string;
+  desc: string;
 }
 
 export interface StartHero {
   title: string;
   lead: string;
-  sub: string;
-  points: string[];
+  features: StartFeature[];
 }
 
 export interface StartData {
@@ -117,20 +124,20 @@ export interface StartData {
 const APP_STORE_URL = "https://apps.apple.com/us/app/wolffish/id6792797989";
 const GOOGLE_PLAY_URL =
   "https://play.google.com/store/apps/details?id=sh.wolffi.mobile";
+const DOCS_URL = "https://docs.wolffi.sh";
+const GITHUB_URL = "https://github.com/thewolffish/wolffish-app";
 const DISCORD_URL = "https://discord.gg/zWJpD3SgTt";
 
 const ICONS: Record<string, IconType> = {
   archive: FaBoxArchive,
   bell: FaBell,
-  briefcase: FaBriefcase,
   calendar: FaCalendarCheck,
   chart: FaChartLine,
+  coins: FaCoins,
+  comments: FaComments,
   dumbbell: FaDumbbell,
   envelope: FaEnvelopeOpenText,
-  globe: FaGlobe,
-  graduation: FaGraduationCap,
   hashtag: FaHashtag,
-  language: FaLanguage,
   laugh: FaFaceLaughSquint,
   list: FaListCheck,
   meal: FaUtensils,
@@ -142,6 +149,7 @@ const ICONS: Record<string, IconType> = {
   plug: FaPlug,
   search: FaMagnifyingGlass,
   server: FaServer,
+  shield: FaShieldHalved,
   tag: FaTag,
   terminal: FaTerminal,
   users: FaUsers,
@@ -166,13 +174,13 @@ function CopyButton({ text }: { text: string }) {
   return (
     <button
       onClick={copy}
-      className="shrink-0 p-2 rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
+      className="shrink-0 p-2 rounded-lg hover:bg-neutral-500/15 transition-colors cursor-pointer"
       aria-label="Copy to clipboard"
     >
       {copied ? (
-        <FaCheck className="w-3.5 h-3.5 text-emerald-400" />
+        <FaCheck className="w-3.5 h-3.5 text-emerald-500" />
       ) : (
-        <FaCopy className="w-3.5 h-3.5 text-white/40 hover:text-white/70" />
+        <FaCopy className="w-3.5 h-3.5 text-neutral-400 hover:text-neutral-600" />
       )}
     </button>
   );
@@ -186,8 +194,8 @@ function Chip({
   children: React.ReactNode;
 }) {
   return (
-    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/6 border border-white/10 text-[11px] font-medium text-white/65">
-      {Icon && <Icon className="w-3 h-3 text-white/40" />}
+    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-neutral-100 border border-neutral-200 text-[11px] font-medium text-neutral-600">
+      {Icon && <Icon className="w-3 h-3 text-neutral-400" />}
       {children}
     </span>
   );
@@ -202,9 +210,9 @@ function LinkChips({ links }: { links: { label: string; url: string }[] }) {
           href={link.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/6 border border-white/10 text-xs font-medium text-white/75 hover:bg-white/12 hover:text-white hover:border-white/20 transition-colors"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-neutral-200 text-xs font-medium text-neutral-600 hover:border-neutral-300 hover:text-neutral-900 transition-colors"
         >
-          <FaArrowUpRightFromSquare className="w-2.5 h-2.5 text-white/40" />
+          <FaArrowUpRightFromSquare className="w-2.5 h-2.5 text-neutral-400" />
           {link.label}
         </a>
       ))}
@@ -224,11 +232,11 @@ function StoreButtons() {
           href={url}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-1 flex items-center gap-3 rounded-xl bg-white/7 border border-white/12 hover:bg-white/12 hover:border-white/20 px-4 py-3 transition-colors"
+          className="flex-1 flex items-center gap-3 rounded-xl bg-white border border-neutral-200 hover:border-neutral-300 hover:bg-neutral-50 px-4 py-3 transition-colors"
         >
-          <Icon className="w-4.5 h-4.5 text-white/70" />
-          <span className="text-sm font-medium text-white">{name}</span>
-          <FaArrowUpRightFromSquare className="w-2.5 h-2.5 text-white/30 ms-auto" />
+          <Icon className="w-4.5 h-4.5 text-neutral-700" />
+          <span className="text-sm font-medium text-neutral-900">{name}</span>
+          <FaArrowUpRightFromSquare className="w-2.5 h-2.5 text-neutral-300 ms-auto" />
         </a>
       ))}
     </div>
@@ -239,13 +247,13 @@ function CommandBlock({ cmd }: { cmd: StartCommand }) {
   return (
     <div
       dir="ltr"
-      className="mt-3 rounded-xl bg-black/40 border border-white/10 px-3.5 py-2.5 font-mono flex items-center gap-3 text-left"
+      className="mt-3 rounded-xl bg-neutral-900 px-3.5 py-2.5 font-mono flex items-center gap-3 text-left"
     >
       <div className="min-w-0 flex-1">
         {cmd.note && (
-          <div className="text-[10px] text-emerald-400/70 mb-1"># {cmd.note}</div>
+          <div className="text-[10px] text-emerald-400 mb-1"># {cmd.note}</div>
         )}
-        <code className="text-xs leading-relaxed text-white/85 block whitespace-pre-wrap break-all">
+        <code className="text-xs leading-relaxed text-neutral-100 block whitespace-pre-wrap break-all">
           {cmd.code}
         </code>
       </div>
@@ -256,13 +264,13 @@ function CommandBlock({ cmd }: { cmd: StartCommand }) {
 
 function PromptBlock({ text, label }: { text: string; label: string }) {
   return (
-    <div className="mt-3 rounded-xl bg-emerald-500/[0.06] border border-emerald-400/20 px-3.5 py-3">
-      <div className="flex items-center gap-1.5 text-[11px] font-medium text-emerald-300/80 mb-1.5">
+    <div className="mt-3 rounded-xl bg-emerald-50 border border-emerald-200 px-3.5 py-3">
+      <div className="flex items-center gap-1.5 text-[11px] font-medium text-emerald-700 mb-1.5">
         <FaPaperPlane className="w-2.5 h-2.5" />
         {label}
       </div>
       <div className="flex items-start gap-2">
-        <p className="flex-1 text-[13px] leading-relaxed text-white/85 whitespace-pre-wrap">
+        <p className="flex-1 text-[13px] leading-relaxed text-neutral-800 whitespace-pre-wrap">
           {text}
         </p>
         <CopyButton text={text} />
@@ -343,53 +351,66 @@ export default function StartView({
   }, [open, close]);
 
   return (
-    <div className="relative z-10 min-h-screen flex flex-col">
+    <div className="relative z-10 min-h-screen flex flex-col bg-[#f7f8fa] text-neutral-900">
       {/* Top bar */}
       <header className="w-full max-w-6xl mx-auto flex items-center justify-between px-6 py-5">
         <Link
           href="/"
-          className="flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors"
+          className="flex items-center gap-2 text-sm text-neutral-500 hover:text-neutral-900 transition-colors"
         >
           <FaArrowLeft className="w-3 h-3 rtl:rotate-180" />
           <span className="font-medium">{ui.home}</span>
         </Link>
         <button
           onClick={() => switchLocale(locale === "en" ? "ar" : "en")}
-          className="px-3 py-1.5 text-xs font-medium rounded-full bg-white/5 border border-white/10 text-white/80 hover:bg-white/10 hover:text-white transition-all cursor-pointer"
+          className="px-3 py-1.5 text-xs font-medium rounded-full bg-white border border-neutral-200 text-neutral-600 hover:border-neutral-300 hover:text-neutral-900 transition-all cursor-pointer"
         >
           {locale === "en" ? "عربي" : "EN"}
         </button>
       </header>
 
       {/* Intro */}
-      <section className="w-full max-w-3xl mx-auto px-6 pt-8 md:pt-14 text-center">
+      <section className="w-full max-w-6xl mx-auto px-6 pt-8 md:pt-14 text-center">
         <Image
           src="/icon_transparent.png"
           alt="Wolffish logo"
           width={96}
           height={96}
-          className="w-14 h-14 md:w-16 md:h-16 mx-auto drop-shadow-[0_0_40px_rgba(40,80,180,0.4)]"
+          className="w-14 h-14 md:w-16 md:h-16 mx-auto"
           priority
         />
-        <h1 className="mt-5 text-3xl md:text-5xl font-bold text-white tracking-tight">
+        <h1 className="mt-5 text-3xl md:text-5xl font-bold text-neutral-900 tracking-tight">
           {hero.title}
         </h1>
-        <p className="mt-4 text-sm md:text-base text-white/75 leading-relaxed">
+        <p className="mt-4 max-w-3xl mx-auto text-sm md:text-base text-neutral-600 leading-relaxed">
           {hero.lead}
         </p>
-        <p className="mt-3 text-[13px] md:text-sm text-white/50 leading-relaxed">
-          {hero.sub}
-        </p>
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
-          {hero.points.map((point) => (
-            <Chip key={point}>{point}</Chip>
-          ))}
+        <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+          {hero.features.map((feature) => {
+            const Icon = ICONS[feature.icon] ?? FaWandMagicSparkles;
+            return (
+              <div
+                key={feature.title}
+                className="rounded-2xl bg-white border border-neutral-200 p-5 flex flex-col items-center text-center"
+              >
+                <div className="w-9 h-9 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center">
+                  <Icon className="w-4 h-4 text-emerald-600" />
+                </div>
+                <div className="mt-2.5 text-[13px] md:text-sm font-semibold text-neutral-900 leading-snug">
+                  {feature.title}
+                </div>
+                <p className="mt-1 text-xs leading-relaxed text-neutral-500">
+                  {feature.desc}
+                </p>
+              </div>
+            );
+          })}
         </div>
       </section>
 
       {/* Cards */}
       <section className="w-full max-w-6xl mx-auto px-6 pt-10 md:pt-14 pb-8 flex-1">
-        <p className="text-xs font-medium uppercase tracking-widest text-white/35 mb-4">
+        <p className="text-center text-xs font-medium uppercase tracking-widest text-neutral-400 mb-4">
           {ui.hint}
         </p>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -399,15 +420,15 @@ export default function StartView({
               <button
                 key={c.id}
                 onClick={() => openCase(c.id)}
-                className="group text-start rounded-2xl bg-white/[0.05] border border-white/10 hover:bg-white/[0.09] hover:border-white/20 transition-all p-5 flex flex-col gap-3 cursor-pointer"
+                className="group text-start rounded-2xl bg-white border border-neutral-200 hover:border-neutral-300 hover:shadow-md transition-all p-5 flex flex-col gap-3 cursor-pointer"
               >
-                <div className="w-9 h-9 rounded-xl bg-white/8 border border-white/10 flex items-center justify-center group-hover:border-emerald-400/30 transition-colors">
-                  <Icon className="w-4 h-4 text-emerald-300/80" />
+                <div className="w-9 h-9 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center">
+                  <Icon className="w-4 h-4 text-emerald-600" />
                 </div>
-                <div className="text-[15px] font-semibold text-white leading-snug">
+                <div className="text-[15px] font-semibold text-neutral-900 leading-snug">
                   {c.title}
                 </div>
-                <p className="text-[13px] leading-relaxed text-white/55">
+                <p className="text-[13px] leading-relaxed text-neutral-500">
                   {c.desc}
                 </p>
                 <div className="mt-auto pt-1 flex flex-wrap gap-1.5">
@@ -421,31 +442,41 @@ export default function StartView({
       </section>
 
       {/* Footer */}
-      <footer className="w-full max-w-6xl mx-auto px-6 pb-10 pt-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-xs text-white/40">
+      <footer className="w-full max-w-6xl mx-auto px-6 pb-10 pt-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-xs text-neutral-400">
         <a
-          href="https://docs.wolffi.sh"
+          href={DOCS_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-1.5 hover:text-white/70 transition-colors"
+          className="flex items-center gap-1.5 hover:text-neutral-700 transition-colors"
         >
           <FaBook className="w-3.5 h-3.5" />
           {ui.docs}
+        </a>
+        <Link
+          href="/blog"
+          className="flex items-center gap-1.5 hover:text-neutral-700 transition-colors"
+        >
+          <FaPenNib className="w-3.5 h-3.5" />
+          {ui.blog}
+        </Link>
+        <a
+          href={GITHUB_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-1.5 hover:text-neutral-700 transition-colors"
+        >
+          <FaGithub className="w-3.5 h-3.5" />
+          {ui.github}
         </a>
         <a
           href={DISCORD_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-1.5 hover:text-white/70 transition-colors"
+          className="flex items-center gap-1.5 hover:text-neutral-700 transition-colors"
         >
           <FaDiscord className="w-3.5 h-3.5" />
           {ui.discord}
         </a>
-        <Link
-          href="/"
-          className="flex items-center gap-1.5 hover:text-white/70 transition-colors"
-        >
-          wolffi.sh
-        </Link>
       </footer>
 
       {/* Guide sheet */}
@@ -456,7 +487,7 @@ export default function StartView({
         {/* Backdrop */}
         <div
           onClick={close}
-          className={`absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 ${
+          className={`absolute inset-0 bg-neutral-900/25 backdrop-blur-sm transition-opacity duration-300 ${
             open ? "opacity-100" : "opacity-0"
           }`}
         />
@@ -467,30 +498,34 @@ export default function StartView({
           role="dialog"
           aria-modal="true"
           aria-label={active?.title}
-          className={`absolute inset-y-0 end-0 w-full sm:max-w-xl bg-[#081022] sm:border-s border-white/10 shadow-2xl overflow-y-auto outline-none transition-transform duration-300 ease-out ${
-            open ? "translate-x-0" : "translate-x-full rtl:-translate-x-full"
+          className={`absolute inset-y-0 end-0 w-full sm:max-w-2xl lg:max-w-3xl bg-white sm:border-s border-neutral-200 shadow-2xl overflow-y-auto outline-none ease-out ${
+            open
+              ? "translate-x-0 visible transition-transform duration-300"
+              : // Delayed visibility keeps the slide-out animation but stops the
+                // off-screen panel from sweeping across on locale/direction flips.
+                "translate-x-full rtl:-translate-x-full invisible transition-[transform,visibility] duration-300 delay-[0s,300ms]"
           }`}
         >
           {active && (
-            <div className="px-6 sm:px-8 py-6 pb-14">
+            <div className="px-6 sm:px-10 py-6 pb-14">
               {/* Sheet header */}
               <div className="flex items-start justify-between gap-4">
-                <div className="w-11 h-11 rounded-xl bg-white/8 border border-white/10 flex items-center justify-center shrink-0">
+                <div className="w-11 h-11 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center shrink-0">
                   {(() => {
                     const Icon = ICONS[active.icon] ?? FaWandMagicSparkles;
-                    return <Icon className="w-5 h-5 text-emerald-300/80" />;
+                    return <Icon className="w-5 h-5 text-emerald-600" />;
                   })()}
                 </div>
                 <button
                   onClick={close}
                   aria-label={ui.close}
-                  className="shrink-0 p-2 rounded-lg text-white/50 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                  className="shrink-0 p-2 rounded-lg text-neutral-400 hover:text-neutral-900 hover:bg-neutral-100 transition-colors cursor-pointer"
                 >
                   <FaXmark className="w-4 h-4" />
                 </button>
               </div>
 
-              <h2 className="mt-4 text-xl md:text-2xl font-bold text-white leading-snug">
+              <h2 className="mt-4 text-xl md:text-2xl font-bold text-neutral-900 leading-snug">
                 {active.title}
               </h2>
 
@@ -504,26 +539,26 @@ export default function StartView({
                 {active.channel && <Chip>{active.channel}</Chip>}
               </div>
 
-              <p className="mt-4 text-sm leading-relaxed text-white/65">
+              <p className="mt-4 text-sm leading-relaxed text-neutral-600">
                 {active.intro}
               </p>
 
               {/* Steps */}
-              <p className="mt-8 text-xs font-medium uppercase tracking-widest text-white/35">
+              <p className="mt-8 text-xs font-medium uppercase tracking-widest text-neutral-400">
                 {ui.stepsLabel}
               </p>
               <ol className="mt-4 space-y-8">
                 {active.steps.map((step, i) => (
                   <li key={i} className="flex gap-4">
-                    <div className="shrink-0 w-7 h-7 rounded-full bg-white/8 border border-white/15 text-white/80 text-xs font-semibold flex items-center justify-center">
+                    <div className="shrink-0 w-7 h-7 rounded-full bg-emerald-600 text-white text-xs font-semibold flex items-center justify-center">
                       {i + 1}
                     </div>
                     <div className="min-w-0 flex-1 pt-0.5">
-                      <div className="text-[15px] font-semibold text-white leading-snug">
+                      <div className="text-[15px] font-semibold text-neutral-900 leading-snug">
                         {step.title}
                       </div>
                       {step.body && (
-                        <p className="mt-1.5 text-sm leading-relaxed text-white/60">
+                        <p className="mt-1.5 text-sm leading-relaxed text-neutral-600">
                           {step.body}
                         </p>
                       )}
@@ -538,8 +573,8 @@ export default function StartView({
                       )}
                       {step.stores && <StoreButtons />}
                       {step.note && (
-                        <div className="mt-3 flex items-start gap-2 text-[12.5px] leading-relaxed text-white/45">
-                          <FaCircleInfo className="w-3.5 h-3.5 mt-0.5 shrink-0 text-white/30" />
+                        <div className="mt-3 flex items-start gap-2 text-[12.5px] leading-relaxed text-neutral-500">
+                          <FaCircleInfo className="w-3.5 h-3.5 mt-0.5 shrink-0 text-neutral-300" />
                           <span>{step.note}</span>
                         </div>
                       )}
@@ -550,20 +585,20 @@ export default function StartView({
 
               {/* Done */}
               {active.outro && (
-                <div className="mt-9 flex items-start gap-2.5 rounded-2xl bg-emerald-500/[0.07] border border-emerald-400/25 p-4">
-                  <FaCircleCheck className="w-4 h-4 text-emerald-300 mt-0.5 shrink-0" />
-                  <p className="text-[13.5px] leading-relaxed text-emerald-50/90">
+                <div className="mt-9 flex items-start gap-2.5 rounded-2xl bg-emerald-50 border border-emerald-200 p-4">
+                  <FaCircleCheck className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                  <p className="text-[13.5px] leading-relaxed text-emerald-900">
                     {active.outro}
                   </p>
                 </div>
               )}
 
               {/* More help */}
-              <div className="mt-6 rounded-2xl bg-white/[0.04] border border-white/10 p-4">
-                <div className="text-sm font-semibold text-white">
+              <div className="mt-6 rounded-2xl bg-neutral-50 border border-neutral-200 p-4">
+                <div className="text-sm font-semibold text-neutral-900">
                   {ui.moreTitle}
                 </div>
-                <p className="mt-1 text-[13px] leading-relaxed text-white/55">
+                <p className="mt-1 text-[13px] leading-relaxed text-neutral-500">
                   {ui.moreBody}
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2">
@@ -571,18 +606,18 @@ export default function StartView({
                     href={active.docs}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/6 border border-white/10 text-xs font-medium text-white/75 hover:bg-white/12 hover:text-white hover:border-white/20 transition-colors"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-neutral-200 text-xs font-medium text-neutral-600 hover:border-neutral-300 hover:text-neutral-900 transition-colors"
                   >
-                    <FaBook className="w-3 h-3 text-white/40" />
+                    <FaBook className="w-3 h-3 text-neutral-400" />
                     {ui.docs}
                   </a>
                   <a
                     href={DISCORD_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/6 border border-white/10 text-xs font-medium text-white/75 hover:bg-white/12 hover:text-white hover:border-white/20 transition-colors"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-neutral-200 text-xs font-medium text-neutral-600 hover:border-neutral-300 hover:text-neutral-900 transition-colors"
                   >
-                    <FaDiscord className="w-3 h-3 text-white/40" />
+                    <FaDiscord className="w-3 h-3 text-neutral-400" />
                     {ui.discord}
                   </a>
                 </div>

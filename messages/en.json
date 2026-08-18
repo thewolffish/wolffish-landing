@@ -42,6 +42,10 @@
     "appStore": "App Store",
     "googlePlay": "Google Play"
   },
+  "startCta": {
+    "title": "Get started in minutes",
+    "desc": "Learn to run your own personal AI agent — guided, step by step."
+  },
   "download": {
     "title": "Download",
     "macos": "macOS",
@@ -68,6 +72,7 @@
   },
   "footer": {
     "docs": "Docs",
+    "blog": "Blog",
     "github": "GitHub",
     "discord": "Discord",
     "x": "X",
@@ -77,14 +82,37 @@
     "terms": "Terms",
     "privacy": "Privacy"
   },
-  "start": {
+  "blog": {
     "meta": {
-      "title": "Get Started with Wolffish — 20 Things It Can Do for You",
-      "description": "Twenty real-life uses for your personal AI agent, each with a complete step-by-step setup guide. No technical background needed."
+      "title": "Wolffish Blog — Guides & Ideas on Personal AI Agents",
+      "description": "Guides, product notes, and ideas about personal AI agents — from the team building Wolffish."
     },
     "ui": {
       "home": "Home",
-      "hint": "20 ready-made setups — each card is the complete recipe, from installation to first result",
+      "title": "The Wolffish Blog",
+      "lead": "Guides, product notes, and ideas about personal AI agents — what they can do, how they work, and how to make one yours.",
+      "all": "All",
+      "backToBlog": "All posts",
+      "docs": "Docs",
+      "github": "GitHub",
+      "discord": "Discord",
+      "categories": {
+        "news": "News",
+        "product": "Product",
+        "guides": "Guides",
+        "market": "Market",
+        "community": "Community"
+      }
+    }
+  },
+  "start": {
+    "meta": {
+      "title": "Get Started with Wolffish — {count} Things It Can Do for You",
+      "description": "{count} real-life uses for your personal AI agent, each with a complete step-by-step setup guide. No technical background needed."
+    },
+    "ui": {
+      "home": "Home",
+      "hint": "Ready-made setups — each card is the complete recipe, from installation to first result",
       "timeLabel": "Setup",
       "costLabel": "Running cost",
       "close": "Close",
@@ -92,7 +120,9 @@
       "moreTitle": "Want more detail?",
       "moreBody": "The docs explain every feature in depth, and the Discord community is quick to help when something doesn't click.",
       "docs": "Docs",
+      "github": "GitHub",
       "discord": "Discord",
+      "blog": "Blog",
       "stepsLabel": "The full setup, step by step",
       "channels": {
         "telegram": "Telegram",
@@ -104,13 +134,28 @@
     },
     "hero": {
       "title": "What will you set up first?",
-      "lead": "Wolffish is a personal AI agent — a private assistant that lives on your own computer. You text it like a person, and it actually gets things done: it reads your email, watches the news, plans your week, files your paperwork, and messages you when something needs your attention.",
-      "sub": "Every card below is a complete recipe: what to install, which key to add, what to send it first. Pick the one that sounds most like your life and follow it top to bottom — no technical background needed, and most take 15–30 minutes.",
-      "points": [
-        "Runs on your computer, not someone else's cloud",
-        "Talk to it from Telegram, WhatsApp, or your phone",
-        "Pay only for what you use — a few dollars a month",
-        "Your data stays yours"
+      "lead": "Follow any card below and you walk away with more than one trick — you'll own an intelligent, all-capable AI agent that works for you around the clock. One assistant for everything: it reads, researches, plans, watches, remembers, and acts, so the busywork that eats your days quietly disappears. Set it up once, and every other card is just one message away.",
+      "features": [
+        {
+          "icon": "shield",
+          "title": "Private by design",
+          "desc": "Lives on your computer, not someone else's cloud."
+        },
+        {
+          "icon": "comments",
+          "title": "Chat from anywhere",
+          "desc": "Telegram, WhatsApp, or the phone app."
+        },
+        {
+          "icon": "coins",
+          "title": "Pay per use",
+          "desc": "A few dollars a month. No subscription."
+        },
+        {
+          "icon": "list",
+          "title": "No skills needed",
+          "desc": "Each card is a complete recipe, start to finish."
+        }
       ]
     },
     "shared": {
