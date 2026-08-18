@@ -93,11 +93,16 @@ export default async function RootLayout({
 }) {
   const locale = await getLocale();
   const messages = await getMessages();
+  // The /start guides are a large namespace consumed server-side by that route
+  // only — keep them out of the client messages shipped with every page.
+  const clientMessages = Object.fromEntries(
+    Object.entries(messages).filter(([key]) => key !== "start")
+  ) as typeof messages;
 
   return (
     <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} className={ibmPlexSansArabic.className}>
       <body className="bg-[#040a18]">
-        <NextIntlClientProvider messages={messages}>
+        <NextIntlClientProvider messages={clientMessages}>
           <OceanSceneClient />
           {children}
         </NextIntlClientProvider>

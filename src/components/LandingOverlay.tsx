@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useCallback, useState, useSyncExternalStore, useTransition } from "react";
 import {
+  FaAndroid,
   FaApple,
   FaBook,
   FaCheck,
@@ -14,7 +15,6 @@ import {
   FaEnvelope,
   FaFileContract,
   FaGithub,
-  FaGooglePlay,
   FaLinux,
   FaReddit,
   FaShieldHalved,
@@ -387,7 +387,7 @@ const STORES = [
   {
     key: "googlePlay" as const,
     url: "https://play.google.com/store/apps/details?id=sh.wolffi.mobile",
-    Icon: FaGooglePlay,
+    Icon: FaAndroid,
   },
 ];
 
