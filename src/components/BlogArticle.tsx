@@ -9,11 +9,21 @@ import type { Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import {
   FaArrowLeft,
+  FaArrowUpRightFromSquare,
   FaBook,
   FaCalendar,
   FaDiscord,
+  FaDownload,
+  FaFileCsv,
+  FaFileExcel,
+  FaFileLines,
+  FaFilePdf,
+  FaFilePowerpoint,
+  FaFileWord,
+  FaFileZipper,
   FaGithub,
 } from "react-icons/fa6";
+import type { IconType } from "react-icons";
 import StartCard, { type StartCardUi } from "./StartCard";
 
 export interface BlogArticleData {
@@ -111,38 +121,139 @@ const markdownComponents: Components = {
     />
   ),
   hr: () => <hr className="border-neutral-200 my-8" />,
-  // Media embeds, all through markdown image syntax: a .pdf renders in the
-  // browser's native PDF viewer, an .html page embeds as an iframe, and
-  // everything else is a plain image (any host — next/image needs a whitelist).
+  // Media embeds, all through markdown image syntax. The extension decides the
+  // block: .pdf → native browser PDF viewer, .html → live iframe (charts,
+  // demos), video/audio → native players, archives & documents → a download
+  // card, anything else → a plain image (any host — next/image needs a
+  // whitelist). Everything is built from phrasing-content tags so it stays
+  // valid inside the <p> that markdown wraps images in.
   img: ({ src, alt }) => {
     const url = typeof src === "string" ? src : "";
     const clean = url.split(/[?#]/)[0].toLowerCase();
-    if (clean.endsWith(".pdf")) {
+    const ext = clean.split(".").pop() ?? "";
+    const filename = decodeURIComponent(clean.split("/").pop() ?? "file");
+
+    if (ext === "pdf") {
       return (
-        <iframe
+        <span className="block my-4">
+          <span className="flex items-center justify-between gap-3 mb-2">
+            <span className="flex items-center gap-1.5 text-xs font-medium text-neutral-500">
+              <FaFilePdf className="w-3.5 h-3.5 text-emerald-600" />
+              {alt || filename}
+            </span>
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open PDF"
+              className="p-1.5 rounded-lg text-neutral-400 hover:text-neutral-700 hover:bg-neutral-200/60 transition-colors"
+            >
+              <FaArrowUpRightFromSquare className="w-3 h-3" />
+            </a>
+          </span>
+          <iframe
+            src={url}
+            title={alt || "PDF document"}
+            className="w-full h-[75vh] rounded-xl border border-neutral-200 bg-white"
+          />
+        </span>
+      );
+    }
+
+    if (ext === "html" || ext === "htm") {
+      return (
+        <span className="block my-4">
+          <span className="flex items-center justify-between gap-3 mb-2">
+            <span className="text-xs font-medium text-neutral-500">
+              {alt || filename}
+            </span>
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open in a new tab"
+              className="p-1.5 rounded-lg text-neutral-400 hover:text-neutral-700 hover:bg-neutral-200/60 transition-colors"
+            >
+              <FaArrowUpRightFromSquare className="w-3 h-3" />
+            </a>
+          </span>
+          <iframe
+            src={url}
+            title={alt || "Embedded page"}
+            loading="lazy"
+            className="w-full aspect-[16/10] rounded-xl border border-neutral-200 bg-white"
+          />
+        </span>
+      );
+    }
+
+    if (["mp4", "webm", "mov", "m4v"].includes(ext)) {
+      return (
+        <video
           src={url}
-          title={alt || "PDF document"}
-          className="w-full h-[75vh] rounded-xl border border-neutral-200 bg-white my-3"
+          controls
+          playsInline
+          preload="metadata"
+          title={alt}
+          className="w-full rounded-xl border border-neutral-200 bg-black my-4"
         />
       );
     }
-    if (clean.endsWith(".html") || clean.endsWith(".htm")) {
+
+    if (["mp3", "m4a", "wav", "ogg"].includes(ext)) {
+      return <audio src={url} controls preload="metadata" className="w-full my-4" />;
+    }
+
+    const DOWNLOAD_ICONS: Record<string, IconType> = {
+      zip: FaFileZipper,
+      tar: FaFileZipper,
+      gz: FaFileZipper,
+      tgz: FaFileZipper,
+      "7z": FaFileZipper,
+      rar: FaFileZipper,
+      csv: FaFileCsv,
+      xls: FaFileExcel,
+      xlsx: FaFileExcel,
+      doc: FaFileWord,
+      docx: FaFileWord,
+      ppt: FaFilePowerpoint,
+      pptx: FaFilePowerpoint,
+      json: FaFileLines,
+      txt: FaFileLines,
+      md: FaFileLines,
+      ics: FaFileLines,
+    };
+    const DownloadIcon = DOWNLOAD_ICONS[ext];
+    if (DownloadIcon) {
       return (
-        <iframe
-          src={url}
-          title={alt || "Embedded page"}
-          loading="lazy"
-          className="w-full aspect-[16/10] rounded-xl border border-neutral-200 bg-white my-3"
-        />
+        <a
+          href={url}
+          download
+          className="my-4 flex items-center gap-3 rounded-xl bg-white border border-neutral-200 hover:border-emerald-300 hover:shadow-sm transition-all px-4 py-3"
+        >
+          <span className="w-10 h-10 rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center shrink-0">
+            <DownloadIcon className="w-4 h-4 text-emerald-600" />
+          </span>
+          <span className="min-w-0 flex-1 block">
+            <span className="block text-sm font-semibold text-neutral-900 truncate">
+              {alt || filename}
+            </span>
+            <span className="block text-xs text-neutral-400 mt-0.5 truncate" dir="ltr">
+              {filename} · {ext.toUpperCase()}
+            </span>
+          </span>
+          <FaDownload className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
+        </a>
       );
     }
+
     return (
       // eslint-disable-next-line @next/next/no-img-element -- markdown images come from arbitrary hosts
       <img
         src={url}
         alt={alt ?? ""}
         loading="lazy"
-        className="w-full rounded-xl border border-neutral-200 my-3"
+        className="w-full rounded-xl border border-neutral-200 my-4"
       />
     );
   },
