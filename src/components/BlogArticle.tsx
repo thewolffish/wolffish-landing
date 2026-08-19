@@ -155,7 +155,7 @@ const markdownComponents: Components = {
             </a>
           </span>
           <iframe
-            src={url}
+            src={`${url}#toolbar=0&navpanes=0&view=FitH`}
             title={alt || "PDF document"}
             className="w-full aspect-[210/297] rounded-xl border border-neutral-200 bg-white"
           />
