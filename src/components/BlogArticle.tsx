@@ -4,9 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
-import ReactMarkdown from "react-markdown";
-import type { Components } from "react-markdown";
-import remarkGfm from "remark-gfm";
+import type { IconType } from "react-icons";
 import {
   FaArrowLeft,
   FaArrowUpRightFromSquare,
@@ -23,7 +21,9 @@ import {
   FaFileZipper,
   FaGithub,
 } from "react-icons/fa6";
-import type { IconType } from "react-icons";
+import type { Components } from "react-markdown";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import StartCard, { type StartCardUi } from "./StartCard";
 
 export interface BlogArticleData {
@@ -64,10 +64,16 @@ const markdownComponents: Components = {
     <h2 className="text-2xl font-bold text-neutral-900 mt-10 mb-3" {...props} />
   ),
   h3: (props) => (
-    <h3 className="text-lg font-semibold text-neutral-900 mt-7 mb-2" {...props} />
+    <h3
+      className="text-lg font-semibold text-neutral-900 mt-7 mb-2"
+      {...props}
+    />
   ),
   p: (props) => (
-    <p className="text-[15px] leading-relaxed text-neutral-700 mb-4" {...props} />
+    <p
+      className="text-[15px] leading-relaxed text-neutral-700 mb-4"
+      {...props}
+    />
   ),
   ul: (props) => (
     <ul
@@ -183,7 +189,7 @@ const markdownComponents: Components = {
             src={url}
             title={alt || "Embedded page"}
             loading="lazy"
-            className="w-full aspect-[16/10] rounded-xl border border-neutral-200 bg-white"
+            className="w-full aspect-16/10 rounded-xl border border-neutral-200 bg-white"
           />
         </span>
       );
@@ -203,7 +209,9 @@ const markdownComponents: Components = {
     }
 
     if (["mp3", "m4a", "wav", "ogg"].includes(ext)) {
-      return <audio src={url} controls preload="metadata" className="w-full my-4" />;
+      return (
+        <audio src={url} controls preload="metadata" className="w-full my-4" />
+      );
     }
 
     const DOWNLOAD_ICONS: Record<string, IconType> = {
@@ -240,7 +248,10 @@ const markdownComponents: Components = {
             <span className="block text-sm font-semibold text-neutral-900 truncate">
               {alt || filename}
             </span>
-            <span className="block text-xs text-neutral-400 mt-0.5 truncate" dir="ltr">
+            <span
+              className="block text-xs text-neutral-400 mt-0.5 truncate"
+              dir="ltr"
+            >
               {filename} · {ext.toUpperCase()}
             </span>
           </span>
@@ -264,7 +275,9 @@ const markdownComponents: Components = {
       <table className="w-full text-[14px] text-neutral-700" {...props} />
     </div>
   ),
-  thead: (props) => <thead className="bg-neutral-50 text-neutral-900" {...props} />,
+  thead: (props) => (
+    <thead className="bg-neutral-50 text-neutral-900" {...props} />
+  ),
   th: (props) => (
     <th
       className="text-start font-semibold px-4 py-2.5 border-b border-neutral-200 whitespace-nowrap"
@@ -272,7 +285,10 @@ const markdownComponents: Components = {
     />
   ),
   td: (props) => (
-    <td className="px-4 py-2.5 border-b border-neutral-100 align-top" {...props} />
+    <td
+      className="px-4 py-2.5 border-b border-neutral-100 align-top"
+      {...props}
+    />
   ),
 };
 
@@ -356,7 +372,7 @@ export default function BlogArticle({
           </div>
 
           {post.image && (
-            <div className="relative aspect-[2/1] mt-7 rounded-2xl overflow-hidden bg-neutral-100 border border-neutral-200">
+            <div className="relative aspect-2/1 mt-7 rounded-2xl overflow-hidden bg-neutral-100 border border-neutral-200">
               <Image
                 src={post.image}
                 alt={post.title}
