@@ -116,6 +116,19 @@ export function daysFromToday(date: string): number {
   return Math.round((new Date(date).getTime() - Date.now()) / 86_400_000);
 }
 
+/** "3 days ago" / "last month" — computed at request time, in the page locale. */
+export function relativeDate(date: string, locale: string): string {
+  const format = new Intl.RelativeTimeFormat(locale === "ar" ? "ar" : "en-US", {
+    numeric: "auto",
+  });
+  const days = daysFromToday(date);
+  const abs = Math.abs(days);
+  if (abs < 7) return format.format(days, "day");
+  if (abs < 30) return format.format(Math.round(days / 7), "week");
+  if (abs < 365) return format.format(Math.round(days / 30), "month");
+  return format.format(Math.round(days / 365), "year");
+}
+
 /** All posts for a locale, newest first. */
 export function getBlogPosts(locale: string): BlogPost[] {
   return getBlogSlugs()

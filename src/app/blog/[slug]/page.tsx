@@ -5,7 +5,7 @@ import BlogArticle, {
   type BlogArticleData,
   type BlogArticleUi,
 } from "@/components/BlogArticle";
-import { getBlogPost } from "../../../../lib/blog";
+import { getBlogPost, relativeDate } from "../../../../lib/blog";
 
 const SITE_URL = "https://wolffi.sh";
 
@@ -83,6 +83,7 @@ export default async function BlogPostPage({ params }: Params) {
     title: post.title,
     description: post.description,
     dateFormatted: dateFormat.format(new Date(post.date)),
+    dateRelative: relativeDate(post.date, locale),
     categories: post.categories.map((key) => ({ key, label: labels[key] ?? key })),
     author: post.author,
     authorImage: post.authorImage,

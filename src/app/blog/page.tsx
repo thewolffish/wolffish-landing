@@ -5,7 +5,7 @@ import BlogIndex, {
   type BlogIndexData,
   type BlogIndexUi,
 } from "@/components/BlogIndex";
-import { BLOG_CATEGORIES, daysFromToday, getBlogPosts } from "../../../lib/blog";
+import { BLOG_CATEGORIES, getBlogPosts, relativeDate } from "../../../lib/blog";
 
 const SITE_URL = "https://wolffi.sh";
 
@@ -73,21 +73,9 @@ export default async function BlogPage() {
   const blog = await getBlogMessages();
   const labels = blog?.ui.categories ?? {};
 
-  const intlLocale = locale === "ar" ? "ar" : "en-US";
-  const dateFormat = new Intl.DateTimeFormat(intlLocale, { dateStyle: "long" });
-  const relativeFormat = new Intl.RelativeTimeFormat(intlLocale, {
-    numeric: "auto",
+  const dateFormat = new Intl.DateTimeFormat(locale === "ar" ? "ar" : "en-US", {
+    dateStyle: "long",
   });
-
-  // "3 days ago" / "last month" — computed at request time, in the page locale.
-  const relativeFrom = (date: string) => {
-    const days = daysFromToday(date);
-    const abs = Math.abs(days);
-    if (abs < 7) return relativeFormat.format(days, "day");
-    if (abs < 30) return relativeFormat.format(Math.round(days / 7), "week");
-    if (abs < 365) return relativeFormat.format(Math.round(days / 30), "month");
-    return relativeFormat.format(Math.round(days / 365), "year");
-  };
 
   const allPosts = getBlogPosts(locale);
   const posts: BlogCardData[] = allPosts.map((post) => ({
@@ -95,7 +83,7 @@ export default async function BlogPage() {
     title: post.title,
     description: post.description,
     dateFormatted: dateFormat.format(new Date(post.date)),
-    dateRelative: relativeFrom(post.date),
+    dateRelative: relativeDate(post.date, locale),
     categories: post.categories.map((key) => ({ key, label: labels[key] ?? key })),
     image: post.image,
   }));

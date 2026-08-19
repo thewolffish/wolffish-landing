@@ -30,6 +30,8 @@ export interface BlogArticleData {
   title: string;
   description: string;
   dateFormatted: string;
+  /** Localized "3 days ago"-style relative date. */
+  dateRelative: string;
   categories: { key: string; label: string }[];
   author: string;
   authorImage: string;
@@ -122,10 +124,11 @@ const markdownComponents: Components = {
   ),
   hr: () => <hr className="border-neutral-200 my-8" />,
   // Media embeds, all through markdown image syntax. The extension decides the
-  // block: .pdf → native browser PDF viewer, .html → live iframe (charts,
-  // demos), video/audio → native players, archives & documents → a download
-  // card, anything else → a plain image (any host — next/image needs a
-  // whitelist). Everything is built from phrasing-content tags so it stays
+  // block: .pdf → native browser PDF viewer (framed at A4 proportions so the
+  // page fills it instead of floating in dead space), .html → live iframe
+  // (charts, demos), video/audio → native players, archives & documents → a
+  // download card, anything else → a plain image (any host — next/image needs
+  // a whitelist). Everything is built from phrasing-content tags so it stays
   // valid inside the <p> that markdown wraps images in.
   img: ({ src, alt }) => {
     const url = typeof src === "string" ? src : "";
@@ -154,7 +157,7 @@ const markdownComponents: Components = {
           <iframe
             src={url}
             title={alt || "PDF document"}
-            className="w-full h-[75vh] rounded-xl border border-neutral-200 bg-white"
+            className="w-full aspect-[210/297] rounded-xl border border-neutral-200 bg-white"
           />
         </span>
       );
@@ -347,6 +350,8 @@ export default function BlogArticle({
               <div className="mt-0.5 flex items-center gap-1.5 text-xs text-neutral-400">
                 <FaCalendar className="w-3 h-3" />
                 {post.dateFormatted}
+                <span className="text-neutral-300">&middot;</span>
+                <span className="text-neutral-400/80">{post.dateRelative}</span>
               </div>
             </div>
           </div>
