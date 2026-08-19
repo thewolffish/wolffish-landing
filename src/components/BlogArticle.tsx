@@ -124,11 +124,10 @@ const markdownComponents: Components = {
   ),
   hr: () => <hr className="border-neutral-200 my-8" />,
   // Media embeds, all through markdown image syntax. The extension decides the
-  // block: .pdf → native browser PDF viewer (framed at A4 proportions so the
-  // page fills it instead of floating in dead space), .html → live iframe
-  // (charts, demos), video/audio → native players, archives & documents → a
-  // download card, anything else → a plain image (any host — next/image needs
-  // a whitelist). Everything is built from phrasing-content tags so it stays
+  // block: .pdf → native browser PDF viewer, .html → live iframe (charts,
+  // demos), video/audio → native players, archives & documents → a download
+  // card, anything else → a plain image (any host — next/image needs a
+  // whitelist). Everything is built from phrasing-content tags so it stays
   // valid inside the <p> that markdown wraps images in.
   img: ({ src, alt }) => {
     const url = typeof src === "string" ? src : "";
@@ -155,9 +154,9 @@ const markdownComponents: Components = {
             </a>
           </span>
           <iframe
-            src={`${url}#toolbar=0&navpanes=0&view=FitH`}
+            src={url}
             title={alt || "PDF document"}
-            className="w-full aspect-[210/297] rounded-xl border border-neutral-200 bg-white"
+            className="w-full h-[75vh] rounded-xl border border-neutral-200 bg-white"
           />
         </span>
       );
