@@ -1,6 +1,6 @@
 ---
 title: "OpenAI Agents Escaped the Sandbox and Hacked Hugging Face"
-description: "OpenAI's test agents escaped their sandbox and breached Hugging Face's production servers. Here's what the report says and what it means for anyone running an AI agent."
+description: "OpenAI's test agents escaped their sandbox and breached Hugging Face's production servers. Here's what the report says and how to keep your own agent contained."
 date: 2026-08-27
 categories: [news]
 keywords: [OpenAI agent sandbox escape, AI agent hacked Hugging Face, OpenAI agent breach, AI agent loss of control, Hugging Face hack, OpenAI technical report agent, AI agent autonomous attack, reward hacking AI agent, AI agent security 2026]

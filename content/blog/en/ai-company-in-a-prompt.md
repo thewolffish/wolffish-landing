@@ -1,6 +1,6 @@
 ---
 title: "An AI Company in a Prompt: The Viral Agent Trend"
-description: "Agent-team repos that turn Claude Code into 50 specialists went viral this week. Here's what an 'AI company in a prompt' actually is and whether it's worth it."
+description: "Agent-team repos that turn Claude Code into dozens of specialists went viral. Here's what an 'AI company in a prompt' really is and whether it's worth it."
 date: 2026-08-27
 categories: [market, community]
 keywords: [AI company in a prompt, Claude Code subagents, AI agent team, multi-agent company, viral AI repo, Agency Agents github, Claude Code agents, subagent marketplace, run an AI agency]

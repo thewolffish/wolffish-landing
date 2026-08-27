@@ -1,6 +1,6 @@
 ---
 title: "Why AI Agents Keep Failing the Simple Stuff"
-description: "AI agents get things wrong in predictable ways — compounding errors, different answers each time. Here's the real reliability problem and how to trust one anyway."
+description: "AI agents get things wrong in predictable ways: compounding errors, different answers each time. Here's the reliability problem and how to trust them anyway."
 date: 2026-08-27
 categories: [market, community]
 keywords: [why AI agents fail, AI agent reliability, AI agent compounding errors, AI agent inconsistent, do AI agents work reliably, AI agent trust, AI agent mistakes, AI agent error rate 2026, can you trust AI agents]
