@@ -1,0 +1,51 @@
+---
+title: "Google Personal Intelligence: كيف يستخدم AI Mode بياناتك"
+description: "ميزة Personal Intelligence من Google تربط Gmail والصور ويوتيوب بوضع AI Mode لتتناسب الإجابات مع حياتك. كيف تعمل، وكيف تفعّلها، وما المفاضلة."
+date: 2026-09-01
+categories: [guides, product]
+keywords: [Google Personal Intelligence, Google AI Mode personal intelligence, Google AI Mode Gmail Photos, personal intelligence Google search, Google personalized search, Google AI Mode privacy, how to enable personal intelligence, Gemini personal intelligence]
+image: https://cdn.wolffi.sh/blog/google-personal-intelligence-ai-mode/og.png
+---
+
+ميزة Personal Intelligence من Google هي خاصية اختيارية تربط Gmail وصور Google وسجل يوتيوب بوضع AI Mode في البحث، ليتمكن المساعد من الإجابة عن أسئلتك مستخدماً ما يعرفه عن حياتك. أُطلقت عالمياً في مايو 2026 في نحو 200 دولة و98 لغة، ولم تعد تتطلب اشتراكاً مدفوعاً.
+
+## ماذا تفعل Personal Intelligence فعلياً
+
+قبل Personal Intelligence، كان وضع AI Mode يعطي الجميع نفس الإجابة عن السؤال نفسه. هذه الميزة تغيّر ذلك: فهي تربط النقاط عبر تطبيقاتك على Google، ليصبح سؤال مثل "ماذا أُحزم لرحلتي في نهاية الأسبوع" قادراً على الاستفادة من تأكيد الرحلة في Gmail وحالة الطقس في وجهتك، بدلاً من أن يطلب منك إعادة كتابة كل شيء.
+
+يقدّمها [إعلان Google](https://blog.google/products-and-platforms/products/search/search-io-2026/) على أنها الفرق بين معرفة معلومات العالم وفهم سياقك الشخصي. والتطبيقات التي يمكنها سحب البيانات منها، وفق [The Verge](https://www.theverge.com/news/865548/google-ai-mode-search-personal-intelligence-update)، هي Gmail وصور Google ويوتيوب وسجل بحثك.
+
+## كيف تعمل تحت الغطاء
+
+إنها ليست منتجاً منفصلاً — بل طبقة من السياق. عندما تفعّلها، يربط Google تطبيقاتك بوضع AI Mode، فيقرأ المساعد من هذه المصادر لتخصيص الإجابات. ويصفها [تقرير TechCrunch الأصلي](https://techcrunch.com/2026/01/22/googles-ai-mode-can-now-tap-into-your-gmail-and-photos-to-provide-tailored-responses/) بأنها تخصيص الإجابات بالربط عبر منظومة Google الخاصة بك.
+
+بعض النقاط التي يجدر معرفتها عن طريقة تحديد نطاقها:
+
+- **إنها اختيارية.** أنت تختار التطبيقات التي تريد ربطها، ويمكنك فصل أي منها في أي وقت.
+- **للحسابات الشخصية فقط.** تعمل Personal Intelligence على حسابات Google الشخصية، لا على نطاقات Workspace.
+- **تطبيقاً تلو الآخر.** يمكنك منح الوصول إلى Gmail دون تسليم صور Google، والعكس.
+
+هذه الدقة هي الفرق بينها وبين مساعد يطالب بوصول دائم وشامل منذ البداية.
+
+## كيف تفعّلها (وتعطّلها)
+
+Google لا يفرضها عليك. لتفعيلها:
+
+1. افتح تطبيق Gemini أو وضع AI Mode في البحث.
+2. ابحث عن Personal Intelligence في الإعدادات.
+3. اربط التطبيقات التي تريدها — Gmail والصور ويوتيوب وسجل البحث.
+4. اطرح سؤالاً يستفيد من سياقك (رحلة، أو عملية شراء تخطط لها، أو سؤال من نوع "ماذا فعلت الأسبوع الماضي").
+
+لتعطيلها، افصل التطبيقات بالطريقة نفسها. ولأنها اختيارية وتُدار تطبيقاً تلو الآخر، تبقى أنت المتحكم فيما يدخل في الحلقة وما لا يدخل.
+
+## مفاضلة الخصوصية
+
+الوعد هو مساعد أكثر فائدة؛ والثمن هو نفسه ثمن أي مساعد يقرأ بريدك — أنت تمنح نموذجاً قدرة الاطلاع على أجزاء من حياتك تحتويها تلك التطبيقات. وما يجعل المفاضلة تبدو أكبر هنا هو الحجم: فهذه هي منظومة Google الافتراضية، أي أن المساعد يملك بالفعل سلوكك في البحث ويوتيوب، وتضيف Personal Intelligence بريدك وصورك فوق ذلك.
+
+هذا ليس سيئاً تلقائياً. إنها مفيدة فعلاً لمن يريد مساعداً استباقياً دون إعداد أي شيء. لكن يجدر بك قراءتها بالطريقة نفسها التي تقرأ بها [مقدار الوصول الذي تمنحه للوكيل](https://wolffi.sh/blog/ai-agent-permissions-guide): اعرف ما هو متصل، وافصل أي شيء لا تريده في الحلقة.
+
+إن كنت تفضّل إبقاء ذلك السياق الشخصي في مكان تتحكم به بدلاً من حساب سحابي، فالوكيل [المحلي أولاً](https://wolffi.sh/start) يحفظ ذاكرتك على جهازك — نفس نتيجة "إنه يعرفك"، لكن مع إجابة مختلفة عن سؤال "من يخزّن المعرفة".
+
+![Google Personal Intelligence — قائمة تفعيل خطوة بخطوة](https://cdn.wolffi.sh/blog/google-personal-intelligence-ai-mode/takeaway.pdf)
+
+**الخلاصة.** Personal Intelligence هي إجابة Google عن لحظة المساعد الشخصي: مجانية وعالمية واختيارية. تستحق التجربة إن كنت تريد محرك بحث يتذكر حياتك — فقط تعامل مع ربط التطبيقات كمؤشر تتحكم به، لا كمفتاح تشغّله وتنساه.
