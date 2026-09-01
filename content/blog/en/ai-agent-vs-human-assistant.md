@@ -32,6 +32,7 @@ The human numbers come from [Upwork's marketplace data](https://anywheretalent.c
 - **Judgment and exceptions.** An agent follows instructions; a human knows when to break them — the upset client, the ambiguous email, the "this looks wrong" moment.
 - **Accountability.** A human owns an outcome in a way a model doesn't. When something goes wrong, there's a person to call.
 - **Relationship and taste.** Anything where the result is how it made someone feel — an apology, a pitch, a sensitive negotiation — still favors a person.
+- **Institutional memory.** A VA accumulates context about your preferences, your clients, and how you like things done — memory an agent only has if you build it.
 
 ## When an AI agent alone is enough
 
