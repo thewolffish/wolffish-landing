@@ -46,6 +46,12 @@ That's not automatically bad. It's genuinely useful for someone who wants a proa
 
 If you'd rather keep that personalized context somewhere you control instead of a cloud account, a [local-first agent](https://wolffi.sh/start) holds your memory on your own machine — the same "it knows you" result, with a different answer to who stores the knowledge.
 
+## Personal Intelligence vs a full personal agent
+
+It's worth separating two things that sound alike. Personal Intelligence makes *search* personal — it reads your context so answers fit your life, but it doesn't go off and do tasks for you. A full personal agent (booking a flight, cleaning your inbox, filing expenses) is a different layer: it acts, not just answers.
+
+That distinction is the whole reason both exist. Personal Intelligence is the low-friction version — free, global, nothing to install. A personal agent is the higher-commitment version — more setup, more access, but it finishes work instead of just answering. If all you want is a search engine that remembers you, Personal Intelligence is the easier on-ramp.
+
 ![Google Personal Intelligence — how-to checklist](https://cdn.wolffi.sh/blog/google-personal-intelligence-ai-mode/takeaway.pdf)
 
 **Takeaway.** Personal Intelligence is Google's answer to the personalized-assistant moment: free, global, and opt-in. It's worth trying if you want a search engine that remembers your life — just treat the app connections as a dial you control, not a switch you set and forget.

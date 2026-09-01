@@ -47,6 +47,8 @@ The binary "AI or human" framing is the trap. The highest-ROI setup in 2026 is a
 
 It's why the best agent isn't the one that tries to replace a person — it's the one that handles the 80% so the person can spend their hours on the 20% that actually needs a human. And if you want that division of labor on your own terms, a [local-first agent](https://wolffi.sh/start) does the repetitive work on your machine, with a record you can hand to a human reviewer — instead of the work disappearing into a black box.
 
+Concretely: an agent drafts every email reply and files every receipt, while a VA — or you — handles the two or three messages a day that need a person's judgment and the one client call that can't be automated. The agent isn't replacing the VA; it's compressing a forty-hour week into a ten-hour one.
+
 ![AI agent vs human assistant — interactive cost comparison](https://cdn.wolffi.sh/blog/ai-agent-vs-human-assistant/comparison.html)
 
 **Takeaway.** Don't choose between an AI agent and a human assistant — choose which tasks each should own. The agent buys back your hours on the volume; the human spends those hours on the judgment calls that actually move the needle.
