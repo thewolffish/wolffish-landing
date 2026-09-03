@@ -24,6 +24,7 @@ import {
 import type { Components } from "react-markdown";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import CloudCard, { type CloudCardUi } from "./CloudCard";
 import StartCard, { type StartCardUi } from "./StartCard";
 
 export interface BlogArticleData {
@@ -45,6 +46,7 @@ export interface BlogArticleUi {
   github: string;
   discord: string;
   start: StartCardUi;
+  cloud: CloudCardUi;
 }
 
 const DOCS_URL = "https://docs.wolffi.sh";
@@ -394,8 +396,9 @@ export default function BlogArticle({
           </div>
         </article>
 
-        {/* Start here */}
-        <div className="mt-12">
+        {/* Wolffish Cloud for companies, then the personal-edition start guides */}
+        <div className="mt-12 flex flex-col gap-4">
+          <CloudCard ui={ui.cloud} />
           <StartCard ui={ui.start} />
         </div>
 

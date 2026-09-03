@@ -11,6 +11,7 @@ import {
   FaDiscord,
   FaGithub,
 } from "react-icons/fa6";
+import CloudCard, { type CloudCardUi } from "./CloudCard";
 import StartCard, { type StartCardUi } from "./StartCard";
 
 export interface BlogCardData {
@@ -33,6 +34,7 @@ export interface BlogIndexUi {
   github: string;
   discord: string;
   start: StartCardUi;
+  cloud: CloudCardUi;
 }
 
 export interface BlogIndexData {
@@ -196,8 +198,9 @@ export default function BlogIndex({
         </div>
       </section>
 
-      {/* Start here */}
-      <section className="w-full max-w-6xl mx-auto px-6 pb-4">
+      {/* Wolffish Cloud for companies, then the personal-edition start guides */}
+      <section className="w-full max-w-6xl mx-auto px-6 pb-4 flex flex-col gap-4">
+        <CloudCard ui={ui.cloud} />
         <StartCard ui={ui.start} />
       </section>
 

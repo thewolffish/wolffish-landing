@@ -11,6 +11,7 @@ import {
   FaArrowRight,
   FaBook,
   FaCheck,
+  FaCloud,
   FaCopy,
   FaDiscord,
   FaEnvelope,
@@ -296,6 +297,13 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
           >
             <FaNewspaper className="w-3.5 h-3.5" />
             {t("footer.blog")}
+          </Link>
+          <Link
+            href="/cloud"
+            className="flex items-center gap-1.5 hover:text-white/70 transition-colors"
+          >
+            <FaCloud className="w-3.5 h-3.5" />
+            {t("footer.cloud")}
           </Link>
           <a
             href="https://github.com/thewolffish/wolffish-app"

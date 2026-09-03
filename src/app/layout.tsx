@@ -93,10 +93,13 @@ export default async function RootLayout({
 }) {
   const locale = await getLocale();
   const messages = await getMessages();
-  // The /start and /blog namespaces are consumed server-side by their routes
-  // only — keep them out of the client messages shipped with every page.
+  // The /start, /blog, and /cloud namespaces are consumed server-side by
+  // their routes only — keep them out of the client messages shipped with
+  // every page.
   const clientMessages = Object.fromEntries(
-    Object.entries(messages).filter(([key]) => key !== "start" && key !== "blog")
+    Object.entries(messages).filter(
+      ([key]) => key !== "start" && key !== "blog" && key !== "cloud"
+    )
   ) as typeof messages;
 
   // Site-wide structured data for search engines and AI crawlers.

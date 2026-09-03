@@ -73,6 +73,7 @@
   "footer": {
     "docs": "Docs",
     "blog": "Blog",
+    "cloud": "Cloud",
     "github": "GitHub",
     "discord": "Discord",
     "x": "X",
@@ -100,6 +101,12 @@
         "title": "Get started in minutes",
         "body": "Reading about it is one thing. Every guide on the start page is a complete recipe — from installing Wolffish to your first real result.",
         "cta": "Start here"
+      },
+      "cloud": {
+        "name": "Younes Alturkey",
+        "title": "Wolffish Cloud for your company",
+        "body": "Private AI agents for every employee, built custom for your company and deployed inside your infrastructure with zero-data-retention inference. Nothing upfront, billed per seat, per quarter. Younes builds it and takes the call himself.",
+        "cta": "Book a 30-minute call"
       },
       "categories": {
         "news": "News",
@@ -773,6 +780,524 @@
         ],
         "outro": "Your agent now lives in the cloud, awake around the clock: morning briefings on the dot, watchers that never blink, and your phone connected from anywhere on earth. Set up any other guide on this page — it now runs 24/7."
       }
+    }
+  },
+  "cloud": {
+    "meta": {
+      "title": "Wolffish Cloud — Private AI Agents Deployed Inside Your Company",
+      "description": "A custom AI agent platform for every employee, running on your own infrastructure with zero-data-retention inference. Nothing stored outside your walls, full audit trail, zero upfront cost. Built for Saudi companies.",
+      "ogTitle": "Your own AI agent platform. On your own servers.",
+      "ogDescription": "We build Wolffish Cloud custom for your company and deploy it inside your perimeter, with zero-data-retention inference. Nothing of yours is stored outside your walls.",
+      "keywords": [
+        "private AI agents",
+        "on-premise AI platform",
+        "self-hosted AI agents",
+        "enterprise AI Saudi Arabia",
+        "AI agents data sovereignty",
+        "zero data retention AI",
+        "منصة وكلاء ذكاء اصطناعي"
+      ]
+    },
+    "ui": {
+      "home": "Home",
+      "tag": "Cloud",
+      "primaryCta": "Book a 30-minute call",
+      "secondaryCta": "See how deployment works",
+      "pricingCta": "Get pricing for your headcount",
+      "securityCta": "Send us your security requirements",
+      "micro": "No upfront cost. No customization fee. You provide the environment, we do the rest.",
+      "whatsappText": "Hi Younes — I'd like to book a 30-minute call about Wolffish Cloud.",
+      "whatsappPricingText": "Hi Younes — I'd like Wolffish Cloud pricing for my company's headcount.",
+      "emailSubject": "Wolffish Cloud — our security requirements",
+      "docs": "Docs",
+      "blog": "Blog",
+      "github": "GitHub",
+        "email": "Email",
+          "saudiMade": "Saudi Made",
+    "footerLine": "Private AI agents, deployed inside your company."
+    },
+    "hero": {
+      "title": "Your own AI agent platform. Running on your own servers.",
+      "lead": "We build your agent platform custom-made for your company and deploy it inside your infrastructure, with model calls on zero-data-retention inference services like DeepInfra under your own account. Not SaaS. Nothing of yours is stored outside your perimeter. Every employee gets an agent that can actually do the work.",
+      "trust": [
+        "Self-hosted platform",
+        "Zero-data-retention inference",
+        "Full audit trail",
+        "Per-seat token quotas",
+        "Saudi-based team"
+      ]
+    },
+    "pillars": {
+      "label": "The short version",
+      "items": [
+        {
+          "icon": "shield",
+          "title": "Fully private. Zero data retention.",
+          "desc": "The platform runs inside your perimeter. Model calls go to zero-data-retention inference services (DeepInfra) on your own keys, so nothing is stored or trained on. No prompt, file, or output has a path to us. Not a policy you have to trust — an architecture you can inspect."
+        },
+        {
+          "icon": "wrench",
+          "title": "We build it. You run it.",
+          "desc": "We build the platform custom for your company, deploy it, and keep it sharp. It runs on your servers, and inference is billed to your own DeepInfra account, so the running costs are yours, paid to your providers at their rate. We never sit between you and your compute."
+        },
+        {
+          "icon": "bolt",
+          "title": "Real work for every employee.",
+          "desc": "One persistent agent per person, on their own machine, with real permissions: files, commands, the tools they already use. Every action logged, every token capped, every seat billed quarterly with nothing upfront."
+        }
+      ]
+    },
+    "problem": {
+      "label": "The problem",
+      "title": "Everyone wants agents. Almost nobody can allow them.",
+      "body": [
+        "The tools that make an AI agent genuinely useful are exactly the tools that make it dangerous. To be useful, an agent needs to read the codebase, open the shared drive, touch the CRM, run commands on the machine in front of it. To be safe, none of that can leave your control.",
+        "Cloud AI platforms ask you to choose. Your source code, your contracts, your customer records, your unreleased product — all of it passes through infrastructure you don't own, governed by a policy you didn't write and can't audit. You get a checkbox promising it isn't trained on. You get no way to verify it.",
+        "So the security team says no. And they're right to. The result is the worst of both worlds: employees quietly pasting company data into consumer chatbots anyway, and a company that gets all the risk and none of the productivity."
+      ],
+      "cards": [
+        {
+          "icon": "userSecret",
+          "title": "Shadow AI is already happening.",
+          "desc": "Your people are using AI today. Just on their personal accounts, with your data, with no logging and no policy."
+        },
+        {
+          "icon": "comment",
+          "title": "Copilots are too shallow.",
+          "desc": "A chat box in a sidebar doesn't do the job. Real gains need an agent with permissions — and permissions need trust."
+        },
+        {
+          "icon": "ban",
+          "title": "The compliance answer is \"no.\"",
+          "desc": "No CISO signs off on a third party holding source code and customer PII, whatever the marketing page says."
+        }
+      ]
+    },
+    "insight": {
+      "label": "The insight",
+      "title": "The problem was never the agent. It was where it lives.",
+      "lead": "An agent with full permissions is only dangerous when it's someone else's agent, on someone else's servers, doing things you can't see. Move the entire platform inside your perimeter and every objection collapses at once.",
+      "points": [
+        {
+          "title": "Your data can't leak.",
+          "desc": "Because nothing is stored outside your walls."
+        },
+        {
+          "title": "The model can't train on you.",
+          "desc": "Because inference is zero-data-retention, on your own keys."
+        },
+        {
+          "title": "Nothing happens unseen.",
+          "desc": "Because you own the logs."
+        }
+      ],
+      "outro": "Permissions stop being a risk and become the whole point. That's what we build: not a wrapper over someone else's cloud, but a platform built for you and handed to your infrastructure."
+    },
+    "platform": {
+      "label": "What it is",
+      "title": "A private agent platform, custom-built for your company.",
+      "body": [
+        "Wolffish Cloud is our agent platform: a desktop agent for every employee, one API that every model call passes through, sync for conversations and files, a capability registry, MCP tool integrations, and an admin console. When you contract with us, we build it custom-made for your company.",
+        "Your brand. Your workflows. Your internal tools wired in as agent capabilities. Your naming, your permissions model, your approval flows. Then we deploy the whole thing inside your environment, connected to your zero-data-retention inference account, and we maintain it from there.",
+        "It is not a SaaS product with an enterprise tier. There is no shared multi-tenant instance. There is no version of this where your data sits next to another customer's."
+      ],
+      "features": [
+        {
+          "icon": "users",
+          "title": "One agent per employee.",
+          "desc": "Not a shared assistant. A persistent agent per person, with that person's context, permissions, and history."
+        },
+        {
+          "icon": "laptop",
+          "title": "Runs on their machine.",
+          "desc": "Desktop client with real permissions — read files, run commands, drive the tools your team already uses."
+        },
+        {
+          "icon": "microchip",
+          "title": "ZDR inference, your keys.",
+          "desc": "Model calls go to zero-data-retention inference services like DeepInfra, on your own account. You choose the models; prompts and outputs are never stored or trained on."
+        },
+        {
+          "icon": "eyeSlash",
+          "title": "Zero data retention.",
+          "desc": "No prompts, completions, or documents retained anywhere outside your infrastructure. The model call goes out to a zero-retention endpoint, and nothing is kept on the way, on arrival, or after."
+        },
+        {
+          "icon": "listCheck",
+          "title": "Complete audit trail.",
+          "desc": "Every action every agent takes, per employee, timestamped and queryable."
+        },
+        {
+          "icon": "gauge",
+          "title": "Quotas and cost control.",
+          "desc": "Token budgets per user, per team, per period. Hard caps. No surprise bills."
+        }
+      ]
+    },
+    "how": {
+      "label": "How it works",
+      "title": "Four steps. Weeks, not quarters.",
+      "steps": [
+        {
+          "title": "Scoping.",
+          "desc": "We map your stack, your workflows, and the five things your people burn hours on. We agree on what the agents will actually do."
+        },
+        {
+          "title": "Custom build.",
+          "desc": "We build the platform for your company: your branding, your integrations, your permission model, your approval rules."
+        },
+        {
+          "title": "Deploy inside your walls.",
+          "desc": "Installed in your environment, wired to your zero-data-retention inference account, connected to your identity provider. We roll out to a pilot team first, then the company."
+        },
+        {
+          "title": "Maintain and evolve.",
+          "desc": "We keep it running, ship improvements, add capabilities as you ask for them, and stay on the hook for uptime. You keep the environment; we keep the platform sharp."
+        }
+      ],
+      "timeline": [
+        {
+          "label": "Scoping",
+          "value": "1–2 weeks"
+        },
+        {
+          "label": "Custom build",
+          "value": "3–6 weeks"
+        },
+        {
+          "label": "Pilot rollout",
+          "value": "1–2 weeks"
+        },
+        {
+          "label": "Maintain and evolve",
+          "value": "Ongoing"
+        }
+      ]
+    },
+    "security": {
+      "label": "Security and control",
+      "title": "Built for the company that would normally say no.",
+      "lead": "Everything below is architectural, not contractual. These aren't promises about how we behave with your data — they're consequences of the fact that we never hold it.",
+      "pull": "You can't leak data you never receive.",
+      "points": [
+        {
+          "icon": "server",
+          "title": "Fully self-hosted.",
+          "desc": "Platform, orchestration, storage, and clients all run inside your infrastructure. The only outbound traffic is the model call to your ZDR inference endpoint."
+        },
+        {
+          "icon": "microchip",
+          "title": "Zero-data-retention inference.",
+          "desc": "Model calls go to DeepInfra, a zero-data-retention inference service, on your own account and keys. Prompts and outputs are never stored or used for training, and the provider is switchable to any other ZDR endpoint."
+        },
+        {
+          "icon": "eyeSlash",
+          "title": "Zero data retention, end to end.",
+          "desc": "Nothing persisted outside your perimeter, and nothing retained by the inference provider. No telemetry carrying your content back to us."
+        },
+        {
+          "icon": "fileShield",
+          "title": "No training on your data. Structurally.",
+          "desc": "We never have access to your data in the first place, and your inference runs on a zero-retention, no-training endpoint."
+        },
+        {
+          "icon": "listCheck",
+          "title": "Full action-level audit.",
+          "desc": "Every file read, command run, and tool call, attributed to an employee and a timestamp, in your own logs."
+        },
+        {
+          "icon": "userShield",
+          "title": "Granular permissions.",
+          "desc": "Per-role and per-agent scopes. Approval gates on sensitive actions. Kill switch per user and globally."
+        },
+        {
+          "icon": "gauge",
+          "title": "Token quotas and spend caps.",
+          "desc": "Set budgets by person, team, or period. Enforced, not advisory."
+        },
+        {
+          "icon": "idBadge",
+          "title": "Identity integration.",
+          "desc": "Your SSO, your directory, your offboarding. When someone leaves, the agent leaves with them."
+        },
+        {
+          "icon": "locationDot",
+          "title": "Data residency.",
+          "desc": "Everything stored — records, files, logs — stays in your environment, in the region you already operate in. Model calls are transient and zero-retention, and we scope what agents may send to inference against your data-protection obligations."
+        },
+        {
+          "icon": "code",
+          "title": "Your code, your platform.",
+          "desc": "Source access and escrow arrangements available. If we disappear tomorrow, your platform keeps running."
+        }
+      ]
+    },
+    "work": {
+      "label": "What your people actually do with it",
+      "title": "Real work, not a chat window.",
+      "groups": [
+        {
+          "title": "Engineering",
+          "desc": "Ship features from a ticket, review PRs against your own standards, write and run tests, trace production issues across logs, keep documentation current, handle dependency upgrades and migrations."
+        },
+        {
+          "title": "Product and design",
+          "desc": "Turn research into specs, generate and iterate prototypes, keep the roadmap synced with what's actually shipping, summarize user feedback into decisions."
+        },
+        {
+          "title": "Sales and success",
+          "desc": "Prep every call from CRM history, draft follow-ups in the customer's language, keep records updated without anyone typing, flag accounts going quiet, build proposals from your own templates."
+        },
+        {
+          "title": "Marketing",
+          "desc": "Produce content against your brand voice, localize between Arabic and English, run competitive monitoring, build reports from your analytics."
+        },
+        {
+          "title": "Finance and operations",
+          "desc": "Reconcile and categorize, chase invoices, assemble recurring reports, process documents at volume."
+        },
+        {
+          "title": "HR and internal",
+          "desc": "Answer policy questions from your actual handbook, run onboarding checklists, draft and route internal comms."
+        },
+        {
+          "title": "IT and security",
+          "desc": "Triage tickets, audit configurations, watch for drift, automate the same fifteen requests you get every week."
+        }
+      ],
+      "closing": "The pitch to your board is simple: every person who works on a computer gets meaningfully faster, and nothing of yours is stored outside the building to make it happen."
+    },
+    "commercials": {
+      "label": "Commercials",
+      "title": "Nothing upfront. You pay for seats, not for a project.",
+      "body": [
+        "Enterprise AI projects usually start with a six-figure implementation invoice and a nine-month timeline, and half of them never reach production. We don't work that way.",
+        "There is no upfront fee and no customization cost. You provide the environment, the services, and the inference. We build the platform for your company, deploy it, and maintain it — billed as a quarterly retainer per employee. If the agents aren't earning their seat, you're not locked into a capital write-off."
+      ],
+      "cards": [
+        {
+          "icon": "coins",
+          "title": "Zero upfront.",
+          "desc": "No implementation fee. No customization charge. No professional services line item."
+        },
+        {
+          "icon": "calendar",
+          "title": "Quarterly, per employee.",
+          "desc": "One predictable number that scales with headcount, not with project scope."
+        },
+        {
+          "icon": "server",
+          "title": "You own the infrastructure.",
+          "desc": "Your servers, your inference spend, your data. The running costs go to your providers directly, at your rate — never through us. We bring the platform and the work."
+        }
+      ]
+    },
+    "compare": {
+      "label": "Comparison",
+      "title": "Four ways to do this. Three of them have a catch.",
+      "columns": [
+        "Cloud AI SaaS",
+        "Build it in-house",
+        "Do nothing",
+        "Wolffish Cloud"
+      ],
+      "rows": [
+        {
+          "label": "Where your data goes",
+          "values": [
+            "Their servers",
+            "Stays with you",
+            "Into personal chatbots, unlogged",
+            "Stays with you"
+          ]
+        },
+        {
+          "label": "Time to production",
+          "values": [
+            "Fast",
+            "6–18 months",
+            "—",
+            "Weeks"
+          ]
+        },
+        {
+          "label": "Upfront cost",
+          "values": [
+            "Low",
+            "Very high",
+            "Zero",
+            "Zero"
+          ]
+        },
+        {
+          "label": "Customized to your workflows",
+          "values": [
+            "No",
+            "Yes",
+            "—",
+            "Yes"
+          ]
+        },
+        {
+          "label": "Agent permissions on machines",
+          "values": [
+            "Rarely approved",
+            "Yours to build",
+            "—",
+            "Full, with audit"
+          ]
+        },
+        {
+          "label": "Ongoing maintenance",
+          "values": [
+            "Theirs",
+            "Your engineers, forever",
+            "—",
+            "Ours"
+          ]
+        },
+        {
+          "label": "Who owns the platform",
+          "values": [
+            "They do",
+            "You do",
+            "—",
+            "You do"
+          ]
+        }
+      ]
+    },
+    "roi": {
+      "label": "ROI",
+      "title": "The math your CFO will ask for.",
+      "body": [
+        "Take a 60-person digital company. Fully loaded cost per employee is what it is — you know your number better than we do. If an agent gives each person back even a quarter of their week on work that is genuinely automatable — research, boilerplate, reporting, follow-ups, ticket triage — the per-seat retainer is a rounding error against the recovered capacity.",
+        "The honest version: the first month is setup and habit-building, not gains. Real compounding starts once agents are wired into your actual tools and your people stop treating them like a chatbot. That's the part we do with you, and it's why this is a retainer and not a licence."
+      ]
+    },
+    "fit": {
+      "label": "Who this is for",
+      "title": "Built for Saudi companies between 10 and 500 people.",
+      "yesTitle": "A fit if",
+      "yes": [
+        "You're digital-first — software, fintech, e-commerce, agencies, media, consultancies",
+        "Most of your team works on a computer all day",
+        "You have infrastructure you control, or can stand it up",
+        "Your data is sensitive enough that cloud AI has been a hard conversation",
+        "You want agents doing work, not another subscription"
+      ],
+      "noTitle": "Not a fit if",
+      "no": [
+        "You want a $20-a-seat chatbot",
+        "You have no infrastructure and no intention of running any",
+        "Your work isn't computer-based",
+        "You're over 500 people — we'd be doing you a disservice at that scale right now"
+      ]
+    },
+    "provide": {
+      "label": "What you provide",
+      "title": "What we need from you.",
+      "items": [
+        {
+          "title": "Environment.",
+          "desc": "Servers or private cloud you control, sized for your headcount."
+        },
+        {
+          "title": "Inference.",
+          "desc": "An account with a zero-data-retention inference service, DeepInfra by default. We set it up with you and advise on budgets."
+        },
+        {
+          "title": "Access.",
+          "desc": "Identity provider, plus the internal tools you want agents to reach."
+        },
+        {
+          "title": "A person.",
+          "desc": "One internal owner — usually IT or engineering — for the first few weeks."
+        },
+        {
+          "title": "Five workflows.",
+          "desc": "The things your team complains about most. That's where we start."
+        }
+      ]
+    },
+    "faq": {
+      "label": "FAQ",
+      "title": "Straight answers.",
+      "items": [
+        {
+          "q": "Is this SaaS?",
+          "a": "No. There is no shared instance and no multi-tenant anything. Your platform is built for you and runs entirely on your infrastructure."
+        },
+        {
+          "q": "What happens to our data?",
+          "a": "It stays where it already is. The platform runs inside your perimeter, and model calls go to a zero-data-retention inference service on your own account, which stores nothing. There is no path for prompts, files, or outputs to reach us."
+        },
+        {
+          "q": "Can you see what our agents are doing?",
+          "a": "No. The audit logs are yours, in your environment. During support we work with what you choose to share."
+        },
+        {
+          "q": "Which models can we use?",
+          "a": "Any model on your zero-data-retention inference service. We deploy on DeepInfra by default, on your own account, which serves the leading open-weight models. It's swappable — you're not locked to a model, and you're not locked to us for inference."
+        },
+        {
+          "q": "What about internet access?",
+          "a": "The deployment needs one outbound route: the model call to your zero-data-retention inference endpoint. Where agents need external tools or the web, access is explicit, scoped, and logged."
+        },
+        {
+          "q": "What if an agent does something it shouldn't?",
+          "a": "Sensitive actions sit behind approval gates you define. Everything is logged at action level. There's a kill switch per user and one for the whole deployment."
+        },
+        {
+          "q": "How do we control cost?",
+          "a": "Token budgets per person, team, and period, with hard caps. You see consumption per employee in the admin console. Since inference runs on your own DeepInfra account, you pay the provider directly at their rate."
+        },
+        {
+          "q": "What if we want to leave?",
+          "a": "You keep the environment and the deployment. Source access and escrow arrangements are available, so the platform keeps running whether or not we do."
+        },
+        {
+          "q": "Why is there no upfront cost?",
+          "a": "Because a big implementation invoice makes it our win to sign you and your risk to make it work. Per-seat quarterly means we only do well if your people keep using it."
+        },
+        {
+          "q": "How long until it's live?",
+          "a": "Weeks, not quarters. Scoping, then build, then a pilot team, then the company."
+        },
+        {
+          "q": "Are you compliant with [framework]?",
+          "a": "Tell us the controls you're required to meet and we'll build to them. Because the deployment is yours, most requirements are satisfied by architecture rather than by our paperwork."
+        },
+        {
+          "q": "Do you support Arabic?",
+          "a": "Fully. Interface and agents both, and the team behind it works in Arabic and English."
+        },
+        {
+          "q": "How big is your team?",
+          "a": "Small and senior. That's why the platform is deep and the deployments are fast. You'll be working directly with the person who built it."
+        }
+      ]
+    },
+    "founder": {
+      "label": "About",
+      "title": "Built by someone who ships.",
+      "body": [
+        "Wolffish is built and run by Younes Alturkey — a senior engineer with years of production web and mobile work behind him, shipping the platform's desktop, mobile, and relay stack himself. Wolffish Cloud is that platform, built custom for each company that needs it inside its own walls.",
+        "You won't be handed to an account manager. The person who designs your deployment is the person who wrote the platform."
+      ],
+      "name": "Younes Alturkey",
+      "role": "Founder & Engineer",
+      "emailLabel": "Email",
+      "phoneLabel": "Phone",
+      "whatsapp": "Chat on WhatsApp"
+    },
+    "final": {
+      "title": "Thirty minutes. Bring your security team.",
+      "body": "Tell us what your people spend their week on and what your security constraints are. If we're not a fit, we'll say so on the call."
+    },
+    "floating": {
+      "title": "Book a 30-minute call",
+      "desc": "Younes Alturkey, founder & engineer, on WhatsApp"
     }
   }
 }

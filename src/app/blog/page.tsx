@@ -15,6 +15,12 @@ const START_CARD_FALLBACK = {
   body: "Every guide on the start page is a complete recipe — from installing Wolffish to your first real result.",
   cta: "Start here",
 };
+const CLOUD_CARD_FALLBACK = {
+  name: "Younes Alturkey",
+  title: "Wolffish Cloud for your company",
+  body: "Private AI agents for every employee, built custom for your company and deployed inside your infrastructure with zero-data-retention inference.",
+  cta: "Book a 30-minute call",
+};
 
 interface BlogMessages {
   meta: { title: string; description: string };
@@ -105,6 +111,7 @@ export default async function BlogPage() {
       github: "GitHub",
       discord: "Discord",
       start: START_CARD_FALLBACK,
+      cloud: CLOUD_CARD_FALLBACK,
     },
     posts,
     categories,

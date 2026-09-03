@@ -21,6 +21,7 @@ Key facts:
 
 - [Home](https://wolffi.sh): download the app, install commands, store links
 - [Get started](https://wolffi.sh/start): 20 real-life use cases, each with a complete step-by-step setup guide (English and Arabic)
+- [Wolffish Cloud](https://wolffi.sh/cloud): the edition for companies — an agent platform built custom for each company, deployed on the company's own infrastructure, with model calls on zero-data-retention inference services (DeepInfra by default) under the company's own account (nothing stored outside the company, action-level audit trail, per-seat token quotas, SSO), maintained on a quarterly per-employee retainer with nothing upfront; built for Saudi companies of 10–500 people
 - [Blog](https://wolffi.sh/blog): guides, product notes, and ideas about personal AI agents
 - [Docs](https://docs.wolffi.sh): full documentation (English and Arabic under /ar)
 - [GitHub](https://github.com/thewolffish/wolffish-app): source code
