@@ -4,7 +4,7 @@ description: "A personal AI agent can help an aging parent stay safe, connected,
 date: 2026-09-07
 categories: [guides, product]
 keywords: [AI agent for elderly parents, AI for aging in place, AI companion for seniors, AI caregiver, AI for elderly safety, smart home AI elderly, AI voice assistant seniors, elderly fall detection AI, help aging parents stay home, AI memory aid seniors]
-image: https://cdn.wolffi.sh/blog/ai-agent-for-elderly-parents/og-v2.png
+image: https://cdn.wolffi.sh/blog/ai-agent-for-elderly-parents/og-v3.png
 ---
 
 An AI agent can help an aging parent stay safe, connected, and independent at home — but only if you set it up around their real needs, not around the technology. The best place to start is a voice-based companion that lives on a phone or a tabletop device and handles the two things that actually matter as people age: staying in touch and not letting small problems become big ones.

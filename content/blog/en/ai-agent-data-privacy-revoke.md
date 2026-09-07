@@ -4,7 +4,7 @@ description: "Switching off or revoking an AI agent's access doesn't remove the 
 date: 2026-09-07
 categories: [guides, community]
 keywords: [revoke AI agent access, delete AI agent data, AI agent data retention, AI agent privacy, how to delete AI agent data, AI agent data removal, revoking access vs deleting data, AI agent data rights, AI agent account data, personal AI agent privacy]
-image: https://cdn.wolffi.sh/blog/ai-agent-data-privacy-revoke/og-v2.png
+image: https://cdn.wolffi.sh/blog/ai-agent-data-privacy-revoke/og-v3.png
 ---
 
 The uncomfortable truth is that revoking an AI agent's access — flipping the permission off, deleting the account, removing the integration — is not the same as deleting the data it already gathered. For many personal agents, the access control and the data store are separate things, which is exactly how the two got conflated in the first place.

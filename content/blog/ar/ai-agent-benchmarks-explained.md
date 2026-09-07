@@ -4,7 +4,7 @@ description: "ليست كل معايير وكلاء AI تخبرك بشيء مف�
 date: 2026-09-07
 categories: [guides, market]
 keywords: [معايير وكلاء AI 2026, معيار GAIA, SWE-bench Verified, معيار OSWorld, Tau2-bench, WebArena, METR time horizon, تقييم وكيل AI, أي معيار وكيل يهم, أفضل مقياس وكيل AI]
-image: https://cdn.wolffi.sh/blog/ai-agent-benchmarks-explained/og-v2.png
+image: https://cdn.wolffi.sh/blog/ai-agent-benchmarks-explained/og-v3.png
 ---
 
 الإجابة الصادقة هي أن عدداً قليلاً فقط من معايير وكلاء AI يخبرك بشيء يمكنك التصرف بناءً عليه، ومعظم لوحات الصدارة المروّج لها تقيس شيئاً لا تشتريه في الحقيقة. المعايير الستة التي تحمل الإشارة الأكبر في 2026 هي **GAIA وSWE-bench Verified وOSWorld وTau²-Bench وWebArena وMETR** (HCAST + Time Horizons) — وهي لا تقيس الشيء نفسه، لذا قراءة واحد منها كبديل عن «وكيل جيد» خطأ.

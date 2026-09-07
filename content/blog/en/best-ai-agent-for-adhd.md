@@ -4,7 +4,7 @@ description: "The right AI agent helps with task initiation, planning and follow
 date: 2026-09-07
 categories: [guides, community]
 keywords: [AI agent for ADHD, AI for executive function, best AI for ADHD, AI ADHD support, task initiation AI, AI planner ADHD, AI ADHD assistant, AI agent neurodivergent, AI follow-through ADHD, ADHD productivity AI]
-image: https://cdn.wolffi.sh/blog/best-ai-agent-for-adhd/og-v2.png
+image: https://cdn.wolffi.sh/blog/best-ai-agent-for-adhd/og-v3.png
 ---
 
 The best AI agent for ADHD is not one that answers more questions — it is one that carries your executive function: the task initiation, planning, and follow-through that ADHD makes genuinely hard. Research on how ADHD users adapt AI tools, like the [CHI 2026 study](https://dl.acm.org/doi/10.1145/3772363.3798808), frames the problem precisely — adults with ADHD often struggle with task initiation, planning, and sustained focus — and that maps onto exactly what an agent can take off your shoulders.
