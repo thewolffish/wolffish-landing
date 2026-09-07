@@ -4,7 +4,7 @@ description: "حققت OpenAI هدفها في باحث آلي في 6 سبتمب�
 date: 2026-09-07
 categories: [news, product]
 keywords: [باحث OpenAI الآلي, باحث OpenAI الآلي, إنجاز وكيل OpenAI, 3.1 يوم وكيل, بحث AI مستقل, باحث AI 2028, وكلاء برمجة OpenAI, منظمة أبحاث OpenAI, أخبار وكيل AI شخصي]
-image: https://cdn.wolffi.sh/blog/openai-research-intern-milestone/og.png
+image: https://cdn.wolffi.sh/blog/openai-research-intern-milestone/og-v2.png
 ---
 
 أكّدت OpenAI في 6 سبتمبر 2026 أنها حققت هدفها في «الباحث الآلي» — أي ذكاء اصطناعي قادر على تنفيذ مهام بحثية محدّدة بوضوح كانت ستستغرق باحثاً بشرياً عدة أيام لإنجازها. داخل منظمة الأبحاث الخاصة بالشركة، يُسجَّل الآن ما يقارب **3.1 يوم عمل وكيل مقابل كل يوم عمل بشري واحد**، وحدّدت الشركة هدفها التالي علناً: باحث AI مستقل بالكامل بحلول مارس 2028.

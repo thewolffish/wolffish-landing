@@ -4,7 +4,7 @@ description: "Not all AI agent benchmarks tell you something useful. Here's what
 date: 2026-09-07
 categories: [guides, market]
 keywords: [AI agent benchmarks 2026, GAIA benchmark, SWE-bench Verified, OSWorld benchmark, Tau2-bench, WebArena, METR time horizon, AI agent evaluation, which agent benchmark matters, best AI agent metric]
-image: https://cdn.wolffi.sh/blog/ai-agent-benchmarks-explained/og.png
+image: https://cdn.wolffi.sh/blog/ai-agent-benchmarks-explained/og-v2.png
 ---
 
 The honest answer is that only a handful of AI agent benchmarks tell you anything you can act on, and most of the headline leaderboards measure something you are not actually buying. The six that carry the most signal in 2026 are **GAIA, SWE-bench Verified, OSWorld, Tau²-Bench, WebArena, and METR** (HCAST + Time Horizons) — and they do not measure the same thing, so reading one as a proxy for "good agent" is a mistake.

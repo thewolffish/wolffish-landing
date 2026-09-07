@@ -4,7 +4,7 @@ description: "OpenAI hit its automated research intern goal on Sept 6 — 3.1 ag
 date: 2026-09-07
 categories: [news, product]
 keywords: [OpenAI research intern, OpenAI automated researcher, OpenAI agent milestone, 3.1 agent-workdays, autonomous AI research, AI researcher 2028, OpenAI coding agents, OpenAI research organization, personal AI agent news]
-image: https://cdn.wolffi.sh/blog/openai-research-intern-milestone/og.png
+image: https://cdn.wolffi.sh/blog/openai-research-intern-milestone/og-v2.png
 ---
 
 OpenAI confirmed on September 6, 2026 that it has reached its "automated research intern" milestone — an AI that can carry out well-defined research tasks a human researcher would take several days to finish. Inside its own research organization, the company now logs about **3.1 agent-workdays of effort for every single human workday**, and it has publicly set its next target: a fully autonomous AI researcher by March 2028.
