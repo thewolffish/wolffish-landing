@@ -121,7 +121,7 @@ export interface CloudData {
     pull: string;
     points: CloudStatusItem[];
   };
-  work: { label: string; title: string; lead: string; groups: CloudTitled[]; closing: string };
+  work: { label: string; title: string; lead: string; groups: CloudTitled[] };
   pricing: {
     label: string;
     title: string;
@@ -581,7 +581,7 @@ export default function CloudView({
         <p className="mt-4 max-w-3xl text-sm md:text-[15px] leading-relaxed text-neutral-600">
           {how.lead}
         </p>
-        <div className="mt-8 grid gap-3 max-w-4xl">
+        <div className="mt-8 grid gap-3">
           {how.steps.map((step, i) => (
             <div
               key={step.title}
@@ -648,12 +648,6 @@ export default function CloudView({
               </p>
             </div>
           ))}
-        </div>
-        <div className="mt-5 flex items-start gap-2.5 rounded-2xl bg-emerald-50 border border-emerald-200 p-4">
-          <FaCheck className="w-3.5 h-3.5 mt-1 text-emerald-600 shrink-0" />
-          <p className="text-[13.5px] leading-relaxed text-emerald-900">
-            {work.closing}
-          </p>
         </div>
       </Section>
 
@@ -930,7 +924,7 @@ export default function CloudView({
             founderName={founder.name}
             founderRole={founder.role}
           />
-          <aside className="rounded-2xl bg-white border border-neutral-200 p-6 flex flex-col justify-between gap-5">
+          <aside className="rounded-2xl bg-white border border-neutral-200 p-6 flex flex-col gap-5">
             <div className="flex items-center gap-3">
               <Image
                 src={FOUNDER_IMAGE}
@@ -979,7 +973,7 @@ export default function CloudView({
               href={whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-[13px] font-semibold transition-colors"
+              className="mt-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-[13px] font-semibold transition-colors"
             >
               <FaWhatsapp className="w-4 h-4" />
               {founder.whatsapp}
