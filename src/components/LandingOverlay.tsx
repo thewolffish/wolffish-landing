@@ -262,7 +262,7 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
           extra bottom padding below xl so its links stay clear of the card. */}
       <Link
         href="/cloud"
-        className="group fixed bottom-4 inset-x-4 sm:inset-x-auto sm:bottom-5 sm:end-5 sm:max-w-[268px] z-30 pointer-events-auto flex items-center gap-3 rounded-2xl backdrop-blur-md bg-white/8 border border-white/12 hover:bg-white/14 hover:border-white/25 transition-all px-4 py-3 shadow-[0_8px_30px_rgba(0,0,0,0.35)]"
+        className="group fixed bottom-4 inset-x-4 sm:inset-x-auto sm:bottom-5 sm:end-5 sm:max-w-[330px] z-30 pointer-events-auto flex items-center gap-3 rounded-2xl backdrop-blur-md bg-white/8 border border-white/12 hover:bg-white/14 hover:border-white/25 transition-all px-4 py-3 shadow-[0_8px_30px_rgba(0,0,0,0.35)]"
       >
         <span className="w-9 h-9 rounded-xl bg-emerald-500/15 border border-emerald-400/25 flex items-center justify-center shrink-0">
           <FaCloud className="w-4 h-4 text-emerald-300" />
