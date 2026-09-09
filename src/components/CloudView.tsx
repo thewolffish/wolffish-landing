@@ -576,24 +576,26 @@ export default function CloudView({
         <p className="mt-4 max-w-3xl text-sm md:text-[15px] leading-relaxed text-neutral-600">
           {how.lead}
         </p>
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="mt-8 grid gap-3 max-w-4xl">
           {how.steps.map((step, i) => (
             <div
               key={step.title}
-              className="rounded-2xl bg-white border border-neutral-200 p-5 flex flex-col gap-3"
+              className="rounded-2xl bg-white border border-neutral-200 p-5 flex gap-4"
             >
-              <div className="flex items-center justify-between gap-3">
-                <NumberBadge n={i + 1} />
-                <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-100 rounded-full px-2 py-0.5">
-                  {step.time}
-                </span>
+              <NumberBadge n={i + 1} />
+              <div className="min-w-0 flex-1">
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <div className="text-[15px] font-semibold text-neutral-900 leading-snug">
+                    {step.title}
+                  </div>
+                  <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-100 rounded-full px-2 py-0.5">
+                    {step.time}
+                  </span>
+                </div>
+                <p className="mt-1.5 text-[13.5px] leading-relaxed text-neutral-600">
+                  {step.desc}
+                </p>
               </div>
-              <div className="text-[15px] font-semibold text-neutral-900 leading-snug">
-                {step.title}
-              </div>
-              <p className="text-[13px] leading-relaxed text-neutral-500">
-                {step.desc}
-              </p>
             </div>
           ))}
         </div>
