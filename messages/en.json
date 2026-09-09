@@ -950,8 +950,8 @@
       "cautions": [
         {
           "title": "Arabic interface and output",
-          "desc": "Partly live across four surfaces. We show you exactly which on the call rather than describe it.",
-          "status": "partial"
+          "desc": "Interface, prompting, output and document handling with Hijri dates, all in Arabic. Your people work in their own language from day one.",
+          "status": "shipped"
         },
         {
           "title": "Source access and escrow",
@@ -1382,7 +1382,7 @@
         },
         {
           "q": "Do you support Arabic?",
-          "a": "Partially today, and we would rather say so than be tested on it in the first meeting. Arabic interface, prompting, output and document handling with Hijri dates are each partly live. On the call we show you exactly which surfaces work rather than describe them."
+          "a": "Yes, fully. The interface, prompting, output and document handling with Hijri dates all work in Arabic, so your people are not second-class users of their own company's tooling. Bring a real document to the call and we will run it."
         },
         {
           "q": "What if we want to leave?",
