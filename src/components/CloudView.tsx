@@ -954,16 +954,16 @@ export default function CloudView({
                 <FaPhone className="w-3 h-3 text-neutral-400" />
                 <span dir="ltr">{FOUNDER_PHONE_DISPLAY}</span>
               </a>
-              <a
-                href={whatsappHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-[13px] text-emerald-700 hover:text-emerald-800 transition-colors"
-              >
-                <FaWhatsapp className="w-3.5 h-3.5" />
-                {founder.whatsapp}
-              </a>
             </div>
+            <a
+              href={whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-[13px] font-semibold transition-colors"
+            >
+              <FaWhatsapp className="w-4 h-4" />
+              {founder.whatsapp}
+            </a>
           </aside>
         </div>
         <p className="mt-4 text-xs text-neutral-400">{ui.micro}</p>
@@ -1019,7 +1019,7 @@ export default function CloudView({
       </footer>
 
       {/* Floating contact card: the founder, one tap away on every scroll position */}
-      <FloatingContactCard ui={floating} name={founder.name} href={whatsappHref} />
+      <FloatingContactCard ui={floating} name={founder.name} href="#schedule" />
     </div>
   );
 }

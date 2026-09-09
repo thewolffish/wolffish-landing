@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { FaEnvelope, FaPhone, FaWhatsapp } from "react-icons/fa6";
+import { FaArrowRight, FaEnvelope, FaPhone, FaWhatsapp } from "react-icons/fa6";
 
 // The founder's contact details, shared with the Wolffish Cloud API page
 // (apps/api/src/page.ts in wolffish-cloud) so both surfaces stay in step.
@@ -35,12 +35,13 @@ export function FloatingContactCard({
   name: string;
   href: string;
 }) {
+  const internal = href.startsWith("#");
   return (
     <a
       href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group fixed bottom-4 inset-x-4 sm:inset-x-auto sm:bottom-5 sm:end-5 sm:max-w-[300px] z-30 flex items-center gap-3 rounded-2xl bg-white/90 backdrop-blur-md border border-neutral-200 hover:border-emerald-300 shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:shadow-[0_12px_36px_rgba(0,0,0,0.16)] transition-all px-4 py-3"
+      target={internal ? undefined : "_blank"}
+      rel={internal ? undefined : "noopener noreferrer"}
+      className="group fixed bottom-4 inset-x-4 sm:inset-x-auto sm:bottom-5 sm:end-5 sm:max-w-[360px] z-30 flex items-center gap-3 rounded-2xl bg-white/90 backdrop-blur-md border border-neutral-200 hover:border-emerald-300 shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:shadow-[0_12px_36px_rgba(0,0,0,0.16)] transition-all px-4 py-3"
     >
       <span className="relative shrink-0">
         <Image
@@ -61,7 +62,11 @@ export function FloatingContactCard({
         </span>
       </span>
       <span className="w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-100 group-hover:bg-emerald-600 group-hover:border-emerald-600 flex items-center justify-center shrink-0 transition-colors">
-        <FaWhatsapp className="w-4 h-4 text-emerald-600 group-hover:text-white transition-colors" />
+        {internal ? (
+          <FaArrowRight className="w-3.5 h-3.5 text-emerald-600 group-hover:text-white transition-colors rtl:rotate-180" />
+        ) : (
+          <FaWhatsapp className="w-4 h-4 text-emerald-600 group-hover:text-white transition-colors" />
+        )}
       </span>
     </a>
   );
