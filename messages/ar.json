@@ -42,9 +42,9 @@
     "appStore": "App Store",
     "googlePlay": "Google Play"
   },
-  "startCta": {
-    "title": "ابدأ خلال دقائق",
-    "desc": "تعلّم تشغيل وكيلك الذكي الخاص — بأدلة موجّهة خطوة بخطوة."
+  "cloudCta": {
+    "title": "Wolffish Cloud لشركتك",
+    "desc": "وكيل ذكي لكل موظف، داخل نطاقك. احجز مكالمة."
   },
   "download": {
     "title": "تحميل",

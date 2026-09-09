@@ -42,9 +42,9 @@
     "appStore": "App Store",
     "googlePlay": "Google Play"
   },
-  "startCta": {
-    "title": "Get started in minutes",
-    "desc": "Learn to run your own personal AI agent — guided, step by step."
+  "cloudCta": {
+    "title": "Wolffish Cloud for your company",
+    "desc": "One agent per employee, inside your perimeter. Book a call."
   },
   "download": {
     "title": "Download",

@@ -21,7 +21,6 @@ import {
   FaNewspaper,
   FaShieldHalved,
   FaTerminal,
-  FaWandMagicSparkles,
   FaWhatsapp,
   FaWindows,
   FaXTwitter,
@@ -258,22 +257,22 @@ export default function LandingOverlay({ release }: { release: ReleaseInfo | nul
         </div>
       </div>
 
-      {/* Floating “get started” card — slim bar on phones, bottom-end widget
+      {/* Floating Wolffish Cloud card — slim bar on phones, bottom-end widget
           from sm up (bottom-right in LTR, bottom-left in RTL). The footer keeps
           extra bottom padding below xl so its links stay clear of the card. */}
       <Link
-        href="/start"
+        href="/cloud"
         className="group fixed bottom-4 inset-x-4 sm:inset-x-auto sm:bottom-5 sm:end-5 sm:max-w-[268px] z-30 pointer-events-auto flex items-center gap-3 rounded-2xl backdrop-blur-md bg-white/8 border border-white/12 hover:bg-white/14 hover:border-white/25 transition-all px-4 py-3 shadow-[0_8px_30px_rgba(0,0,0,0.35)]"
       >
         <span className="w-9 h-9 rounded-xl bg-emerald-500/15 border border-emerald-400/25 flex items-center justify-center shrink-0">
-          <FaWandMagicSparkles className="w-4 h-4 text-emerald-300" />
+          <FaCloud className="w-4 h-4 text-emerald-300" />
         </span>
         <span className="min-w-0 flex-1">
           <span className="block text-[13px] font-semibold text-white leading-snug">
-            {t("startCta.title")}
+            {t("cloudCta.title")}
           </span>
           <span className="block text-[11px] text-white/55 leading-snug mt-0.5">
-            {t("startCta.desc")}
+            {t("cloudCta.desc")}
           </span>
         </span>
         <FaArrowRight className="w-3 h-3 text-white/40 group-hover:text-white transition-colors rtl:rotate-180 shrink-0" />
