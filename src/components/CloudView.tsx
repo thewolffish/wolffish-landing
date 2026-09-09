@@ -9,16 +9,13 @@ import {
   FaArrowLeft,
   FaArrowRight,
   FaBan,
-  FaBolt,
   FaBook,
-  FaCalendarCheck,
   FaCheck,
   FaChevronDown,
   FaCode,
   FaCoins,
   FaComment,
   FaEnvelope,
-  FaEyeSlash,
   FaFileShield,
   FaGaugeHigh,
   FaGithub,
@@ -28,12 +25,12 @@ import {
   FaLocationDot,
   FaMicrochip,
   FaPenNib,
+  FaPhone,
   FaScrewdriverWrench,
   FaServer,
   FaShieldHalved,
   FaUserSecret,
   FaUserShield,
-  FaUsers,
   FaWandMagicSparkles,
   FaWhatsapp,
   FaXmark,
@@ -42,17 +39,27 @@ import {
   FloatingContactCard,
   FounderCard,
   FOUNDER_EMAIL,
+  FOUNDER_IMAGE,
+  FOUNDER_PHONE,
+  FOUNDER_PHONE_DISPLAY,
   whatsappUrl,
   type FloatingContactUi,
   type FounderUi,
 } from "./ContactCard";
+import ScheduleCallForm, { type ScheduleFormUi } from "./ScheduleCallForm";
 
 /* ---------- data shapes (read from messages/*.json "cloud" in app/cloud/page.tsx) ---------- */
+
+export type CloudStatus = "shipped" | "partial" | "inBuild" | "notHeld";
 
 export interface CloudIconItem {
   icon: string;
   title: string;
   desc: string;
+}
+
+export interface CloudStatusItem extends CloudIconItem {
+  status: CloudStatus;
 }
 
 export interface CloudTitled {
@@ -63,20 +70,18 @@ export interface CloudTitled {
 export interface CloudUi {
   home: string;
   tag: string;
+  eyebrow: string;
   primaryCta: string;
   secondaryCta: string;
-  pricingCta: string;
-  securityCta: string;
   micro: string;
   whatsappText: string;
-  whatsappPricingText: string;
-  emailSubject: string;
   docs: string;
   blog: string;
   github: string;
   email: string;
   saudiMade: string;
   footerLine: string;
+  status: Record<CloudStatus, string>;
 }
 
 export interface CloudData {
@@ -95,35 +100,51 @@ export interface CloudData {
     label: string;
     title: string;
     body: string[];
-    features: CloudIconItem[];
+    layers: CloudStatusItem[];
+    cautionTitle: string;
+    cautions: { title: string; desc: string; status: CloudStatus }[];
   };
   how: {
     label: string;
     title: string;
-    steps: CloudTitled[];
-    timeline: { label: string; value: string }[];
+    lead: string;
+    steps: { title: string; time: string; desc: string }[];
+    note: string;
   };
   security: {
     label: string;
     title: string;
     lead: string;
     pull: string;
-    points: CloudIconItem[];
+    points: CloudStatusItem[];
   };
-  work: { label: string; title: string; groups: CloudTitled[]; closing: string };
-  commercials: {
+  work: { label: string; title: string; lead: string; groups: CloudTitled[]; closing: string };
+  pricing: {
     label: string;
     title: string;
     body: string[];
+    columns: string[];
+    rows: { label: string; amount: string; billedBy: string; margin: string }[];
+    landed: { label: string; value: string };
+    note: string;
     cards: CloudIconItem[];
   };
+  roi: { label: string; title: string; body: string[] };
   compare: {
     label: string;
     title: string;
+    lead: string;
     columns: string[];
     rows: { label: string; values: string[] }[];
+    national: { title: string; body: string };
   };
-  roi: { label: string; title: string; body: string[] };
+  integrator: {
+    label: string;
+    title: string;
+    body: string[];
+    questionsLabel: string;
+    questions: string[];
+  };
   fit: {
     label: string;
     title: string;
@@ -131,11 +152,19 @@ export interface CloudData {
     yes: string[];
     noTitle: string;
     no: string[];
+    closing: string;
   };
   provide: { label: string; title: string; items: CloudTitled[] };
   faq: { label: string; title: string; items: { q: string; a: string }[] };
   founder: FounderUi & { label: string; title: string };
-  final: { title: string; body: string };
+  schedule: {
+    label: string;
+    title: string;
+    body: string;
+    asideTitle: string;
+    aside: string[];
+    form: ScheduleFormUi;
+  };
   floating: FloatingContactUi;
 }
 
@@ -146,12 +175,9 @@ const GITHUB_URL = "https://github.com/thewolffish/wolffish-cloud";
 
 const ICONS: Record<string, IconType> = {
   ban: FaBan,
-  bolt: FaBolt,
-  calendar: FaCalendarCheck,
   code: FaCode,
   coins: FaCoins,
   comment: FaComment,
-  eyeSlash: FaEyeSlash,
   fileShield: FaFileShield,
   gauge: FaGaugeHigh,
   idBadge: FaIdBadge,
@@ -163,8 +189,14 @@ const ICONS: Record<string, IconType> = {
   shield: FaShieldHalved,
   userSecret: FaUserSecret,
   userShield: FaUserShield,
-  users: FaUsers,
   wrench: FaScrewdriverWrench,
+};
+
+const STATUS_STYLE: Record<CloudStatus, string> = {
+  shipped: "bg-emerald-50 border-emerald-200 text-emerald-700",
+  partial: "bg-amber-50 border-amber-200 text-amber-700",
+  inBuild: "bg-sky-50 border-sky-200 text-sky-700",
+  notHeld: "bg-neutral-100 border-neutral-200 text-neutral-600",
 };
 
 const PRIMARY_BTN =
@@ -188,6 +220,22 @@ function IconTile({ icon, size = "md" }: { icon: string; size?: "md" | "lg" }) {
     >
       <Icon className={`${glyph} text-emerald-600`} />
     </div>
+  );
+}
+
+function StatusChip({
+  status,
+  labels,
+}: {
+  status: CloudStatus;
+  labels: Record<CloudStatus, string>;
+}) {
+  return (
+    <span
+      className={`inline-flex items-center px-2 py-0.5 rounded-full border text-[10.5px] font-semibold tracking-wide uppercase ${STATUS_STYLE[status]}`}
+    >
+      {labels[status]}
+    </span>
   );
 }
 
@@ -245,6 +293,31 @@ function FeatureCard({ item }: { item: CloudIconItem }) {
   );
 }
 
+function StatusCard({
+  item,
+  labels,
+}: {
+  item: CloudStatusItem;
+  labels: Record<CloudStatus, string>;
+}) {
+  return (
+    <div className="rounded-2xl bg-white border border-neutral-200 p-5 flex gap-4">
+      <IconTile icon={item.icon} />
+      <div className="min-w-0 flex-1">
+        <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+          <div className="text-[15px] font-semibold text-neutral-900 leading-snug">
+            {item.title}
+          </div>
+          <StatusChip status={item.status} labels={labels} />
+        </div>
+        <p className="mt-1 text-[13px] leading-relaxed text-neutral-500">
+          {item.desc}
+        </p>
+      </div>
+    </div>
+  );
+}
+
 function NumberBadge({ n }: { n: number }) {
   return (
     <div className="shrink-0 w-7 h-7 rounded-full bg-emerald-600 text-white text-xs font-semibold flex items-center justify-center">
@@ -272,14 +345,15 @@ export default function CloudView({
     how,
     security,
     work,
-    commercials,
-    compare,
+    pricing,
     roi,
+    compare,
+    integrator,
     fit,
     provide,
     faq,
     founder,
-    final,
+    schedule,
     floating,
   } = data;
   const router = useRouter();
@@ -290,9 +364,7 @@ export default function CloudView({
     startTransition(() => router.refresh());
   };
 
-  const callHref = whatsappUrl(ui.whatsappText);
-  const pricingHref = whatsappUrl(ui.whatsappPricingText);
-  const securityHref = `mailto:${FOUNDER_EMAIL}?subject=${encodeURIComponent(ui.emailSubject)}`;
+  const whatsappHref = whatsappUrl(ui.whatsappText);
   const lastColumn = compare.columns.length - 1;
 
   return (
@@ -333,25 +405,23 @@ export default function CloudView({
             {ui.tag}
           </span>
         </div>
-        <h1 className="mt-4 max-w-4xl mx-auto text-3xl md:text-5xl font-bold text-neutral-900 tracking-tight leading-tight">
+        <p className="mt-4 text-[11px] md:text-xs font-medium uppercase tracking-widest text-neutral-400">
+          {ui.eyebrow}
+        </p>
+        <h1 className="mt-3 max-w-4xl mx-auto text-3xl md:text-5xl font-bold text-neutral-900 tracking-tight leading-tight">
           {hero.title}
         </h1>
         <p className="mt-5 max-w-3xl mx-auto text-sm md:text-base text-neutral-600 leading-relaxed">
           {hero.lead}
         </p>
         <div className="mt-7 flex flex-col sm:flex-row items-center justify-center gap-3">
-          <a
-            href={callHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={PRIMARY_BTN}
-          >
-            <FaWhatsapp className="w-4 h-4" />
+          <a href="#schedule" className={PRIMARY_BTN}>
             {ui.primaryCta}
+            <FaArrowRight className="w-3 h-3 rtl:rotate-180" />
           </a>
           <a href="#how" className={SECONDARY_BTN}>
             {ui.secondaryCta}
-            <FaArrowRight className="w-3 h-3 text-neutral-400 rtl:rotate-180" />
+            <FaChevronDown className="w-3 h-3 text-neutral-400" />
           </a>
         </div>
         <p className="mt-3 text-xs text-neutral-400">{ui.micro}</p>
@@ -368,7 +438,7 @@ export default function CloudView({
         </div>
       </section>
 
-      {/* The three things to know */}
+      {/* The three pillars */}
       <section className="w-full max-w-6xl mx-auto px-6 pt-12 md:pt-16">
         <p className="text-center text-xs font-medium uppercase tracking-widest text-neutral-400 mb-4">
           {pillars.label}
@@ -391,7 +461,7 @@ export default function CloudView({
         </div>
       </section>
 
-      {/* Problem */}
+      {/* Why now */}
       <Section label={problem.label} title={problem.title}>
         <div className="mt-6 grid gap-6 md:grid-cols-[1.15fr_1fr] md:gap-10">
           <Prose paragraphs={problem.body} />
@@ -416,7 +486,7 @@ export default function CloudView({
         </div>
       </Section>
 
-      {/* Insight */}
+      {/* The distinction */}
       <section className="w-full max-w-6xl mx-auto px-6 pt-16 md:pt-20">
         <div className="rounded-3xl bg-neutral-900 text-white p-7 md:p-10">
           <p className="text-xs font-medium uppercase tracking-widest text-emerald-400">
@@ -460,21 +530,64 @@ export default function CloudView({
           <Prose paragraphs={platform.body} />
         </div>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {platform.features.map((feature) => (
-            <FeatureCard key={feature.title} item={feature} />
+          {platform.layers.map((layer) => (
+            <div
+              key={layer.title}
+              className="rounded-2xl bg-white border border-neutral-200 p-5 flex flex-col gap-3"
+            >
+              <div className="flex items-center justify-between gap-3">
+                <IconTile icon={layer.icon} />
+                <StatusChip status={layer.status} labels={ui.status} />
+              </div>
+              <div className="text-[15px] font-semibold text-neutral-900 leading-snug">
+                {layer.title}
+              </div>
+              <p className="text-[13px] leading-relaxed text-neutral-500">
+                {layer.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+        <div className="mt-4 rounded-2xl bg-white border border-neutral-200 divide-y divide-neutral-100">
+          <div className="px-5 py-3.5 text-[13px] font-semibold text-neutral-900">
+            {platform.cautionTitle}
+          </div>
+          {platform.cautions.map((caution) => (
+            <div
+              key={caution.title}
+              className="grid gap-x-6 gap-y-1.5 sm:grid-cols-[minmax(0,1.1fr)_minmax(0,2fr)] px-5 py-4"
+            >
+              <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+                <span className="text-[14px] font-semibold text-neutral-900 leading-snug">
+                  {caution.title}
+                </span>
+                <StatusChip status={caution.status} labels={ui.status} />
+              </div>
+              <p className="text-[13px] leading-relaxed text-neutral-600">
+                {caution.desc}
+              </p>
+            </div>
           ))}
         </div>
       </Section>
 
-      {/* How it works */}
+      {/* The process */}
       <Section id="how" label={how.label} title={how.title}>
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <p className="mt-4 max-w-3xl text-sm md:text-[15px] leading-relaxed text-neutral-600">
+          {how.lead}
+        </p>
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {how.steps.map((step, i) => (
             <div
               key={step.title}
               className="rounded-2xl bg-white border border-neutral-200 p-5 flex flex-col gap-3"
             >
-              <NumberBadge n={i + 1} />
+              <div className="flex items-center justify-between gap-3">
+                <NumberBadge n={i + 1} />
+                <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-100 rounded-full px-2 py-0.5">
+                  {step.time}
+                </span>
+              </div>
               <div className="text-[15px] font-semibold text-neutral-900 leading-snug">
                 {step.title}
               </div>
@@ -484,21 +597,9 @@ export default function CloudView({
             </div>
           ))}
         </div>
-        <div className="mt-4 grid gap-3 grid-cols-2 lg:grid-cols-4">
-          {how.timeline.map((slot) => (
-            <div
-              key={slot.label}
-              className="rounded-2xl bg-emerald-50 border border-emerald-100 px-5 py-4"
-            >
-              <div className="text-[11px] font-medium uppercase tracking-widest text-emerald-700/70">
-                {slot.label}
-              </div>
-              <div className="mt-1 text-sm font-semibold text-emerald-900">
-                {slot.value}
-              </div>
-            </div>
-          ))}
-        </div>
+        <p className="mt-4 text-[13px] leading-relaxed text-neutral-500 max-w-3xl">
+          {how.note}
+        </p>
       </Section>
 
       {/* Security and control */}
@@ -516,26 +617,16 @@ export default function CloudView({
         </div>
         <div className="mt-4 grid gap-4 md:grid-cols-2">
           {security.points.map((point) => (
-            <div
-              key={point.title}
-              className="rounded-2xl bg-white border border-neutral-200 p-5 flex gap-4"
-            >
-              <IconTile icon={point.icon} />
-              <div className="min-w-0">
-                <div className="text-[15px] font-semibold text-neutral-900 leading-snug">
-                  {point.title}
-                </div>
-                <p className="mt-1 text-[13px] leading-relaxed text-neutral-500">
-                  {point.desc}
-                </p>
-              </div>
-            </div>
+            <StatusCard key={point.title} item={point} labels={ui.status} />
           ))}
         </div>
       </Section>
 
-      {/* Real work */}
+      {/* What your people do with it */}
       <Section label={work.label} title={work.title}>
+        <p className="mt-4 max-w-3xl text-sm md:text-[15px] leading-relaxed text-neutral-600">
+          {work.lead}
+        </p>
         <div className="mt-8 rounded-2xl bg-white border border-neutral-200 divide-y divide-neutral-100">
           {work.groups.map((group) => (
             <div
@@ -559,37 +650,92 @@ export default function CloudView({
         </div>
       </Section>
 
-      {/* Commercials */}
-      <Section id="pricing" label={commercials.label} title={commercials.title}>
+      {/* What it costs */}
+      <Section id="pricing" label={pricing.label} title={pricing.title}>
         <div className="mt-6 max-w-3xl">
-          <Prose paragraphs={commercials.body} />
+          <Prose paragraphs={pricing.body} />
         </div>
-        <div className="mt-8 grid gap-4 md:grid-cols-3">
-          {commercials.cards.map((card) => (
+        <div className="mt-8 rounded-2xl bg-white border border-neutral-200 overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[640px] text-[13px]">
+              <thead>
+                <tr className="border-b border-neutral-200">
+                  {pricing.columns.map((column) => (
+                    <th
+                      key={column}
+                      className="text-start px-5 py-3.5 font-semibold text-neutral-700"
+                    >
+                      {column}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-neutral-100">
+                {pricing.rows.map((row) => (
+                  <tr key={row.label}>
+                    <th
+                      scope="row"
+                      className="text-start px-5 py-3.5 font-semibold text-neutral-900 align-top"
+                    >
+                      {row.label}
+                    </th>
+                    <td className="px-5 py-3.5 align-top leading-relaxed text-neutral-700">
+                      {row.amount}
+                    </td>
+                    <td className="px-5 py-3.5 align-top leading-relaxed text-neutral-600">
+                      {row.billedBy}
+                    </td>
+                    <td className="px-5 py-3.5 align-top leading-relaxed text-neutral-600">
+                      {row.margin}
+                    </td>
+                  </tr>
+                ))}
+                <tr className="bg-emerald-50">
+                  <th
+                    scope="row"
+                    className="text-start px-5 py-3.5 font-bold text-emerald-900 align-top"
+                  >
+                    {pricing.landed.label}
+                  </th>
+                  <td
+                    colSpan={3}
+                    className="px-5 py-3.5 align-top font-semibold text-emerald-900"
+                  >
+                    {pricing.landed.value}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p className="mt-3 text-[12.5px] leading-relaxed text-neutral-500 max-w-3xl">
+          {pricing.note}
+        </p>
+        <div className="mt-6 grid gap-4 md:grid-cols-3">
+          {pricing.cards.map((card) => (
             <FeatureCard key={card.title} item={card} />
           ))}
         </div>
-        <div className="mt-6">
-          <a
-            href={pricingHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={PRIMARY_BTN}
-          >
-            <FaWhatsapp className="w-4 h-4" />
-            {ui.pricingCta}
-          </a>
+      </Section>
+
+      {/* The return */}
+      <Section label={roi.label} title={roi.title}>
+        <div className="mt-6 max-w-3xl">
+          <Prose paragraphs={roi.body} />
         </div>
       </Section>
 
-      {/* Comparison */}
-      <Section label={compare.label} title={compare.title}>
+      {/* Against the cloud assistants */}
+      <Section id="compare" label={compare.label} title={compare.title}>
+        <p className="mt-4 max-w-3xl text-sm md:text-[15px] leading-relaxed text-neutral-600">
+          {compare.lead}
+        </p>
         <div className="mt-8 rounded-2xl bg-white border border-neutral-200 overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[720px] text-[13px]">
+            <table className="w-full min-w-[960px] text-[13px]">
               <thead>
                 <tr className="border-b border-neutral-200">
-                  <th className="w-[22%] px-5 py-3.5" />
+                  <th className="w-[18%] px-5 py-3.5" />
                   {compare.columns.map((column, i) => (
                     <th
                       key={column}
@@ -631,12 +777,40 @@ export default function CloudView({
             </table>
           </div>
         </div>
+        <div className="mt-4 rounded-2xl bg-white border border-neutral-200 p-5 md:p-6 flex gap-4">
+          <IconTile icon="microchip" />
+          <div className="min-w-0">
+            <div className="text-[15px] font-semibold text-neutral-900 leading-snug">
+              {compare.national.title}
+            </div>
+            <p className="mt-1.5 text-[13.5px] leading-relaxed text-neutral-600">
+              {compare.national.body}
+            </p>
+          </div>
+        </div>
       </Section>
 
-      {/* ROI */}
-      <Section label={roi.label} title={roi.title}>
-        <div className="mt-6 max-w-3xl">
-          <Prose paragraphs={roi.body} />
+      {/* The integrator question */}
+      <Section label={integrator.label} title={integrator.title}>
+        <div className="mt-6 grid gap-6 md:grid-cols-[1.3fr_1fr] md:gap-10">
+          <Prose paragraphs={integrator.body} />
+          <div className="rounded-2xl bg-neutral-900 text-white p-6">
+            <p className="text-xs font-medium uppercase tracking-widest text-emerald-400">
+              {integrator.questionsLabel}
+            </p>
+            <ol className="mt-4 space-y-3">
+              {integrator.questions.map((question, i) => (
+                <li key={question} className="flex items-start gap-3">
+                  <span className="shrink-0 w-6 h-6 rounded-full bg-white/10 border border-white/15 text-[11px] font-semibold flex items-center justify-center">
+                    {i + 1}
+                  </span>
+                  <span className="text-[15px] font-semibold leading-snug">
+                    {question}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </div>
         </div>
       </Section>
 
@@ -674,9 +848,12 @@ export default function CloudView({
             </ul>
           </div>
         </div>
+        <p className="mt-4 text-[13px] leading-relaxed text-neutral-500 max-w-3xl">
+          {fit.closing}
+        </p>
       </Section>
 
-      {/* What you provide */}
+      {/* What we need from you */}
       <Section label={provide.label} title={provide.title}>
         <div className="mt-8 rounded-2xl bg-white border border-neutral-200 divide-y divide-neutral-100">
           {provide.items.map((item, i) => (
@@ -715,39 +892,83 @@ export default function CloudView({
       {/* Founder */}
       <Section id="contact" label={founder.label} title={founder.title}>
         <div className="mt-8">
-          <FounderCard ui={founder} whatsappHref={callHref} />
+          <FounderCard ui={founder} whatsappHref={whatsappHref} />
         </div>
       </Section>
 
-      {/* Final CTA */}
-      <section className="w-full max-w-6xl mx-auto px-6 pt-16 md:pt-20 pb-8 text-center">
-        <h2 className="text-2xl md:text-4xl font-bold text-neutral-900 tracking-tight leading-tight">
-          {final.title}
-        </h2>
-        <p className="mt-4 max-w-2xl mx-auto text-sm md:text-base text-neutral-600 leading-relaxed">
-          {final.body}
+      {/* Schedule the security call */}
+      <Section id="schedule" label={schedule.label} title={schedule.title}>
+        <p className="mt-4 max-w-3xl text-sm md:text-[15px] leading-relaxed text-neutral-600">
+          {schedule.body}
         </p>
-        <div className="mt-7 flex flex-col sm:flex-row items-center justify-center gap-3">
-          <a
-            href={callHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={PRIMARY_BTN}
-          >
-            <FaWhatsapp className="w-4 h-4" />
-            {ui.primaryCta}
-          </a>
-          <a href={securityHref} className={SECONDARY_BTN}>
-            <FaEnvelope className="w-3.5 h-3.5 text-neutral-400" />
-            {ui.securityCta}
-          </a>
+        <div className="mt-8 grid gap-4 lg:grid-cols-[1.6fr_1fr] lg:items-start">
+          <ScheduleCallForm
+            ui={schedule.form}
+            locale={locale}
+            founderName={founder.name}
+            founderRole={founder.role}
+          />
+          <aside className="rounded-2xl bg-white border border-neutral-200 p-6 flex flex-col gap-5">
+            <div className="flex items-center gap-3">
+              <Image
+                src={FOUNDER_IMAGE}
+                alt={founder.name}
+                width={144}
+                height={144}
+                className="w-14 h-14 rounded-full object-cover border border-neutral-200"
+              />
+              <div className="text-[13px] leading-snug">
+                <div className="font-semibold text-neutral-900">{founder.name}</div>
+                <div className="text-neutral-500">{founder.role}</div>
+              </div>
+            </div>
+            <div>
+              <div className="text-[12px] font-medium uppercase tracking-widest text-neutral-400">
+                {schedule.asideTitle}
+              </div>
+              <ul className="mt-3 space-y-2.5">
+                {schedule.aside.map((line) => (
+                  <li key={line} className="flex items-start gap-2.5">
+                    <FaCheck className="w-3.5 h-3.5 mt-1 text-emerald-600 shrink-0" />
+                    <span className="text-[13.5px] leading-relaxed text-neutral-600">
+                      {line}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="flex flex-col gap-2 pt-1 border-t border-neutral-100">
+              <a
+                href={`mailto:${FOUNDER_EMAIL}`}
+                className="inline-flex items-center gap-2 pt-3 text-[13px] text-neutral-600 hover:text-neutral-900 transition-colors"
+              >
+                <FaEnvelope className="w-3 h-3 text-neutral-400" />
+                <span dir="ltr">{FOUNDER_EMAIL}</span>
+              </a>
+              <a
+                href={`tel:${FOUNDER_PHONE}`}
+                className="inline-flex items-center gap-2 text-[13px] text-neutral-600 hover:text-neutral-900 transition-colors"
+              >
+                <FaPhone className="w-3 h-3 text-neutral-400" />
+                <span dir="ltr">{FOUNDER_PHONE_DISPLAY}</span>
+              </a>
+              <a
+                href={whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-[13px] text-emerald-700 hover:text-emerald-800 transition-colors"
+              >
+                <FaWhatsapp className="w-3.5 h-3.5" />
+                {founder.whatsapp}
+              </a>
+            </div>
+          </aside>
         </div>
-        <p className="mt-3 text-xs text-neutral-400">{ui.micro}</p>
-      </section>
+        <p className="mt-4 text-xs text-neutral-400">{ui.micro}</p>
+      </Section>
 
-      {/* Footer — extra bottom padding below xl keeps the links clear of the floating card */}
-      <footer className="w-full max-w-6xl mx-auto px-6 pb-24 xl:pb-10 pt-6 flex flex-col items-center gap-4 text-xs text-neutral-400">
-        {/* Saudi Made mark — on a true white surface, since the page ground is off-white */}
+      {/* Footer, with extra bottom padding below xl to keep the links clear of the floating card */}
+      <footer className="w-full max-w-6xl mx-auto px-6 pb-24 xl:pb-10 pt-14 flex flex-col items-center gap-4 text-xs text-neutral-400">
         <div className="rounded-2xl bg-white border border-neutral-200 px-5 py-3">
           <Image
             src="/saudi-made.svg"
@@ -795,8 +1016,8 @@ export default function CloudView({
         </div>
       </footer>
 
-      {/* Floating contact card — the founder, one tap away on every scroll position */}
-      <FloatingContactCard ui={floating} name={founder.name} href={callHref} />
+      {/* Floating contact card: the founder, one tap away on every scroll position */}
+      <FloatingContactCard ui={floating} name={founder.name} href={whatsappHref} />
     </div>
   );
 }

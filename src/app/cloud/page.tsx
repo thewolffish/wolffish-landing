@@ -74,15 +74,31 @@ export default async function CloudPage() {
         "@type": "Service",
         "@id": `${PAGE_URL}#service`,
         name: "Wolffish Cloud",
-        serviceType: "Private AI agent platform",
+        serviceType: "In-perimeter agentic workforce platform",
         description: meta.description,
         url: PAGE_URL,
         provider: { "@id": `${SITE_URL}/#organization` },
         areaServed: { "@type": "Country", name: "Saudi Arabia" },
         audience: {
           "@type": "BusinessAudience",
-          name: "Companies between 10 and 500 people",
+          name: "Saudi-owned regulated enterprises of 200 to 600 knowledge workers",
         },
+        offers: [
+          {
+            "@type": "Offer",
+            name: "Deployment, one time",
+            price: "60000",
+            priceCurrency: "SAR",
+            description: "Half at signature and half at go-live. Excludes 15 percent VAT.",
+          },
+          {
+            "@type": "Offer",
+            name: "Platform seat",
+            price: "79",
+            priceCurrency: "SAR",
+            description: "Per employee per month, quarterly in advance, twelve-month term, minimum 200 seats. Excludes 15 percent VAT. Inference and infrastructure of SAR 45 to 55 per seat per month are billed by the customer's own providers at zero Wolffish margin.",
+          },
+        ],
         inLanguage: locale === "ar" ? "ar" : "en",
       },
       {
