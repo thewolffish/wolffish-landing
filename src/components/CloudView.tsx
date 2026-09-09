@@ -9,7 +9,9 @@ import {
   FaArrowLeft,
   FaArrowRight,
   FaBan,
+  FaBolt,
   FaBook,
+  FaCodeBranch,
   FaCheck,
   FaChevronDown,
   FaCode,
@@ -50,7 +52,7 @@ import ScheduleCallForm, { type ScheduleFormUi } from "./ScheduleCallForm";
 
 /* ---------- data shapes (read from messages/*.json "cloud" in app/cloud/page.tsx) ---------- */
 
-export type CloudStatus = "shipped" | "partial" | "inBuild" | "notHeld";
+export type CloudStatus = "shipped" | "partial" | "inBuild" | "notHeld" | "onRequest";
 
 export interface CloudIconItem {
   icon: string;
@@ -80,6 +82,7 @@ export interface CloudUi {
   github: string;
   email: string;
   saudiMade: string;
+  badges: { saudiMade: string; deepinfra: string; openSource: string };
   footerLine: string;
   status: Record<CloudStatus, string>;
 }
@@ -129,7 +132,7 @@ export interface CloudData {
     note: string;
     cards: CloudIconItem[];
   };
-  roi: { label: string; title: string; body: string[] };
+  roi: { label: string; title: string; cards: CloudIconItem[]; note: string };
   compare: {
     label: string;
     title: string;
@@ -175,6 +178,7 @@ const GITHUB_URL = "https://github.com/thewolffish/wolffish-cloud";
 
 const ICONS: Record<string, IconType> = {
   ban: FaBan,
+  bolt: FaBolt,
   code: FaCode,
   coins: FaCoins,
   comment: FaComment,
@@ -197,6 +201,7 @@ const STATUS_STYLE: Record<CloudStatus, string> = {
   partial: "bg-amber-50 border-amber-200 text-amber-700",
   inBuild: "bg-sky-50 border-sky-200 text-sky-700",
   notHeld: "bg-neutral-100 border-neutral-200 text-neutral-600",
+  onRequest: "bg-violet-50 border-violet-200 text-violet-700",
 };
 
 const PRIMARY_BTN =
@@ -722,9 +727,14 @@ export default function CloudView({
 
       {/* The return */}
       <Section label={roi.label} title={roi.title}>
-        <div className="mt-6 max-w-3xl">
-          <Prose paragraphs={roi.body} />
+        <div className="mt-8 grid gap-4 md:grid-cols-3">
+          {roi.cards.map((card) => (
+            <FeatureCard key={card.title} item={card} />
+          ))}
         </div>
+        <p className="mt-4 text-[13px] leading-relaxed text-neutral-500 max-w-3xl">
+          {roi.note}
+        </p>
       </Section>
 
       {/* Against the cloud assistants */}
@@ -819,30 +829,40 @@ export default function CloudView({
       {/* Who this is for */}
       <Section label={fit.label} title={fit.title}>
         <div className="mt-8 grid gap-4 md:grid-cols-2">
-          <div className="rounded-2xl bg-white border border-neutral-200 p-6">
-            <div className="text-[15px] font-semibold text-neutral-900">
-              {fit.yesTitle}
+          <div className="rounded-2xl bg-white border border-emerald-200 overflow-hidden">
+            <div className="flex items-center gap-2.5 px-5 py-3.5 bg-emerald-50 border-b border-emerald-100">
+              <span className="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0">
+                <FaCheck className="w-3 h-3" />
+              </span>
+              <span className="text-[15px] font-semibold text-emerald-900">
+                {fit.yesTitle}
+              </span>
             </div>
-            <ul className="mt-4 space-y-3">
+            <ul className="divide-y divide-neutral-100">
               {fit.yes.map((line) => (
-                <li key={line} className="flex items-start gap-2.5">
-                  <FaCheck className="w-3.5 h-3.5 mt-1 text-emerald-600 shrink-0" />
-                  <span className="text-[13.5px] leading-relaxed text-neutral-600">
+                <li key={line} className="flex items-center gap-2.5 px-5 py-3">
+                  <FaCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                  <span className="text-[13.5px] leading-snug text-neutral-700">
                     {line}
                   </span>
                 </li>
               ))}
             </ul>
           </div>
-          <div className="rounded-2xl bg-white border border-neutral-200 p-6">
-            <div className="text-[15px] font-semibold text-neutral-900">
-              {fit.noTitle}
+          <div className="rounded-2xl bg-white border border-neutral-200 overflow-hidden">
+            <div className="flex items-center gap-2.5 px-5 py-3.5 bg-neutral-50 border-b border-neutral-100">
+              <span className="w-6 h-6 rounded-full bg-neutral-400 text-white flex items-center justify-center shrink-0">
+                <FaXmark className="w-3 h-3" />
+              </span>
+              <span className="text-[15px] font-semibold text-neutral-800">
+                {fit.noTitle}
+              </span>
             </div>
-            <ul className="mt-4 space-y-3">
+            <ul className="divide-y divide-neutral-100">
               {fit.no.map((line) => (
-                <li key={line} className="flex items-start gap-2.5">
-                  <FaXmark className="w-3.5 h-3.5 mt-1 text-neutral-400 shrink-0" />
-                  <span className="text-[13.5px] leading-relaxed text-neutral-600">
+                <li key={line} className="flex items-center gap-2.5 px-5 py-3">
+                  <FaXmark className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
+                  <span className="text-[13.5px] leading-snug text-neutral-600">
                     {line}
                   </span>
                 </li>
@@ -903,14 +923,14 @@ export default function CloudView({
         <p className="mt-4 max-w-3xl text-sm md:text-[15px] leading-relaxed text-neutral-600">
           {schedule.body}
         </p>
-        <div className="mt-8 grid gap-4 lg:grid-cols-[1.6fr_1fr] lg:items-start">
+        <div className="mt-8 grid gap-4 lg:grid-cols-[1.6fr_1fr] lg:items-stretch">
           <ScheduleCallForm
             ui={schedule.form}
             locale={locale}
             founderName={founder.name}
             founderRole={founder.role}
           />
-          <aside className="rounded-2xl bg-white border border-neutral-200 p-6 flex flex-col gap-5">
+          <aside className="rounded-2xl bg-white border border-neutral-200 p-6 flex flex-col justify-between gap-5">
             <div className="flex items-center gap-3">
               <Image
                 src={FOUNDER_IMAGE}
@@ -971,15 +991,38 @@ export default function CloudView({
 
       {/* Footer, with extra bottom padding below xl to keep the links clear of the floating card */}
       <footer className="w-full max-w-6xl mx-auto px-6 pb-24 xl:pb-10 pt-14 flex flex-col items-center gap-4 text-xs text-neutral-400">
-        <div className="rounded-2xl bg-white border border-neutral-200 px-5 py-3">
-          <Image
-            src="/saudi-made.svg"
-            alt={ui.saudiMade}
-            width={3000}
-            height={1000}
-            unoptimized
-            className="h-10 md:h-12 w-auto"
-          />
+        <div className="flex flex-wrap items-stretch justify-center gap-3">
+          <div className="rounded-2xl bg-white border border-neutral-200 px-5 py-3 flex flex-col items-center justify-center gap-1.5 min-w-[150px]">
+            <Image
+              src="/saudi-made.svg"
+              alt={ui.saudiMade}
+              width={3000}
+              height={1000}
+              unoptimized
+              className="h-6 w-auto"
+            />
+            <span className="text-[11px] text-neutral-500">{ui.badges.saudiMade}</span>
+          </div>
+          <div className="rounded-2xl bg-white border border-neutral-200 px-5 py-3 flex flex-col items-center justify-center gap-1.5 min-w-[150px]">
+            <Image
+              src="/deepinfra.svg"
+              alt="DeepInfra"
+              width={118}
+              height={24}
+              unoptimized
+              className="h-[18px] w-auto my-[3px] opacity-80"
+            />
+            <span className="text-[11px] text-neutral-500">{ui.badges.deepinfra}</span>
+          </div>
+          <a
+            href={GITHUB_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-2xl bg-white border border-neutral-200 hover:border-neutral-300 transition-colors px-5 py-3 flex flex-col items-center justify-center gap-1.5 min-w-[150px]"
+          >
+            <FaCodeBranch className="w-5 h-5 my-0.5 text-neutral-700" />
+            <span className="text-[11px] text-neutral-500">{ui.badges.openSource}</span>
+          </a>
         </div>
         <p className="text-neutral-500">{ui.footerLine}</p>
         <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3">

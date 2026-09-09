@@ -816,7 +816,13 @@
         "shipped": "Shipped",
         "partial": "Partial",
         "inBuild": "In build",
-        "notHeld": "Not held"
+        "notHeld": "Not held",
+        "onRequest": "On request"
+      },
+      "badges": {
+        "saudiMade": "Saudi made",
+        "deepinfra": "Inference provider",
+        "openSource": "Open source project"
       }
     },
     "hero": {
@@ -949,8 +955,8 @@
         },
         {
           "title": "Source access and escrow",
-          "desc": "The deed is drafted and no agent is appointed yet. It goes in the data room before you ask.",
-          "status": "partial"
+          "desc": "In the contract from day one. You hold the source, the deployment and every log, so nothing depends on us staying around.",
+          "status": "shipped"
         },
         {
           "title": "Compliance Evidence Pack",
@@ -959,8 +965,8 @@
         },
         {
           "title": "SOC 2, ISO 27001 or equivalent",
-          "desc": "None today, and none is scheduled. Weigh it. What stands in its place is that we never receive your data.",
-          "status": "notHeld"
+          "desc": "Certified as a separate package before deployment if you need it: a credible certifier, contracted by us, signed off before any agent runs.",
+          "status": "onRequest"
         }
       ]
     },
@@ -977,7 +983,7 @@
         {
           "title": "Scoping",
           "time": "1 to 2 weeks",
-          "desc": "Your identity estate, your classification levels, the systems nobody has integrated with, and the first workflows the pilot cohort will run."
+          "desc": "Your identity estate, your classification levels, the systems nobody has integrated with, and the first workflows the pilot cohort will run in its first three weeks."
         },
         {
           "title": "Build and integrate",
@@ -1048,8 +1054,8 @@
         {
           "icon": "code",
           "title": "Source access and escrow",
-          "desc": "Your platform keeps running whether or not we do. The deed is drafted and no agent is appointed yet.",
-          "status": "partial"
+          "desc": "Shipped. You are handed control on day one: every action logged, every agent scoped, a full admin layer live before rollout. No surprises.",
+          "status": "shipped"
         },
         {
           "icon": "fileShield",
@@ -1060,8 +1066,8 @@
         {
           "icon": "ban",
           "title": "Certification",
-          "desc": "None held today, none scheduled. We would rather say this plainly than have you find it in the review.",
-          "status": "notHeld"
+          "desc": "We will certify the build on completion as a separate package, with a credible certifier we contract, before any agent executes a single task.",
+          "status": "onRequest"
         }
       ]
     },
@@ -1091,7 +1097,7 @@
           "desc": "Prepare every call from the CRM history, draft the follow-up in the customer's language, keep the records current without anyone typing."
         }
       ],
-      "closing": "One persistent agent per person, in the language your people actually work in. Arabic interface, prompting and output are partial today, and we show you which surfaces on the call."
+      "closing": "One agent per person, in the language they work in. Arabic is partial today, and we show you which surfaces."
     },
     "pricing": {
       "label": "What it costs",
@@ -1134,33 +1140,46 @@
         {
           "icon": "coins",
           "title": "The absence of a meter is the product.",
-          "desc": "We take no margin on inference. The moment a token earned us money, our interests and yours would point in different directions."
+          "desc": "We take no margin on inference. The moment a token earned us money, our interests would part."
         },
         {
           "icon": "gauge",
           "title": "A hard cap, not a spend alert.",
-          "desc": "A spend alert tells you the budget is gone. A hard cap means it never was."
+          "desc": "An alert tells you the budget is gone. A cap means it never was. Finance sets it, and it holds."
         },
         {
           "icon": "comment",
           "title": "Microsoft's assistant is cheaper per seat.",
-          "desc": "We say it first. If drafting is what you need this year, buy the cheaper product. If you need an agent that touches real systems and evidences what it did, compare what each is allowed to do."
+          "desc": "We say it first. If drafting is enough, buy it. If agents must reach real systems, compare permissions."
         }
       ]
     },
     "roi": {
       "label": "The return",
-      "title": "It repays itself at a productivity gain of 0.77 percent.",
-      "body": [
-        "At 300 seats the landed cost is SAR 464,400 a year against a knowledge-worker value base of roughly SAR 60 million, using a modelled fully loaded cost of SAR 200,000 per worker. Replace that figure with your own and the case usually gets stronger.",
-        "Microsoft's own users report twenty to forty percent reductions in administrative task time, from a product that only drafts. We are asking you to believe in less than one percent.",
-        "One enforcement decision under the personal data law reaches SAR 5 million. We would rather you weighed that after walking through the architecture than before."
-      ]
+      "title": "Hours back every day, and it pays for itself in weeks.",
+      "cards": [
+        {
+          "icon": "bolt",
+          "title": "At least double the output.",
+          "desc": "Used daily, an agent finishes work a person only starts. Hours back every day, and the quality goes up with it."
+        },
+        {
+          "icon": "coins",
+          "title": "Breakeven at 0.77 percent.",
+          "desc": "At 300 seats the landed cost is SAR 464,400 a year against roughly SAR 60 million of knowledge-worker value. Replace our modelled SAR 200,000 per worker with your own figure."
+        },
+        {
+          "icon": "shield",
+          "title": "One avoided finding pays for ten years.",
+          "desc": "One enforcement decision under the personal data law reaches SAR 5 million. Weigh it after the architecture, not before."
+        }
+      ],
+      "note": "Microsoft's own users report twenty to forty percent reductions in administrative task time from a product that only drafts. Agents that execute go further."
     },
     "compare": {
       "label": "Against the cloud assistants",
       "title": "We concede three things loudly, and contest two.",
-      "lead": "Anthropic has the better model. Microsoft has the ecosystem. All three hold certifications we do not. The comparison that matters is what the agent is allowed to touch, where the evidence lands, who deploys it, and what the bill looks like in March.",
+      "lead": "Anthropic has the better model. Microsoft has the ecosystem. All three hold certifications today, and we certify the build before deployment on request. The comparison that matters is what the agent is allowed to touch, where the evidence lands, who deploys it, and what the bill looks like in March.",
       "columns": [
         "Microsoft 365 Copilot",
         "OpenAI ChatGPT Enterprise",
@@ -1255,7 +1274,7 @@
             "Held",
             "Held",
             "Held",
-            "None today, none scheduled"
+            "Certified before deployment, on request"
           ]
         }
       ],
@@ -1271,31 +1290,32 @@
         "Your integrator can build this, and they will build it well, once. Then the second use case is a new statement of work, the fourth is a new procurement cycle, and by year three you are maintaining a bespoke platform with people who have moved to another account.",
         "Wolffish is a Saudi engineering team and a product at the same time. The deployment is fixed at SAR 60,000, the platform is SAR 79 per employee per month, new capabilities are scoped and delivered inside the quarter, and when a better model ships you switch endpoint rather than rebuild. Two people built it, which is why source access and escrow sit in the contract rather than in the objection script."
       ],
-      "questionsLabel": "Two questions worth asking, whichever way you decide",
+      "questionsLabel": "Three questions to ask, either way",
       "questions": [
         "Who owns this in year three?",
-        "What does the fourth use case cost?"
+        "What does the fourth use case cost?",
+        "Which model will it run on in two years?"
       ]
     },
     "fit": {
       "label": "Who this is for",
-      "title": "Saudi-owned regulated enterprises of 200 to 600 knowledge workers.",
+      "title": "Saudi enterprises of 200 to 600 knowledge workers.",
       "yesTitle": "A fit if",
       "yes": [
-        "Insurance and takaful, mid-tier banks and finance companies, private healthcare groups, law firms, engineering and industrial groups, or a family holding with a shared services centre",
-        "Someone inside championing it: an owner, a technology lead, a department head or a security officer",
-        "At least one internal or legacy system nobody will integrate with",
-        "An AI pilot that stalled, and a wish for the governance parts this time",
-        "Larger regulated institutions of 600 to 2,500, reached with a partner and deployed by business unit"
+        "Insurance, banking, healthcare, legal, industrial or a family holding",
+        "An internal champion: owner, technology lead, department head or security",
+        "At least one internal system nobody will integrate with",
+        "An AI pilot that stalled, and a wish for the governance parts",
+        "Larger institutions of 600 to 2,500, deployed by business unit"
       ],
       "noTitle": "Not a fit if",
       "no": [
-        "Fewer than 200 knowledge workers. The engagement cannot repay the deployment engineering at any point in the contract",
-        "No internal champion. A platform nobody inside wants does not get used",
-        "No internal system of consequence, which reduces this to a harness comparison we do not win",
-        "A pure engineering organisation. The developer coding tools are better and cheaper, and we will say so",
-        "A free proof of concept before any conversation. The pilot is paid, and it comes after scoping",
-        "A held certification needed in the file this quarter"
+        "Fewer than 200 knowledge workers",
+        "No internal champion. A platform nobody wants goes unused",
+        "No internal system of consequence",
+        "A pure engineering organisation. The coding tools win there",
+        "A free proof of concept before any conversation",
+        "A chat assistant rather than agents that execute work"
       ],
       "closing": "We take four to six deployments a year, which is arithmetic rather than a sales tactic. Declining above fifteen percent of first calls is a target, not an accident."
     },
@@ -1327,7 +1347,7 @@
     },
     "faq": {
       "label": "Straight answers",
-      "title": "The questions an owner, a finance director and a security officer actually ask.",
+      "title": "What owners, finance and security actually ask.",
       "items": [
         {
           "q": "Why not the national champion? They are the national platform.",
@@ -1339,7 +1359,7 @@
         },
         {
           "q": "You are two people. What happens if you disappear?",
-          "a": "Source access and escrow, in the data room before you ask. Your platform keeps running because the agents execute on your machines and inference runs on your account. Escrow is partial today: the deed is drafted and no agent is appointed yet, which is why this answer names a state rather than claims a finished one. Then ask your integrator the same question about the four named people on your account."
+          "a": "Source access and escrow are in the contract from day one, and you hold the deployment, the logs and the admin layer from the start. Your platform keeps running because the agents execute on your machines and inference runs on your account. Then ask your integrator the same question about the four named people on your account."
         },
         {
           "q": "Our integrator can build this, or we will build it on open source.",
@@ -1347,7 +1367,7 @@
         },
         {
           "q": "What certifications do you hold?",
-          "a": "None today, and none is scheduled. That is a real gap and you should weigh it. What the architecture provides instead is that we never receive your data, so the questions that matter most to your auditor are about your own environment rather than ours. The Compliance Evidence Pack maps that to the controls your regulator applies, and it is in build."
+          "a": "None yet, and we will certify the build before deployment if you need it: a credible certifier contracted by us as a separate package, signed off before any agent executes a task. Meanwhile the architecture means we never receive your data, so your auditor's questions are about your own environment rather than ours."
         },
         {
           "q": "Can you show us a customer like us?",
@@ -1385,7 +1405,7 @@
     },
     "founder": {
       "label": "Who you will be working with",
-      "title": "Two people built this. Here is the escrow deed, before you ask.",
+      "title": "Two people built this. You hold the keys.",
       "body": [
         "Wolffish is built and run by Younes Alturkey, founder and engineer, who wrote the harness, the control plane and the relay stack himself. The person who designs your deployment is the person who wrote the platform, and the person who answers every question, security included, live on the first call, with no pre-sales engineer and no escalation.",
         "A Saudi entity, on Saudi paper, one message away. If we are not a fit, we say so on the first call rather than in month four."
