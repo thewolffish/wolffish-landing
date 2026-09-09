@@ -943,7 +943,7 @@
       "cautionTitle": "Said plainly, before you ask",
       "cautions": [
         {
-          "title": "Arabic interface, prompting, output and document handling",
+          "title": "Arabic interface and output",
           "desc": "Partly live across four surfaces. We show you exactly which on the call rather than describe it.",
           "status": "partial"
         },
