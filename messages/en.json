@@ -972,7 +972,7 @@
     },
     "how": {
       "label": "The process",
-      "title": "Six to eight weeks to a pilot cohort, for a standard scope.",
+      "title": "From the first call to rollout, step by step.",
       "lead": "Deployment is done by the people who built the platform, not handed to a partner. Governance is configured before the first agent runs, not retrofitted after the first incident.",
       "steps": [
         {
@@ -1433,8 +1433,10 @@
         "seats": "Knowledge workers",
         "seatsOptions": [
           "Under 200",
-          "200 to 600",
-          "600 to 2,500",
+          "200",
+          "300",
+          "500",
+          "1,000",
           "Over 2,500"
         ],
         "seatsNote": "Below 200 knowledge workers we are usually not the right fit. Send it anyway and we will tell you honestly.",

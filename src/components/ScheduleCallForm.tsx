@@ -50,8 +50,9 @@ export default function ScheduleCallForm({
   founderRole: string;
 }) {
   const [status, setStatus] = useState<Status>("idle");
-  const [seats, setSeats] = useState("");
-  const underFloor = seats !== "" && seats === ui.seatsOptions[0];
+  const defaultSeats = ui.seatsOptions[1] ?? ui.seatsOptions[0];
+  const [seats, setSeats] = useState(defaultSeats);
+  const underFloor = seats === ui.seatsOptions[0];
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -69,7 +70,7 @@ export default function ScheduleCallForm({
       if (!res.ok || !json.ok) throw new Error("send failed");
       setStatus("success");
       form.reset();
-      setSeats("");
+      setSeats(defaultSeats);
     } catch {
       setStatus("error");
     }
@@ -194,32 +195,43 @@ export default function ScheduleCallForm({
             className={FIELD}
           />
         </div>
-        <div>
-          <label htmlFor="sc-seats" className={LABEL}>
+        <div className="sm:col-span-2">
+          <span id="sc-seats-label" className={LABEL}>
             {ui.seats}
-          </label>
-          <select
-            id="sc-seats"
-            name="seats"
-            required
-            value={seats}
-            onChange={(e) => setSeats(e.target.value)}
-            className={`${FIELD} ${seats ? "" : "text-neutral-400"}`}
+          </span>
+          <input type="hidden" name="seats" value={seats} />
+          <div
+            role="radiogroup"
+            aria-labelledby="sc-seats-label"
+            className="flex flex-wrap gap-2"
           >
-            <option value="" disabled />
-            {ui.seatsOptions.map((option) => (
-              <option key={option} value={option} className="text-neutral-900">
-                {option}
-              </option>
-            ))}
-          </select>
+            {ui.seatsOptions.map((option) => {
+              const selected = option === seats;
+              return (
+                <button
+                  key={option}
+                  type="button"
+                  role="radio"
+                  aria-checked={selected}
+                  onClick={() => setSeats(option)}
+                  className={`px-3.5 py-1.5 rounded-full border text-[13px] font-medium transition-colors cursor-pointer ${
+                    selected
+                      ? "bg-emerald-600 border-emerald-600 text-white"
+                      : "bg-white border-neutral-200 text-neutral-600 hover:border-neutral-300 hover:text-neutral-900"
+                  }`}
+                >
+                  {option}
+                </button>
+              );
+            })}
+          </div>
           {underFloor && (
-            <p className="mt-1.5 text-[12px] leading-relaxed text-amber-700">
+            <p className="mt-2 text-[12px] leading-relaxed text-amber-700">
               {ui.seatsNote}
             </p>
           )}
         </div>
-        <div>
+        <div className="sm:col-span-2">
           <label htmlFor="sc-when" className={LABEL}>
             {ui.when}
           </label>

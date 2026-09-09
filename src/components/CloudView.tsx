@@ -11,7 +11,6 @@ import {
   FaBan,
   FaBolt,
   FaBook,
-  FaCodeBranch,
   FaCheck,
   FaChevronDown,
   FaCode,
@@ -48,6 +47,7 @@ import {
   type FloatingContactUi,
   type FounderUi,
 } from "./ContactCard";
+import { SiOpensourceinitiative } from "react-icons/si";
 import ScheduleCallForm, { type ScheduleFormUi } from "./ScheduleCallForm";
 
 /* ---------- data shapes (read from messages/*.json "cloud" in app/cloud/page.tsx) ---------- */
@@ -1014,7 +1014,7 @@ export default function CloudView({
             rel="noopener noreferrer"
             className="rounded-2xl bg-white border border-neutral-200 hover:border-neutral-300 transition-colors px-5 py-3 flex flex-col items-center justify-center gap-1.5 min-w-[150px]"
           >
-            <FaCodeBranch className="w-5 h-5 my-0.5 text-neutral-700" />
+            <SiOpensourceinitiative className="w-5 h-5 my-0.5 text-neutral-700" />
             <span className="text-[11px] text-neutral-500">{ui.badges.openSource}</span>
           </a>
         </div>
