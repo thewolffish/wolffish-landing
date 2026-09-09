@@ -105,8 +105,8 @@
       "cloud": {
         "name": "Younes Alturkey",
         "title": "Wolffish Cloud for your company",
-        "body": "One agent per employee, on their own machine, inside your perimeter, with inference on your own account. Published pricing, six to eight weeks to a pilot cohort. Younes builds it and takes the security call himself.",
-        "cta": "Schedule the security call"
+        "body": "One agent per employee, on their own machine, inside your perimeter, with inference on your own account. Published pricing, six to eight weeks to a pilot cohort. Younes builds it and takes the call himself.",
+        "cta": "Book a call"
       },
       "categories": {
         "news": "News",
@@ -802,10 +802,10 @@
       "home": "Home",
       "tag": "Cloud",
       "eyebrow": "In-perimeter agentic workforce platform · Kingdom of Saudi Arabia",
-      "primaryCta": "Schedule the security call",
+      "primaryCta": "Book a call",
       "secondaryCta": "How it works",
-      "micro": "Thirty minutes, with your security team in the room. If we are not a fit, we say so on the call.",
-      "whatsappText": "Hi Younes, I would like to schedule a security call about Wolffish Cloud.",
+      "micro": "Thirty minutes with whoever is driving this on your side. Security questions are welcome, we are ready for them. If we are not a fit, we say so on the call.",
+      "whatsappText": "Hi Younes, I would like to book a call about Wolffish Cloud.",
       "docs": "Docs",
       "blog": "Blog",
       "github": "GitHub",
@@ -970,9 +970,9 @@
       "lead": "Deployment is done by the people who built the platform, not handed to a partner. Governance is configured before the first agent runs, not retrofitted after the first incident.",
       "steps": [
         {
-          "title": "Security call",
+          "title": "The first call",
           "time": "30 minutes",
-          "desc": "At your office, with your security team in the room. We send the architecture diagram two working days ahead so the call is spent on questions. We say out loud who this is not for."
+          "desc": "With whoever is championing this on your side: an owner, a technology lead, a department head or a security officer. We talk about the work your people do and how an agent platform would reach it. Bring security questions, we are ready for them, and the architecture diagram arrives before the call."
         },
         {
           "title": "Scoping",
@@ -999,8 +999,8 @@
     },
     "security": {
       "label": "Security and control",
-      "title": "Built for the person who signs.",
-      "lead": "Everything below is architectural, not contractual. These are consequences of the fact that we never hold your data, and each one carries its status.",
+      "title": "Ready for the security review, whenever it comes.",
+      "lead": "Everything below is architectural, not contractual. These are consequences of the fact that we never hold your data, and each one carries its status. Ask us anything here on the first call or the tenth.",
       "pull": "You cannot leak data you never receive.",
       "points": [
         {
@@ -1060,7 +1060,7 @@
         {
           "icon": "ban",
           "title": "Certification",
-          "desc": "None held today, none scheduled. A claimed certification would lose your security officer permanently, so we would rather say this plainly.",
+          "desc": "None held today, none scheduled. We would rather say this plainly than have you find it in the review.",
           "status": "notHeld"
         }
       ]
@@ -1283,7 +1283,7 @@
       "yesTitle": "A fit if",
       "yes": [
         "Insurance and takaful, mid-tier banks and finance companies, private healthcare groups, law firms, engineering and industrial groups, or a family holding with a shared services centre",
-        "A named information security owner who signs",
+        "Someone inside championing it: an owner, a technology lead, a department head or a security officer",
         "At least one internal or legacy system nobody will integrate with",
         "An AI pilot that stalled, and a wish for the governance parts this time",
         "Larger regulated institutions of 600 to 2,500, reached with a partner and deployed by business unit"
@@ -1291,13 +1291,13 @@
       "noTitle": "Not a fit if",
       "no": [
         "Fewer than 200 knowledge workers. The engagement cannot repay the deployment engineering at any point in the contract",
-        "No named information security owner, because then the strongest argument on this page has no audience",
+        "No internal champion. A platform nobody inside wants does not get used",
         "No internal system of consequence, which reduces this to a harness comparison we do not win",
         "A pure engineering organisation. The developer coding tools are better and cheaper, and we will say so",
-        "A proof of concept wanted before the security call",
+        "A free proof of concept before any conversation. The pilot is paid, and it comes after scoping",
         "A held certification needed in the file this quarter"
       ],
-      "closing": "We take four to six deployments a year, which is arithmetic rather than a sales tactic. Declining above fifteen percent of security calls is a target, not an accident."
+      "closing": "We take four to six deployments a year, which is arithmetic rather than a sales tactic. Declining above fifteen percent of first calls is a target, not an accident."
     },
     "provide": {
       "label": "What we need from you",
@@ -1327,7 +1327,7 @@
     },
     "faq": {
       "label": "Straight answers",
-      "title": "The questions a security officer, a finance director and an owner actually ask.",
+      "title": "The questions an owner, a finance director and a security officer actually ask.",
       "items": [
         {
           "q": "Why not the national champion? They are the national platform.",
@@ -1351,7 +1351,7 @@
         },
         {
           "q": "Can you show us a customer like us?",
-          "a": "No. There is no reference customer yet, and we will not imply one. What we can offer is a paid pilot on your own systems with success criteria agreed in advance, escrow in the data room, and the full architecture in front of your security team before you spend anything."
+          "a": "No. There is no reference customer yet, and we will not imply one. What we can offer is a paid pilot on your own systems with success criteria agreed in advance, escrow in the data room, and the full architecture in front of whoever you want to review it before you spend anything."
         },
         {
           "q": "Our data cannot leave the Kingdom.",
@@ -1371,7 +1371,7 @@
         },
         {
           "q": "Send us a proposal.",
-          "a": "Before a proposal, thirty minutes with your security team in the room. If the architecture is not a fit, a proposal wastes both our weeks, and we will say so on the call."
+          "a": "Before a proposal, thirty minutes to understand the work your people do and the systems the agents would reach. A proposal written before that wastes both our weeks. Bring security questions, we answer them on the same call."
         },
         {
           "q": "How long until it is live?",
@@ -1387,7 +1387,7 @@
       "label": "Who you will be working with",
       "title": "Two people built this. Here is the escrow deed, before you ask.",
       "body": [
-        "Wolffish is built and run by Younes Alturkey, founder and engineer, who wrote the harness, the control plane and the relay stack himself. The person who designs your deployment is the person who wrote the platform, and the person who answers your security team live on the first call, with no pre-sales engineer and no escalation.",
+        "Wolffish is built and run by Younes Alturkey, founder and engineer, who wrote the harness, the control plane and the relay stack himself. The person who designs your deployment is the person who wrote the platform, and the person who answers every question, security included, live on the first call, with no pre-sales engineer and no escalation.",
         "A Saudi entity, on Saudi paper, working Sunday to Thursday in Riyadh time. If we are not a fit, we say so on the first call rather than in month four."
       ],
       "name": "Younes Alturkey",
@@ -1398,13 +1398,13 @@
     },
     "schedule": {
       "label": "Next step",
-      "title": "Schedule the security call.",
-      "body": "Thirty minutes, at your office or on a call, with your security team in the room. We send the architecture diagram two working days beforehand so the time is spent on questions. No proposal, no pricing negotiation and no proof of concept on this call.",
+      "title": "Book a call.",
+      "body": "Thirty minutes with whoever is championing this on your side. We talk about the work your people do, the systems the agents would reach, and what a first deployment would look like. Security questions are welcome at any point, and the architecture diagram arrives before the call so we can answer them properly.",
       "asideTitle": "What happens next",
       "aside": [
         "I read every request myself and reply to confirm a time.",
-        "The architecture diagram arrives two working days before the call.",
-        "Bring your security team. The call is for their questions."
+        "The architecture diagram arrives before the call.",
+        "Bring anyone you like. Security questions are welcome, and we are ready for them."
       ],
       "form": {
         "name": "Your name",
@@ -1422,7 +1422,7 @@
         "when": "Preferred days and time",
         "whenPlaceholder": "Sunday or Tuesday, after 10:00 Riyadh time",
         "message": "What should we know?",
-        "messagePlaceholder": "The systems you want agents to reach, your regulator, and who will be in the room.",
+        "messagePlaceholder": "The systems you want agents to reach, the teams you would start with, and any security questions.",
         "submit": "Request the call",
         "sending": "Sending",
         "successTitle": "Received. Thank you.",

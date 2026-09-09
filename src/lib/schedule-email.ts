@@ -1,4 +1,4 @@
-// Email templates for the /cloud "schedule the security call" form.
+// Email templates for the /cloud "book a call" form.
 // Plain HTML strings with inline styles so they read the same in every
 // client, and a text alternative for each. Sent through Resend from
 // src/app/api/schedule/route.ts.
@@ -73,9 +73,10 @@ function avatarBlock(locale: ScheduleLocale) {
   const role = locale === "ar" ? "المؤسس والمهندس، Wolffish" : "Founder & Engineer, Wolffish";
   return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin-bottom:20px;">
 <tr>
-<td style="padding-inline-end:12px;vertical-align:middle;">
+<td width="56" style="width:56px;vertical-align:middle;">
 <img src="${FOUNDER_IMAGE}" width="56" height="56" alt="${FOUNDER_NAME}" style="display:block;width:56px;height:56px;border-radius:50%;object-fit:cover;border:1px solid #e5e5e5;">
 </td>
+<td width="18" style="width:18px;font-size:0;line-height:0;">&nbsp;</td>
 <td style="vertical-align:middle;">
 <div style="font-size:15px;font-weight:600;color:#171717;">${FOUNDER_NAME}</div>
 <div style="font-size:13px;color:#737373;margin-top:2px;">${role}</div>
@@ -150,13 +151,13 @@ export function buildConfirmationEmail(req: ScheduleRequest) {
   const labels = LABELS[req.locale];
 
   if (req.locale === "ar") {
-    const subject = `مكالمتكم الأمنية مع Wolffish Cloud، ${firstName(req.name)}`;
+    const subject = `مكالمتكم مع Wolffish Cloud، ${firstName(req.name)}`;
     const html = frame(
       "ar",
       avatarBlock("ar") +
         p(`أهلاً ${first}،`) +
-        p("شكراً لطلبكم المكالمة الأمنية. وصلني طلبكم بنفسي، وسأردّ عليكم قريباً لتأكيد موعد يناسبكم.") +
-        p("قبل المكالمة بيومي عمل سأرسل لكم مخطط البنية، حتى نصرف الثلاثين دقيقة في أسئلة فريقكم لا في القراءة. أحضروا فريق الأمن معكم، فالمكالمة لهم.") +
+        p("شكراً لطلبكم المكالمة. وصلني طلبكم بنفسي، وسأردّ عليكم قريباً لتأكيد موعد يناسبكم.") +
+        p("قبل أن نتحدث سأرسل لكم مخطط البنية، حتى نصرف الثلاثين دقيقة في كيف تناسب منصة الوكلاء فرقكم، وفي أي سؤال أمني تريدون إجابته كما ينبغي. أحضروا من تشاؤون.") +
         p("وهذا ما أرسلتموه، للرجوع إليه:") +
         summaryTable(req, labels) +
         p("إن كان هناك ما تودّون إضافته قبل المكالمة، فردّوا على هذه الرسالة مباشرة أو راسلوني على واتساب. أعمل من الأحد إلى الخميس بتوقيت الرياض.") +
@@ -166,9 +167,9 @@ export function buildConfirmationEmail(req: ScheduleRequest) {
     const text = [
       `أهلاً ${firstName(req.name)}،`,
       "",
-      "شكراً لطلبكم المكالمة الأمنية. وصلني طلبكم بنفسي، وسأردّ عليكم قريباً لتأكيد موعد يناسبكم.",
+      "شكراً لطلبكم المكالمة. وصلني طلبكم بنفسي، وسأردّ عليكم قريباً لتأكيد موعد يناسبكم.",
       "",
-      "قبل المكالمة بيومي عمل سأرسل لكم مخطط البنية. أحضروا فريق الأمن معكم، فالمكالمة لهم.",
+      "قبل أن نتحدث سأرسل لكم مخطط البنية، حتى يذهب الوقت إلى كيف تناسب منصة الوكلاء فرقكم وإلى أي سؤال أمني تريدون إجابته. أحضروا من تشاؤون.",
       "",
       `${labels.company}: ${req.company}`,
       `${labels.role}: ${req.role}`,
@@ -188,13 +189,13 @@ export function buildConfirmationEmail(req: ScheduleRequest) {
     return { subject, html, text };
   }
 
-  const subject = `Your Wolffish Cloud security call, ${firstName(req.name)}`;
+  const subject = `Your Wolffish Cloud call, ${firstName(req.name)}`;
   const html = frame(
     "en",
     avatarBlock("en") +
       p(`Hi ${first},`) +
-      p("Thank you for asking for the security call. Your request landed with me personally, and I will reply shortly to confirm a time that works for you.") +
-      p("Two working days before the call I will send you the architecture diagram, so the thirty minutes go to your team's questions rather than to reading. Bring your security team. The call is for them.") +
+      p("Thank you for asking for a call. Your request landed with me personally, and I will reply shortly to confirm a time that works for you.") +
+      p("Before we speak I will send you the architecture diagram, so the thirty minutes go to how an agent platform would fit your teams, and to any security question you want answered properly. Bring anyone you like.") +
       p("Here is what you sent, for your records:") +
       summaryTable(req, labels) +
       p("If there is anything you would like to add before we speak, reply to this email or message me on WhatsApp. I work Sunday to Thursday, Riyadh time.") +
@@ -204,9 +205,9 @@ export function buildConfirmationEmail(req: ScheduleRequest) {
   const text = [
     `Hi ${firstName(req.name)},`,
     "",
-    "Thank you for asking for the security call. Your request landed with me personally, and I will reply shortly to confirm a time that works for you.",
+    "Thank you for asking for a call. Your request landed with me personally, and I will reply shortly to confirm a time that works for you.",
     "",
-    "Two working days before the call I will send you the architecture diagram. Bring your security team. The call is for them.",
+    "Before we speak I will send you the architecture diagram, so the time goes to how an agent platform would fit your teams, and to any security question you want answered. Bring anyone you like.",
     "",
     `${labels.company}: ${req.company}`,
     `${labels.role}: ${req.role}`,

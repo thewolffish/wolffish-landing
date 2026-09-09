@@ -896,7 +896,7 @@ export default function CloudView({
         </div>
       </Section>
 
-      {/* Schedule the security call */}
+      {/* Book a call */}
       <Section id="schedule" label={schedule.label} title={schedule.title}>
         <p className="mt-4 max-w-3xl text-sm md:text-[15px] leading-relaxed text-neutral-600">
           {schedule.body}

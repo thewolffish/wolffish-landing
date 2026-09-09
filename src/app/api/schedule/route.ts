@@ -9,7 +9,7 @@ import {
 } from "@/lib/schedule-email";
 
 // POST /api/schedule
-// Receives the "schedule the security call" form from /cloud and sends two
+// Receives the "book a call" form from /cloud and sends two
 // emails through Resend: a confirmation to the requester, and a notification
 // to the founder. Nothing is stored anywhere else.
 

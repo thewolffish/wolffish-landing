@@ -33,7 +33,7 @@ const FIELD =
 const LABEL = "block text-[12px] font-medium text-neutral-500 mb-1.5";
 
 /**
- * The "schedule the security call" form at the foot of /cloud. Posts to
+ * The "book a call" form at the foot of /cloud. Posts to
  * /api/schedule, which sends a confirmation to the requester and a
  * notification to the founder through Resend. The founder's photo sits on
  * the form so the request has a face on the other end.
