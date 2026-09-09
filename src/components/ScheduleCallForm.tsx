@@ -7,9 +7,13 @@ import { FOUNDER_IMAGE } from "./ContactCard";
 
 export interface ScheduleFormUi {
   name: string;
+  namePlaceholder: string;
   email: string;
+  emailPlaceholder: string;
   company: string;
+  companyPlaceholder: string;
   role: string;
+  rolePlaceholder: string;
   seats: string;
   seatsOptions: string[];
   seatsNote: string;
@@ -149,6 +153,7 @@ export default function ScheduleCallForm({
             required
             maxLength={120}
             autoComplete="name"
+            placeholder={ui.namePlaceholder}
             className={FIELD}
           />
         </div>
@@ -164,6 +169,7 @@ export default function ScheduleCallForm({
             maxLength={200}
             autoComplete="email"
             dir="ltr"
+            placeholder={ui.emailPlaceholder}
             className={`${FIELD} text-start`}
           />
         </div>
@@ -178,6 +184,7 @@ export default function ScheduleCallForm({
             required
             maxLength={160}
             autoComplete="organization"
+            placeholder={ui.companyPlaceholder}
             className={FIELD}
           />
         </div>
@@ -192,6 +199,7 @@ export default function ScheduleCallForm({
             required
             maxLength={120}
             autoComplete="organization-title"
+            placeholder={ui.rolePlaceholder}
             className={FIELD}
           />
         </div>
@@ -200,10 +208,11 @@ export default function ScheduleCallForm({
             {ui.seats}
           </span>
           <input type="hidden" name="seats" value={seats} />
+          {/* One row that scrolls sideways on phones, wraps from sm up. */}
           <div
             role="radiogroup"
             aria-labelledby="sc-seats-label"
-            className="flex flex-wrap gap-2"
+            className="flex flex-nowrap sm:flex-wrap gap-2 overflow-x-auto sm:overflow-visible -mx-6 px-6 sm:mx-0 sm:px-0"
           >
             {ui.seatsOptions.map((option) => {
               const selected = option === seats;
@@ -214,7 +223,7 @@ export default function ScheduleCallForm({
                   role="radio"
                   aria-checked={selected}
                   onClick={() => setSeats(option)}
-                  className={`px-3.5 py-1.5 rounded-full border text-[13px] font-medium transition-colors cursor-pointer ${
+                  className={`shrink-0 whitespace-nowrap px-3.5 py-1.5 rounded-full border text-[13px] font-medium transition-colors cursor-pointer ${
                     selected
                       ? "bg-emerald-600 border-emerald-600 text-white"
                       : "bg-white border-neutral-200 text-neutral-600 hover:border-neutral-300 hover:text-neutral-900"

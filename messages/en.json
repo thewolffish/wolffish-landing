@@ -1427,9 +1427,13 @@
       ],
       "form": {
         "name": "Your name",
+        "namePlaceholder": "Full name",
         "email": "Work email",
+        "emailPlaceholder": "you@company.sa",
         "company": "Company",
+        "companyPlaceholder": "Company name",
         "role": "Your role",
+        "rolePlaceholder": "Chief technology officer",
         "seats": "Knowledge workers",
         "seatsOptions": [
           "Under 200",
@@ -1441,7 +1445,7 @@
         ],
         "seatsNote": "Below 200 knowledge workers we are usually not the right fit. Send it anyway and we will tell you honestly.",
         "when": "Preferred days and time",
-        "whenPlaceholder": "Sunday or Tuesday, after 10:00 Riyadh time",
+        "whenPlaceholder": "Sunday or Tuesday, after 10:00",
         "message": "What should we know?",
         "messagePlaceholder": "The systems you want agents to reach, the teams you would start with, and any security questions.",
         "submit": "Request the call",
