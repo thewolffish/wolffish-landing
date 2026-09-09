@@ -1388,7 +1388,7 @@
       "title": "Two people built this. Here is the escrow deed, before you ask.",
       "body": [
         "Wolffish is built and run by Younes Alturkey, founder and engineer, who wrote the harness, the control plane and the relay stack himself. The person who designs your deployment is the person who wrote the platform, and the person who answers every question, security included, live on the first call, with no pre-sales engineer and no escalation.",
-        "A Saudi entity, on Saudi paper, working Sunday to Thursday in Riyadh time. If we are not a fit, we say so on the first call rather than in month four."
+        "A Saudi entity, on Saudi paper, one message away. If we are not a fit, we say so on the first call rather than in month four."
       ],
       "name": "Younes Alturkey",
       "role": "Founder & Engineer",
@@ -1434,7 +1434,7 @@
     },
     "floating": {
       "title": "Book a call with Younes",
-      "desc": "Founder and engineer, Sunday to Thursday. Email and WhatsApp are on the form."
+      "desc": "Founder and engineer. Tell me what you want agents to do, and we talk it through."
     }
   }
 }

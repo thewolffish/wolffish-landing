@@ -160,7 +160,7 @@ export function buildConfirmationEmail(req: ScheduleRequest) {
         p("قبل أن نتحدث سأرسل لكم مخطط البنية، حتى نصرف الثلاثين دقيقة في كيف تناسب منصة الوكلاء فرقكم، وفي أي سؤال أمني تريدون إجابته كما ينبغي. أحضروا من تشاؤون.") +
         p("وهذا ما أرسلتموه، للرجوع إليه:") +
         summaryTable(req, labels) +
-        p("إن كان هناك ما تودّون إضافته قبل المكالمة، فردّوا على هذه الرسالة مباشرة أو راسلوني على واتساب. أعمل من الأحد إلى الخميس بتوقيت الرياض.") +
+        p("إن كان هناك ما تودّون إضافته قبل المكالمة، فردّوا على هذه الرسالة مباشرة أو راسلوني على واتساب، في الوقت الذي يناسبكم.") +
         p("وإن تبيّن في المكالمة أننا لسنا الخيار المناسب لكم، سأقولها لكم بصراحة. هذا وعد.") +
         signature("ar")
     );
@@ -198,7 +198,7 @@ export function buildConfirmationEmail(req: ScheduleRequest) {
       p("Before we speak I will send you the architecture diagram, so the thirty minutes go to how an agent platform would fit your teams, and to any security question you want answered properly. Bring anyone you like.") +
       p("Here is what you sent, for your records:") +
       summaryTable(req, labels) +
-      p("If there is anything you would like to add before we speak, reply to this email or message me on WhatsApp. I work Sunday to Thursday, Riyadh time.") +
+      p("If there is anything you would like to add before we speak, reply to this email or message me on WhatsApp, whenever suits you.") +
       p("And if it turns out on the call that we are not the right fit for you, I will say so plainly. That is a promise.") +
       signature("en")
   );
