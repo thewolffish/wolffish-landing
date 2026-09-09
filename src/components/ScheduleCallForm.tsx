@@ -116,7 +116,7 @@ export default function ScheduleCallForm({
   return (
     <form
       onSubmit={onSubmit}
-      className="rounded-2xl bg-white border border-neutral-200 p-6 md:p-8"
+      className="min-w-0 rounded-2xl bg-white border border-neutral-200 p-6 md:p-8"
       noValidate={false}
     >
       <div className="flex items-center gap-3 mb-6">
@@ -141,7 +141,7 @@ export default function ScheduleCallForm({
         </label>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2 min-w-0">
         <div>
           <label htmlFor="sc-name" className={LABEL}>
             {ui.name}
@@ -203,7 +203,7 @@ export default function ScheduleCallForm({
             className={FIELD}
           />
         </div>
-        <div className="sm:col-span-2">
+        <div className="sm:col-span-2 min-w-0">
           <span id="sc-seats-label" className={LABEL}>
             {ui.seats}
           </span>
@@ -212,7 +212,7 @@ export default function ScheduleCallForm({
           <div
             role="radiogroup"
             aria-labelledby="sc-seats-label"
-            className="flex flex-nowrap sm:flex-wrap gap-2 overflow-x-auto sm:overflow-visible -mx-6 px-6 sm:mx-0 sm:px-0"
+            className="w-full min-w-0 flex flex-nowrap sm:flex-wrap gap-2 overflow-x-auto sm:overflow-visible -mx-6 px-6 sm:mx-0 sm:px-0"
           >
             {ui.seatsOptions.map((option) => {
               const selected = option === seats;
