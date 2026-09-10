@@ -14,15 +14,12 @@ import {
   groupConversationRows,
   type ConversationRow
 } from '@/playground/lib/conversation-rows'
-import { RTL_LOCALES, useLocale, useTranslation } from '@/playground/i18n'
+import { useLocale, useTranslation } from '@/playground/i18n'
 import { cn } from '@/playground/lib/cn'
-import { pageTopPadding } from '@/playground/lib/platform'
 import type { Project } from '@/playground/data/types'
 import { useDemo } from '@/playground/providers/PlaygroundProvider'
 import {
   Add01Icon,
-  ArrowLeft02Icon,
-  ArrowRight02Icon,
   BubbleChatIcon,
   Delete01Icon,
   Delete02Icon,
@@ -58,11 +55,10 @@ const iconButtonClass = cn(
  * project and drops into chat's project mode; everything else (create, edit,
  * delete, cards, autosave) mirrors the Procedures page.
  */
+/** Projects — one tab of the Library page, which owns the chrome around it. */
 export function Projects(): React.JSX.Element {
   const { t } = useTranslation()
   const { locale } = useLocale()
-  const isRtl = RTL_LOCALES.has(locale)
-  const BackIcon = isRtl ? ArrowRight02Icon : ArrowLeft02Icon
   const {
     goTo,
     projects,
@@ -186,21 +182,7 @@ export function Projects(): React.JSX.Element {
   }, [convDeleteTarget, deleteConversation])
 
   return (
-    <main className={cn('bg-bg flex h-full w-full flex-col', pageTopPadding)}>
-      <header className="border-border flex items-center justify-between gap-2 border-b px-6 py-3 max-sm:px-3">
-        <button
-          type="button"
-          onClick={() => goTo('chat')}
-          aria-label={t('common.back')}
-          className={cn(
-            'text-muted hover:text-fg flex cursor-pointer items-center gap-1.5 rounded-lg px-2 py-2 text-sm',
-            'focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg'
-          )}
-        >
-          <BackIcon size={16} />
-          <span>{t('common.back')}</span>
-        </button>
-      </header>
+    <>
 
       <div className="min-h-0 flex-1 overflow-y-auto">
         <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-6 py-10 max-sm:px-4 max-sm:py-6">
@@ -544,7 +526,7 @@ export function Projects(): React.JSX.Element {
           })}
         </p>
       </Modal>
-    </main>
+    </>
   )
 }
 

@@ -8,15 +8,12 @@ import { EditorSheet } from '@/playground/components/core/EditorSheet'
 import { ExpandedSheet } from '@/playground/components/core/ExpandedSheet'
 import { Modal } from '@/playground/components/core/Modal'
 import { useToast } from '@/playground/components/core/toast/useToast'
-import { RTL_LOCALES, useLocale, useTranslation } from '@/playground/i18n'
+import { useLocale, useTranslation } from '@/playground/i18n'
 import { cn } from '@/playground/lib/cn'
-import { pageTopPadding } from '@/playground/lib/platform'
 import type { ChatMode, Procedure, ProcedureFileRef } from '@/playground/data/types'
 import { useDemo, useDemoAction, useTheme } from '@/playground/providers/PlaygroundProvider'
 import {
   Add01Icon,
-  ArrowLeft02Icon,
-  ArrowRight02Icon,
   Delete02Icon,
   Edit02Icon,
   PlayIcon
@@ -76,12 +73,11 @@ const iconButtonClass = cn(
 /** Card emoji fallback for procedures that never picked one. */
 const DEFAULT_PROCEDURE_ICON = '📋'
 
+/** Procedures — one tab of the Library page, which owns the chrome around it. */
 export function Procedures(): React.JSX.Element {
   const { t } = useTranslation()
   const { locale } = useLocale()
   const { isDark } = useTheme()
-  const isRtl = RTL_LOCALES.has(locale)
-  const BackIcon = isRtl ? ArrowRight02Icon : ArrowLeft02Icon
   const { goTo, config, procedures, setProcedures, projects, newSession } = useDemo()
   const demoAction = useDemoAction()
   // Rows without a stamp follow the global mode — the pill shows that
@@ -338,21 +334,7 @@ export function Procedures(): React.JSX.Element {
   )
 
   return (
-    <main className={cn('bg-bg flex h-full w-full flex-col', pageTopPadding)}>
-      <header className="border-border flex items-center justify-between gap-2 border-b px-6 py-3 max-sm:px-3">
-        <button
-          type="button"
-          onClick={() => goTo('chat')}
-          aria-label={t('common.back')}
-          className={cn(
-            'text-muted hover:text-fg flex cursor-pointer items-center gap-1.5 rounded-lg px-2 py-2 text-sm',
-            'focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg'
-          )}
-        >
-          <BackIcon size={16} />
-          <span>{t('common.back')}</span>
-        </button>
-      </header>
+    <>
 
       <div className="min-h-0 flex-1 overflow-y-auto">
         <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-6 py-10 max-sm:px-4 max-sm:py-6">
@@ -774,6 +756,6 @@ export function Procedures(): React.JSX.Element {
           })}
         </p>
       </Modal>
-    </main>
+    </>
   )
 }
