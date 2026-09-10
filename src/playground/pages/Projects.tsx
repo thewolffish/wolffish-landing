@@ -1,0 +1,582 @@
+'use client'
+import { ChannelIcon } from '@/playground/components/common/ChannelIcon'
+import { ProjectDialog } from '@/playground/components/common/project-dialog/ProjectDialog'
+import { Badge } from '@/playground/components/core/Badge'
+import { Button } from '@/playground/components/core/Button'
+import { Modal } from '@/playground/components/core/Modal'
+import { useToast } from '@/playground/components/core/toast/useToast'
+import {
+  CONVERSATION_CHIP_BASE,
+  conversationChipClasses
+} from '@/playground/lib/conversation-chip'
+import {
+  buildConversationRows,
+  groupConversationRows,
+  type ConversationRow
+} from '@/playground/lib/conversation-rows'
+import { RTL_LOCALES, useLocale, useTranslation } from '@/playground/i18n'
+import { cn } from '@/playground/lib/cn'
+import { pageTopPadding } from '@/playground/lib/platform'
+import type { Project } from '@/playground/data/types'
+import { useDemo } from '@/playground/providers/PlaygroundProvider'
+import {
+  Add01Icon,
+  ArrowLeft02Icon,
+  ArrowRight02Icon,
+  BubbleChatIcon,
+  Delete01Icon,
+  Delete02Icon,
+  Edit02Icon,
+  File01Icon,
+  Folder01Icon
+} from 'hugeicons-react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+
+const FROM_NOW_RANGES: ReadonlyArray<readonly [Intl.RelativeTimeFormatUnit, number]> = [
+  ['day', 86_400_000],
+  ['hour', 3_600_000],
+  ['minute', 60_000]
+]
+
+function formatFromNow(targetMs: number, nowMs: number, locale: string): string {
+  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' })
+  const diff = targetMs - nowMs
+  for (const [unit, ms] of FROM_NOW_RANGES) {
+    if (Math.abs(diff) >= ms) return rtf.format(Math.round(diff / ms), unit)
+  }
+  return rtf.format(Math.round(diff / 1000), 'second')
+}
+
+const iconButtonClass = cn(
+  'text-muted flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg',
+  'focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg'
+)
+
+/**
+ * Projects — glorified conversations: instructions + a maintained file list,
+ * from which fresh conversations are spawned. Opening a card activates the
+ * project and drops into chat's project mode; everything else (create, edit,
+ * delete, cards, autosave) mirrors the Procedures page.
+ */
+export function Projects(): React.JSX.Element {
+  const { t } = useTranslation()
+  const { locale } = useLocale()
+  const isRtl = RTL_LOCALES.has(locale)
+  const BackIcon = isRtl ? ArrowRight02Icon : ArrowLeft02Icon
+  const {
+    goTo,
+    projects,
+    setProjects,
+    metas,
+    runStatuses,
+    activeProject,
+    setActiveProject,
+    activeConversationId,
+    newSession,
+    openConversation,
+    deleteConversation
+  } = useDemo()
+  const toast = useToast()
+
+  const [editing, setEditing] = useState<Project | null>(null)
+  const [deleteTarget, setDeleteTarget] = useState<Project | null>(null)
+  /** Project whose conversations dialog is open. */
+  const [convsProject, setConvsProject] = useState<Project | null>(null)
+  const [convDeleteTarget, setConvDeleteTarget] = useState<ConversationRow | null>(null)
+
+  // Per-project conversation stats derived from the conversation index:
+  // count + the latest activity timestamp ("last used" beats "last edited"
+  // as the card's recency signal — using a project IS its life sign).
+  const convStats = useMemo(() => {
+    const stats = new Map<string, { count: number; lastUsed: number }>()
+    for (const meta of metas) {
+      if (!meta.projectId) continue
+      const prev = stats.get(meta.projectId)
+      stats.set(meta.projectId, {
+        count: (prev?.count ?? 0) + 1,
+        lastUsed: Math.max(prev?.lastUsed ?? 0, meta.updatedAt)
+      })
+    }
+    return stats
+  }, [metas])
+
+  const [now, setNow] = useState(() => Date.now())
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 30_000)
+    return () => clearInterval(id)
+  }, [])
+
+  const handleCreate = useCallback(() => {
+    const stamp = Date.now()
+    const created: Project = {
+      id: `prj_${stamp.toString(36)}`,
+      title: '',
+      icon: '📁',
+      instructions: '',
+      files: [],
+      directories: [],
+      createdAt: stamp,
+      updatedAt: stamp
+    }
+    setProjects((prev) => [created, ...prev])
+    setEditing(created)
+  }, [setProjects])
+
+  const handleChanged = useCallback(
+    (updated: Project) => {
+      setEditing((prev) => (prev && prev.id === updated.id ? updated : prev))
+      // Keep chat's project mode coherent: editing the ACTIVE project here
+      // must update the chrome (hero, rail header) it renders from.
+      if (activeProject?.id === updated.id) setActiveProject(updated)
+    },
+    [activeProject, setActiveProject]
+  )
+
+  const closeEditor = useCallback(() => {
+    const current = editing
+    setEditing(null)
+    if (!current) return
+    // Title is required — a never-named fresh stub is discarded on close,
+    // mirroring the procedures create-then-abandon contract. The store, not
+    // the open snapshot, holds the title the dialog last wrote.
+    setProjects((prev) => {
+      const stored = prev.find((p) => p.id === current.id)
+      if (!stored || stored.title.trim() !== '') return prev
+      return prev.filter((p) => p.id !== current.id)
+    })
+  }, [editing, setProjects])
+
+  const handleDelete = useCallback(() => {
+    const target = deleteTarget
+    if (!target) return
+    setProjects((prev) => prev.filter((p) => p.id !== target.id))
+    setDeleteTarget(null)
+    // A deleted project can't stay "active" — chat would render project
+    // chrome while turns run with an empty overlay.
+    if (activeProject?.id === target.id) setActiveProject(null)
+    toast.show({ tone: 'success', message: t('projects.deleteSuccess') })
+  }, [deleteTarget, activeProject, setActiveProject, setProjects, t, toast])
+
+  const enterProject = useCallback(
+    (project: Project) => {
+      newSession({ projectId: project.id })
+      // After newSession, which resolves the binding from the demo fixtures —
+      // a project created in this session isn't in them, and would otherwise
+      // land in chat with no project chrome at all.
+      setActiveProject(project)
+      goTo('chat')
+    },
+    [setActiveProject, newSession, goTo]
+  )
+
+  // Resume a project conversation — History's exact open path: a live
+  // session wins (no reload); openConversation re-activates the project.
+  const handleResumeConversation = useCallback(
+    (id: string) => {
+      if (!openConversation(id)) return
+      goTo('chat')
+    },
+    [openConversation, goTo]
+  )
+
+  const handleDeleteConversation = useCallback(() => {
+    if (!convDeleteTarget) return
+    deleteConversation(convDeleteTarget.conversationId)
+    setConvDeleteTarget(null)
+  }, [convDeleteTarget, deleteConversation])
+
+  return (
+    <main className={cn('bg-bg flex h-full w-full flex-col', pageTopPadding)}>
+      <header className="border-border flex items-center justify-between gap-2 border-b px-6 py-3 max-sm:px-3">
+        <button
+          type="button"
+          onClick={() => goTo('chat')}
+          aria-label={t('common.back')}
+          className={cn(
+            'text-muted hover:text-fg flex cursor-pointer items-center gap-1.5 rounded-lg px-2 py-2 text-sm',
+            'focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg'
+          )}
+        >
+          <BackIcon size={16} />
+          <span>{t('common.back')}</span>
+        </button>
+      </header>
+
+      <div className="min-h-0 flex-1 overflow-y-auto">
+        <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-6 py-10 max-sm:px-4 max-sm:py-6">
+          <header className="flex flex-wrap items-start justify-between gap-3">
+            <div className="flex flex-col gap-1">
+              <div className="flex items-center gap-2">
+                <h1 className="text-fg text-2xl font-semibold tracking-tight">
+                  {t('projects.title')}
+                </h1>
+                <Badge variant="default" size="sm">
+                  {projects.length}
+                </Badge>
+              </div>
+              <p className="text-muted text-sm leading-relaxed">{t('projects.subtitle')}</p>
+            </div>
+            <Button size="sm" onClick={handleCreate} className="shrink-0">
+              <Add01Icon size={16} />
+              <span>{t('projects.new')}</span>
+            </Button>
+          </header>
+
+          {projects.length === 0 ? (
+            <div className="border-border text-muted rounded-2xl border border-dashed px-6 py-12 text-center text-sm">
+              {t('projects.empty')}
+            </div>
+          ) : (
+            // Services' landing grid, card for card: two columns of equal
+            // identity tiles — wide enough that a long name and its meta line
+            // stay readable. The instructions, files and folders are NOT on
+            // the card — they are what the edit sheet is for. One column on a
+            // phone: two of these tiles side by side leaves neither the name
+            // nor the row of action buttons a readable width.
+            <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {projects.map((project) => {
+                const name = project.title.trim() || t('projects.untitled')
+                const stats = convStats.get(project.id)
+                const fileCount = project.files.length
+                const dirCount = project.directories?.length ?? 0
+                // One mono line, the automations card's exact contract: facts
+                // joined by " · ", with anything that doesn't apply dropped
+                // rather than printed empty (a project nobody has opened yet
+                // has no "used" moment to report).
+                const metaLine = [
+                  t('projects.editedAt', { time: formatFromNow(project.updatedAt, now, locale) }),
+                  stats
+                    ? t('projects.usedAt', { time: formatFromNow(stats.lastUsed, now, locale) })
+                    : null,
+                  t('projects.conversationCount', { count: stats?.count ?? 0 })
+                ]
+                  .filter(Boolean)
+                  .join(' · ')
+                return (
+                  <li key={project.id} className="min-w-0">
+                    <div
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => enterProject(project)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') enterProject(project)
+                      }}
+                      title={name}
+                      className={cn(
+                        'bg-surface border-border hover:border-accent/50 flex h-full w-full cursor-pointer flex-col items-start gap-3 rounded-2xl border p-4 text-start',
+                        'focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none'
+                      )}
+                    >
+                      <div className="flex w-full items-center justify-between gap-2">
+                        <span
+                          aria-hidden
+                          className="border-border bg-bg flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border text-lg leading-none"
+                        >
+                          {project.icon || '📁'}
+                        </span>
+                        <div className="flex shrink-0 items-center">
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              setConvsProject(project)
+                            }}
+                            aria-label={t('projects.viewConversations')}
+                            title={t('projects.viewConversations')}
+                            className={cn(iconButtonClass, 'hover:text-fg')}
+                          >
+                            <BubbleChatIcon size={15} />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              setEditing(project)
+                            }}
+                            aria-label={t('projects.edit')}
+                            title={t('projects.edit')}
+                            className={cn(iconButtonClass, 'hover:text-fg')}
+                          >
+                            <Edit02Icon size={15} />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              setDeleteTarget(project)
+                            }}
+                            aria-label={t('projects.delete')}
+                            title={t('projects.delete')}
+                            className={cn(iconButtonClass, 'hover:text-rose-500')}
+                          >
+                            <Delete02Icon size={15} />
+                          </button>
+                        </div>
+                      </div>
+                      <span className="text-fg w-full truncate text-sm font-semibold">{name}</span>
+                      {/* What the project carries into every turn it spawns —
+                          its files and its working folders — as the composer's
+                          own count chips, so the two facts read off the card
+                          instead of only from inside the edit sheet. Each chip
+                          is absent at zero rather than showing "0", the
+                          contract the composer's chips already keep. */}
+                      {(fileCount > 0 || dirCount > 0) && (
+                        <div className="flex w-full flex-wrap items-center gap-1.5">
+                          <CountChip
+                            icon={<File01Icon size={13} />}
+                            count={fileCount}
+                            label={t('projects.files', { count: fileCount })}
+                          />
+                          <CountChip
+                            icon={<Folder01Icon size={13} />}
+                            count={dirCount}
+                            label={t('projects.folders', { count: dirCount })}
+                          />
+                        </div>
+                      )}
+                      {/* Edit stamp, last use and the conversation count —
+                          reference detail, in the mono well the automations
+                          cards use, pinned to the bottom so every card in the
+                          row ends on the same line. */}
+                      <code className="border-border bg-bg text-muted mt-auto line-clamp-2 w-full rounded-lg border px-2 py-1 font-mono text-[10px] leading-relaxed">
+                        {metaLine}
+                      </code>
+                    </div>
+                  </li>
+                )
+              })}
+            </ul>
+          )}
+        </div>
+      </div>
+
+      <ProjectDialog project={editing} onClose={closeEditor} onChanged={handleChanged} />
+
+      {/* Project conversations — single column, History's exact card style,
+          scoped to this project: resume on click, delete on hover. */}
+      <Modal
+        open={convsProject !== null}
+        onClose={() => setConvsProject(null)}
+        title={
+          convsProject
+            ? `${convsProject.icon || '📁'} ${convsProject.title.trim() || t('projects.untitled')}`
+            : ''
+        }
+        className="max-w-xl"
+      >
+        {(() => {
+          if (!convsProject) return null
+          // The rail's exact merge — indexed conversations PLUS this session's
+          // live runs — so a conversation started inside this project shows its
+          // pulsing chip here too, whatever channel started it. A live-only row
+          // has no indexed projectId yet, so the one being created right now
+          // bridges through on its id (only while THIS project is the active
+          // one — otherwise it belongs to some other project's dialog).
+          const rows = buildConversationRows({
+            metas,
+            runStatuses,
+            projects,
+            untitled: t('chat.conversationsUntitled')
+          }).filter(
+            (r) =>
+              r.projectId === convsProject.id ||
+              (!r.indexed &&
+                activeProject?.id === convsProject.id &&
+                r.conversationId === activeConversationId)
+          )
+          if (rows.length === 0) {
+            return (
+              <p className="text-muted py-6 text-center text-sm">{t('projects.noConversations')}</p>
+            )
+          }
+          // The app-wide recency buckets, on the page's own ticking `now` so the
+          // headers and the "x minutes ago" stamps under them agree.
+          const groups = groupConversationRows(rows, now)
+          return (
+            <div className="flex max-h-96 flex-col gap-3 overflow-y-auto">
+              {groups.map((group) => (
+                <div key={group.key} className="flex flex-col gap-0.5">
+                  {/* Inset to the rows' padding so it aligns with the titles. */}
+                  <h3 className="text-muted px-4 pt-1 text-[11px] font-medium tracking-wide uppercase">
+                    {t(group.labelKey)}
+                  </h3>
+                  {group.rows.map((row, i) => {
+                    // Rank in the WHOLE dialog list — the chip keeps counting
+                    // across headers rather than restarting under each.
+                    const position = group.startIndex + i
+                    const isActive = activeConversationId === row.conversationId
+                    const processing = row.phase === 'processing'
+                    const title = row.title
+                    return (
+                      <div
+                        key={row.conversationId}
+                        className={cn(
+                          'group flex items-center gap-3 rounded-xl px-4 py-3',
+                          // History's row treatment, inverted for the surface-
+                          // colored modal card: the fill is bg (not surface),
+                          // else hover/active would vanish into the card.
+                          'hover:bg-bg cursor-pointer',
+                          isActive && 'bg-bg border-border border'
+                        )}
+                        onClick={() => {
+                          setConvsProject(null)
+                          handleResumeConversation(row.conversationId)
+                        }}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            setConvsProject(null)
+                            handleResumeConversation(row.conversationId)
+                          }
+                        }}
+                      >
+                        <span
+                          aria-hidden
+                          className={cn(
+                            CONVERSATION_CHIP_BASE,
+                            conversationChipClasses(row.phase, isActive)
+                          )}
+                        >
+                          {position}
+                        </span>
+                        <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+                          <div className="flex min-w-0 items-center gap-1.5">
+                            <span className="text-fg truncate text-sm font-medium">{title}</span>
+                            <ChannelIcon
+                              channel={row.channel}
+                              size={12}
+                              className="text-muted shrink-0"
+                            />
+                          </div>
+                          <span className="text-muted text-xs">
+                            {formatFromNow(row.updatedAt, now, locale)}
+                          </span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            if (!processing) setConvDeleteTarget(row)
+                          }}
+                          disabled={processing}
+                          aria-label={t('history.delete')}
+                          title={processing ? t('history.processing') : undefined}
+                          className={cn(
+                            // A phone has no hover, so the reveal-on-hover
+                            // control would never be reachable there.
+                            'text-muted rounded-lg p-1.5 opacity-0',
+                            'group-hover:opacity-100',
+                            processing
+                              ? 'cursor-not-allowed opacity-40 max-sm:opacity-40'
+                              : 'cursor-pointer hover:text-red-600 dark:hover:text-red-400 max-sm:opacity-100',
+                            'focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-accent'
+                          )}
+                        >
+                          <Delete01Icon size={14} />
+                        </button>
+                      </div>
+                    )
+                  })}
+                </div>
+              ))}
+            </div>
+          )
+        })()}
+      </Modal>
+
+      <Modal
+        open={convDeleteTarget !== null}
+        onClose={() => setConvDeleteTarget(null)}
+        title={t('history.deleteTitle')}
+        footer={
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setConvDeleteTarget(null)}
+              className="flex-1"
+            >
+              {t('history.deleteCancel')}
+            </Button>
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={handleDeleteConversation}
+              className="flex-1 border border-transparent bg-red-600 text-white shadow-none hover:bg-red-700"
+            >
+              {t('history.deleteConfirm')}
+            </Button>
+          </div>
+        }
+      >
+        <p className="text-muted">{t('history.deleteWarning')}</p>
+      </Modal>
+
+      <Modal
+        open={deleteTarget !== null}
+        onClose={() => setDeleteTarget(null)}
+        title={t('projects.deleteTitle')}
+        footer={
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setDeleteTarget(null)}
+              className="flex-1"
+            >
+              {t('projects.deleteCancel')}
+            </Button>
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={handleDelete}
+              className="flex-1 border border-transparent bg-red-600 text-white shadow-none hover:bg-red-700"
+            >
+              {t('projects.deleteConfirm')}
+            </Button>
+          </div>
+        }
+      >
+        <p className="text-muted">
+          {t('projects.deleteWarning', {
+            name: deleteTarget?.title.trim() || t('projects.untitled')
+          })}
+        </p>
+      </Modal>
+    </main>
+  )
+}
+
+/**
+ * A count worn as a chip — the composer's file/log chips, minus the click:
+ * the same 28px bordered frame and 1px `border-border` stroke, static because
+ * the card around it is itself the button. Absent at zero, so a project with
+ * no folders carries no dead "0" chip.
+ */
+function CountChip({
+  icon,
+  count,
+  label
+}: {
+  icon: React.ReactNode
+  count: number
+  /** "Files (3)" — the words the icon stands in for, for tooltip and a11y. */
+  label: string
+}): React.JSX.Element | null {
+  if (count === 0) return null
+  return (
+    <span
+      title={label}
+      aria-label={label}
+      className={cn(
+        'border-border text-muted flex h-7 shrink-0 items-center gap-1 rounded-lg border px-1.5'
+      )}
+    >
+      {icon}
+      <span dir="ltr" className="text-[10px] leading-none font-medium tabular-nums">
+        {count}
+      </span>
+    </span>
+  )
+}

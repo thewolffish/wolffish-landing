@@ -1,5 +1,32 @@
 @import "tailwindcss";
 
+/* Class-driven dark mode for the /cloud playground (the desktop replica);
+   the rest of the site never uses `dark:` so this changes nothing there. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* The desktop app's semantic tokens (apps/desktop main.css), so the
+   playground's ported components resolve `bg-bg`, `text-fg`, `text-muted`,
+   `border-border`, `bg-primary`, `text-accent` exactly as the Electron app
+   does. Dark values are overridden under `:root.dark` in playground.css. */
+@theme {
+  --color-ocean: #1b365d;
+  --color-arctic: #a5d8ff;
+  --color-cyan: #00d4ff;
+  --color-void: #0d1117;
+  --color-frosted: #f0f4f8;
+  --color-cloud: #ffffff;
+
+  --color-bg: #f0f4f8;
+  --color-surface: #ffffff;
+  --color-fg: #0d1117;
+  --color-muted: #5b6778;
+  --color-border: #d5dde5;
+  --color-primary: #1b365d;
+  --color-primary-fg: #ffffff;
+  --color-accent: #00d4ff;
+  --color-ring: #1b365d;
+}
+
 @layer base {
   html,
   body {
@@ -28,4 +55,18 @@
   html {
     scroll-behavior: smooth;
   }
+}
+
+/* The hero playground's loading bar — an indeterminate sweep. */
+@keyframes wf-indeterminate {
+  0% {
+    transform: translateX(-250%);
+  }
+  100% {
+    transform: translateX(350%);
+  }
+}
+
+.wf-indeterminate {
+  animation: wf-indeterminate 1.4s ease-in-out infinite;
 }

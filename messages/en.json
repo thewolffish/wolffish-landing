@@ -858,7 +858,7 @@
     },
     "problem": {
       "label": "Why now",
-      "title": "Your people already use AI. The question is whether you can see it, cap it and audit it.",
+      "title": "Your staff already use AI. Can you see, cap and audit it?",
       "body": [
         "Eighty-one percent of Saudi enterprises already deploy AI, per SAP's 2025 survey of the Kingdom. The ones who have not sanctioned it have it anyway: personal accounts, company data in the prompt, no transfer basis on file, and no record you could hand an auditor.",
         "Every vendor on your shortlist offers the same fix, a contractual commitment about how they will handle your data after they receive it. That commitment is a document, and you are the one who defends it to the regulator. The personal data law reaches SAR 5 million per breach, and no adequacy list has been published.",
@@ -1444,8 +1444,6 @@
           "Over 2,500"
         ],
         "seatsNote": "Below 200 knowledge workers we are usually not the right fit. Send it anyway and we will tell you honestly.",
-        "when": "Preferred days and time",
-        "whenPlaceholder": "Sunday or Tuesday, after 10:00",
         "message": "What should we know?",
         "messagePlaceholder": "The systems you want agents to reach, the teams you would start with, and any security questions.",
         "submit": "Request the call",
@@ -1460,6 +1458,15 @@
     "floating": {
       "title": "Book a call with Younes",
       "desc": "Founder and engineer. Tell me what you want agents to do, and we talk it through."
+    },
+    "playground": {
+      "cardTitle": "Try the desktop app, on demo data",
+      "cardDesc": "This is the Wolffish Cloud desktop app an employee sees, running on sample work: twenty engineering conversations with their files, the settings, automations, projects and the admin layer. Open anything and click anywhere; nothing runs and nothing leaves your browser.",
+      "title": "Wolffish Cloud — Younes Alturkey",
+      "badge": "Interactive demo",
+      "open": "Open full screen",
+      "hint": "A replica of the desktop app on demo data: every page, setting and file opens; nothing runs. Twenty real engineering conversations, the settings, the automations and the admin layer, exactly as an employee sees them.",
+      "loading": "Loading the desktop…"
     }
   }
 }

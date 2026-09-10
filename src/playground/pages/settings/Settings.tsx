@@ -1,0 +1,635 @@
+'use client'
+
+import { BraveLogo } from '@/playground/components/core/ProviderLogos'
+import {
+  RTL_LOCALES,
+  useLocale,
+  useTranslation,
+  type SupportedLocale
+} from '@/playground/i18n'
+import { cn } from '@/playground/lib/cn'
+import { pageTopPadding } from '@/playground/lib/platform'
+import { BravePanel } from '@/playground/pages/settings/BravePanel'
+import { ComputerUsePanel } from '@/playground/pages/settings/ComputerUsePanel'
+import { SpeechToTextPanel } from '@/playground/pages/settings/SpeechToTextPanel'
+import { TextToSpeechPanel } from '@/playground/pages/settings/TextToSpeechPanel'
+import { BrowserExtensionPanel } from '@/playground/pages/settings/BrowserExtensionPanel'
+import { CapabilitiesPanel } from '@/playground/pages/settings/CapabilitiesPanel'
+import { ModelsPanel } from '@/playground/pages/settings/ModelsPanel'
+import { CompactionPanel } from '@/playground/pages/settings/CompactionPanel'
+import { ReflectionPanel } from '@/playground/pages/settings/ReflectionPanel'
+import { DataPanel } from '@/playground/pages/settings/DataPanel'
+import { InAppPanel } from '@/playground/pages/settings/InAppPanel'
+import { McpPanel } from '@/playground/pages/settings/McpPanel'
+import { MobilePanel } from '@/playground/pages/settings/MobilePanel'
+import { UsagePanel } from '@/playground/pages/settings/UsagePanel'
+import { VariablesPanel } from '@/playground/pages/settings/VariablesPanel'
+import { WolffishPanel } from '@/playground/pages/settings/WolffishPanel'
+import { OrgManagedNotice } from '@/playground/pages/settings/OrgManagedNotice'
+import { useDemo, useTheme } from '@/playground/providers/PlaygroundProvider'
+import type { ThemeSource } from '@/playground/data/types'
+import {
+  AiMagicIcon,
+  AnalyticsUpIcon,
+  ArrowLeft02Icon,
+  ArrowRight02Icon,
+  BrainIcon,
+  BrowserIcon,
+  BubbleChatIcon,
+  ComputerIcon,
+  Database02Icon,
+  DnaIcon,
+  Key01Icon,
+  McpServerIcon,
+  Mic01Icon,
+  VolumeHighIcon,
+  NeuralNetworkIcon,
+  PaintBoardIcon,
+  PuzzleIcon,
+  SmartPhone01Icon
+} from 'hugeicons-react'
+import { useCallback, useEffect, useState, type ReactNode } from 'react'
+
+import { SettingsCardGrid } from '@/playground/pages/settings/SettingsCardGrid'
+import {
+  consumeNextTab,
+  DrillBackContext,
+  onTabRequest,
+  type TabKey
+} from '@/playground/pages/settings/settingsNav'
+export type { TabKey } from '@/playground/pages/settings/settingsNav'
+
+type Tab = {
+  key: TabKey
+  icon: React.ReactNode
+  labelKey: string
+}
+
+const TABS: Tab[] = [
+  { key: 'channels', icon: <BubbleChatIcon size={18} />, labelKey: 'settings.tabs.channels' },
+  { key: 'model', icon: <NeuralNetworkIcon size={18} />, labelKey: 'settings.tabs.model' },
+  { key: 'services', icon: <PuzzleIcon size={18} />, labelKey: 'settings.tabs.services' },
+  { key: 'mcp', icon: <McpServerIcon size={18} />, labelKey: 'settings.tabs.mcp' },
+  { key: 'variables', icon: <Key01Icon size={18} />, labelKey: 'settings.tabs.variables' },
+  { key: 'capabilities', icon: <BrainIcon size={18} />, labelKey: 'settings.tabs.capabilities' },
+  { key: 'knowledge', icon: <DnaIcon size={18} />, labelKey: 'settings.tabs.knowledge' },
+  { key: 'usage', icon: <AnalyticsUpIcon size={18} />, labelKey: 'settings.tabs.usage' },
+  { key: 'data', icon: <Database02Icon size={18} />, labelKey: 'settings.tabs.data' },
+  { key: 'wolffish', icon: <AiMagicIcon size={18} />, labelKey: 'settings.tabs.wolffish' },
+  { key: 'appearance', icon: <PaintBoardIcon size={18} />, labelKey: 'settings.tabs.appearance' }
+]
+
+type SettingsSnapshot = {
+  tab: TabKey
+  channel: Channel
+  service: Service | null
+  knowledgeTab: KnowledgeTab
+}
+
+// The desktop persists the last opened tab into config; here the same
+// snapshot lives for the lifetime of the page, so leaving Settings and
+// coming back lands where you were.
+let memo: SettingsSnapshot | null = null
+
+function restoreSnapshot(): SettingsSnapshot {
+  if (memo) return memo
+  const result: SettingsSnapshot = {
+    tab: 'channels',
+    channel: 'inapp',
+    service: null,
+    knowledgeTab: 'compaction'
+  }
+  memo = result
+  return result
+}
+
+export function Settings(): React.JSX.Element {
+  const { t } = useTranslation()
+  const { locale } = useLocale()
+  const isRtl = RTL_LOCALES.has(locale)
+  const BackIcon = isRtl ? ArrowRight02Icon : ArrowLeft02Icon
+  const { goTo } = useDemo()
+
+  const [snapshot] = useState(() => restoreSnapshot())
+
+  const [active, setActiveRaw] = useState<TabKey>(() => {
+    return consumeNextTab() ?? snapshot.tab
+  })
+  const [channel, setChannelRaw] = useState<Channel>(snapshot.channel)
+  const [service, setServiceRaw] = useState<Service | null>(snapshot.service)
+  const [knowledgeTab, setKnowledgeTabRaw] = useState<KnowledgeTab>(snapshot.knowledgeTab)
+
+  const setActive = useCallback(
+    (key: TabKey) => {
+      setActiveRaw(key)
+      const next: SettingsSnapshot = { ...(memo ?? snapshot), tab: key }
+      // Activating Services always lands on the card grid — the sidebar
+      // tab is the way back out of a drilled-open card.
+      if (key === 'services') {
+        next.service = null
+        setServiceRaw(null)
+      }
+      memo = next
+    },
+    [snapshot]
+  )
+
+  const setChannel = useCallback(
+    (ch: Channel) => {
+      setChannelRaw(ch)
+      memo = { ...(memo ?? snapshot), channel: ch }
+    },
+    [snapshot]
+  )
+
+  const setService = useCallback(
+    (s: Service | null) => {
+      setServiceRaw(s)
+      memo = { ...(memo ?? snapshot), service: s }
+    },
+    [snapshot]
+  )
+
+  const setKnowledgeTab = useCallback(
+    (kt: KnowledgeTab) => {
+      setKnowledgeTabRaw(kt)
+      memo = { ...(memo ?? snapshot), knowledgeTab: kt }
+    },
+    [snapshot]
+  )
+
+  // Nested panels (capability gate cards) can ask to jump to another tab.
+  useEffect(() => onTabRequest(setActive), [setActive])
+
+  const ServicePanel = service !== null ? SERVICE_PANELS[service] : null
+
+  // Stable context values for the drilled panels' title-row back chevrons.
+  const backToServices = useCallback(() => setService(null), [setService])
+
+  return (
+    <main className={cn('bg-bg flex h-full w-full max-sm:flex-col', pageTopPadding)}>
+      {/* Phones have no room for a 224px rail, so the same nav ships twice:
+          the desktop column below, and a horizontal strip above the panel
+          here. Same state, same labels — only the axis changes. */}
+      <div className="border-border flex shrink-0 flex-col gap-1 border-b p-2 sm:hidden">
+        <div className="flex items-center gap-1">
+          <button
+            type="button"
+            onClick={() => goTo('chat')}
+            aria-label={t('common.back')}
+            className={cn(
+              'text-muted hover:text-fg flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-lg',
+              'focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg'
+            )}
+          >
+            <BackIcon size={16} />
+          </button>
+          <div
+            role="tablist"
+            aria-orientation="horizontal"
+            className="flex min-w-0 flex-1 gap-1 overflow-x-auto"
+          >
+            {TABS.map((tab) => {
+              const isActive = active === tab.key
+              return (
+                <button
+                  key={tab.key}
+                  role="tab"
+                  type="button"
+                  aria-selected={isActive}
+                  onClick={() => setActive(tab.key)}
+                  className={cn(
+                    'flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-2 text-sm whitespace-nowrap',
+                    'focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
+                    isActive
+                      ? 'bg-primary text-primary-fg shadow-sm'
+                      : 'text-muted hover:bg-border/40 hover:text-fg'
+                  )}
+                >
+                  {tab.icon}
+                  <span>{t(tab.labelKey)}</span>
+                </button>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* The sub-tabs cannot nest under a horizontal strip, so they get
+            their own row of chips underneath it. */}
+        {active === 'channels' && (
+          <div className="flex gap-1 overflow-x-auto">
+            {CHANNELS.map((ch) => {
+              const subActive = channel === ch
+              const Icon = CHANNEL_ICONS[ch]
+              return (
+                <button
+                  key={ch}
+                  type="button"
+                  onClick={() => setChannel(ch)}
+                  className={cn(
+                    'flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs whitespace-nowrap',
+                    'focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
+                    subActive
+                      ? 'bg-border/50 text-fg font-medium'
+                      : 'text-muted hover:bg-border/30 hover:text-fg'
+                  )}
+                >
+                  <NavIcon icon={Icon} />
+                  <span>{t(`settings.channels.tabs.${ch}`)}</span>
+                </button>
+              )
+            })}
+          </div>
+        )}
+
+        {active === 'knowledge' && (
+          <div className="flex gap-1 overflow-x-auto">
+            {KNOWLEDGE_TABS.map((kt) => {
+              const subActive = knowledgeTab === kt
+              return (
+                <button
+                  key={kt}
+                  type="button"
+                  onClick={() => setKnowledgeTab(kt)}
+                  className={cn(
+                    'flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs whitespace-nowrap',
+                    'focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
+                    subActive
+                      ? 'bg-border/50 text-fg font-medium'
+                      : 'text-muted hover:bg-border/30 hover:text-fg'
+                  )}
+                >
+                  <span>{t(`settings.knowledge.tabs.${kt}`)}</span>
+                </button>
+              )
+            })}
+          </div>
+        )}
+      </div>
+
+      <aside className="flex w-56 min-w-56 shrink-0 flex-col gap-2 overflow-y-auto p-3 max-sm:hidden">
+        <button
+          type="button"
+          onClick={() => goTo('chat')}
+          aria-label={t('common.back')}
+          className={cn(
+            'text-muted hover:text-fg flex cursor-pointer items-center gap-1.5 rounded-lg px-2 py-2 text-sm',
+            'focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg'
+          )}
+        >
+          <BackIcon size={16} />
+          <span>{t('common.back')}</span>
+        </button>
+
+        <nav role="tablist" aria-orientation="vertical" className="mt-2 flex flex-col gap-1">
+          {TABS.map((tab) => {
+            const isActive = active === tab.key
+            return (
+              <div key={tab.key} className="flex flex-col">
+                <button
+                  role="tab"
+                  type="button"
+                  aria-selected={isActive}
+                  onClick={() => setActive(tab.key)}
+                  className={cn(
+                    'flex items-center gap-2 rounded-lg px-3 py-2 text-start text-sm cursor-pointer whitespace-nowrap',
+                    'focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
+                    isActive
+                      ? 'bg-primary text-primary-fg shadow-sm'
+                      : 'text-muted hover:bg-border/40 hover:text-fg'
+                  )}
+                >
+                  {tab.icon}
+                  <span>{t(tab.labelKey)}</span>
+                </button>
+
+                {/* Nested sub-tabs (Channels and Knowledge have them; Models
+                    and Services are card grids instead). The grid-rows trick
+                    gives us a smooth height collapse without measuring, and
+                    the 200ms ease keeps it subtle. */}
+                {tab.key === 'channels' && (
+                  <div
+                    className={cn(
+                      'grid transition-[grid-template-rows] duration-200 ease-out',
+                      isActive ? 'mt-1 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                    )}
+                  >
+                    <div className="overflow-hidden">
+                      <div className="flex flex-col gap-0.5 ps-7 pe-1 py-1">
+                        {CHANNELS.map((ch) => {
+                          const subActive = isActive && channel === ch
+                          const Icon = CHANNEL_ICONS[ch]
+                          return (
+                            <button
+                              key={ch}
+                              type="button"
+                              tabIndex={isActive ? 0 : -1}
+                              onClick={() => setChannel(ch)}
+                              className={cn(
+                                'flex items-center gap-2 rounded-lg px-3 py-1.5 text-start text-sm cursor-pointer whitespace-nowrap',
+                                'focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
+                                subActive
+                                  ? 'bg-border/50 text-fg font-medium'
+                                  : 'text-muted hover:bg-border/30 hover:text-fg'
+                              )}
+                            >
+                              <NavIcon icon={Icon} />
+                              <span>{t(`settings.channels.tabs.${ch}`)}</span>
+                            </button>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {tab.key === 'knowledge' && (
+                  <div
+                    className={cn(
+                      'grid transition-[grid-template-rows] duration-200 ease-out',
+                      isActive ? 'mt-1 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                    )}
+                  >
+                    <div className="overflow-hidden">
+                      <div className="flex flex-col gap-0.5 ps-7 pe-1 py-1">
+                        {KNOWLEDGE_TABS.map((kt) => {
+                          const subActive = isActive && knowledgeTab === kt
+                          return (
+                            <button
+                              key={kt}
+                              type="button"
+                              tabIndex={isActive ? 0 : -1}
+                              onClick={() => setKnowledgeTab(kt)}
+                              className={cn(
+                                'flex items-center gap-2 rounded-lg px-3 py-1.5 text-start text-sm cursor-pointer whitespace-nowrap',
+                                'focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
+                                subActive
+                                  ? 'bg-border/50 text-fg font-medium'
+                                  : 'text-muted hover:bg-border/30 hover:text-fg'
+                              )}
+                            >
+                              <span>{t(`settings.knowledge.tabs.${kt}`)}</span>
+                            </button>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </nav>
+      </aside>
+
+      <div className="min-w-0 flex-1 overflow-y-auto">
+        {/* Above every panel, not inside one: the org's overlay can claim a
+            path belonging to any of them, and a notice that only appeared on
+            the tab you happened to open would be the same silence in a
+            smaller room. Renders nothing while the org claims nothing. */}
+        <OrgManagedNotice className="mx-6 mt-6 max-sm:mx-4 max-sm:mt-4" />
+        <TabPanel active={active === 'appearance'}>
+          <AppearancePanel />
+        </TabPanel>
+        <TabPanel active={active === 'wolffish'}>
+          <WolffishPanel />
+        </TabPanel>
+        <TabPanel active={active === 'variables'}>
+          <VariablesPanel />
+        </TabPanel>
+        <TabPanel active={active === 'capabilities'}>
+          <CapabilitiesPanel />
+        </TabPanel>
+        <TabPanel active={active === 'knowledge' && knowledgeTab === 'compaction'}>
+          <CompactionPanel />
+        </TabPanel>
+        <TabPanel active={active === 'knowledge' && knowledgeTab === 'reflection'}>
+          <ReflectionPanel />
+        </TabPanel>
+        <TabPanel active={active === 'usage'}>
+          <UsagePanel />
+        </TabPanel>
+        <TabPanel active={active === 'data'}>
+          <DataPanel />
+        </TabPanel>
+        <TabPanel active={active === 'model'}>
+          <ModelsPanel />
+        </TabPanel>
+        {active === 'services' && service === null && (
+          <SettingsCardGrid
+            title={t('settings.services.titleWithCount', { count: SERVICES.length })}
+            subtitle={t('settings.services.subtitle')}
+            searchPlaceholder={t('settings.services.searchPlaceholder')}
+            emptyLabel={t('settings.services.noMatches')}
+            cards={SERVICES.map((s) => ({
+              id: s,
+              title: t(`settings.services.tabs.${s}`),
+              description: t(`settings.services.${s}.subtitle`),
+              glyph: <CardGlyph icon={SERVICE_ICONS[s]} />
+            }))}
+            onOpen={(id) => setService(id as Service)}
+          />
+        )}
+        {active === 'services' && ServicePanel && (
+          <DrillBackContext.Provider value={backToServices}>
+            <ServicePanel />
+          </DrillBackContext.Provider>
+        )}
+        <TabPanel active={active === 'channels' && channel === 'mobile'}>
+          <MobilePanel />
+        </TabPanel>
+        <TabPanel active={active === 'channels' && channel === 'inapp'}>
+          <InAppPanel />
+        </TabPanel>
+        <TabPanel active={active === 'channels' && channel === 'browser'}>
+          <BrowserExtensionPanel />
+        </TabPanel>
+        <TabPanel active={active === 'mcp'}>
+          <McpPanel />
+        </TabPanel>
+      </div>
+    </main>
+  )
+}
+
+function TabPanel({
+  active,
+  children
+}: {
+  active: boolean
+  children: ReactNode
+}): React.JSX.Element | null {
+  if (!active) return null
+  return <>{children}</>
+}
+
+type NavIconComponent = React.ComponentType<{ size?: number }>
+
+/**
+ * Sub-nav glyphs come from two families that do not agree on how much of the
+ * 24-unit box the art fills: hugeicons line icons draw into roughly 86/96,
+ * while Simple Icons brand marks are solid and run the full 96. Drawn at one
+ * size the brand marks read a size larger than everything around them, and the
+ * few sparser line icons read a size smaller, so those outliers get nudged
+ * until every glyph lands on the same optical size. Sizes are measured ink
+ * extents, not guesses — see NavIcon for why the box stays fixed.
+ */
+const NAV_ICON_SIZE = 14
+const NAV_ICON_SIZE_OVERRIDES = new Map<NavIconComponent, number>([
+  [BraveLogo, 13],
+  [BrowserIcon, 15]
+])
+
+/**
+ * The glyph resizes but its box does not — a 13px mark and a 15px icon both
+ * occupy 14px, so labels stay flush down the column instead of stepping in and
+ * out by a pixel per row.
+ */
+function NavIcon({ icon: Icon }: { icon: NavIconComponent }): React.JSX.Element {
+  return (
+    <span className="flex h-3.5 w-3.5 shrink-0 items-center justify-center">
+      <Icon size={NAV_ICON_SIZE_OVERRIDES.get(Icon) ?? NAV_ICON_SIZE} />
+    </span>
+  )
+}
+
+type Channel = 'inapp' | 'mobile' | 'browser'
+// Wolffish's own surfaces first (In-App, Mobile, Browser), then the
+// external messengers.
+const CHANNELS: Channel[] = ['inapp', 'mobile', 'browser']
+
+const CHANNEL_ICONS: Record<Channel, NavIconComponent> = {
+  inapp: ComputerIcon,
+  mobile: SmartPhone01Icon,
+  browser: BrowserIcon
+}
+
+type KnowledgeTab = 'compaction' | 'reflection'
+const KNOWLEDGE_TABS: KnowledgeTab[] = ['compaction', 'reflection']
+
+type Service = 'brave' | 'tts' | 'stt' | 'computerUse'
+
+// Every service, always. A new service is one entry here plus SERVICE_ICONS
+// and SERVICE_PANELS — the grid picks it up from there.
+const SERVICES: Service[] = ['brave', 'tts', 'stt', 'computerUse']
+
+const SERVICE_ICONS: Record<Service, NavIconComponent> = {
+  brave: BraveLogo,
+  tts: VolumeHighIcon,
+  stt: Mic01Icon,
+  computerUse: ComputerIcon
+}
+
+const SERVICE_PANELS: Record<Service, React.ComponentType> = {
+  brave: BravePanel,
+  tts: TextToSpeechPanel,
+  stt: SpeechToTextPanel,
+  computerUse: ComputerUsePanel
+}
+
+/**
+ * Card-sized glyph. Brand marks and line icons disagree on optical size the
+ * same way they do in the nav (see NAV_ICON_SIZE_OVERRIDES) — reuse those
+ * measured ratios, scaled up to the card size, inside a fixed box.
+ */
+const CARD_ICON_SIZE = 20
+function CardGlyph({ icon: Icon }: { icon: NavIconComponent }): React.JSX.Element {
+  const navSize = NAV_ICON_SIZE_OVERRIDES.get(Icon)
+  const size = navSize ? Math.round((navSize / NAV_ICON_SIZE) * CARD_ICON_SIZE) : CARD_ICON_SIZE
+  return (
+    <span className="flex h-5 w-5 items-center justify-center">
+      <Icon size={size} />
+    </span>
+  )
+}
+
+function AppearancePanel(): React.JSX.Element {
+  const { t } = useTranslation()
+  const { theme, setTheme } = useTheme()
+  const { locale, setLocale } = useLocale()
+  return (
+    <div className="flex min-h-full w-full items-start justify-center px-6 py-10">
+      <div className="flex w-full max-w-2xl flex-col gap-6">
+        <header className="flex flex-col gap-2">
+          <h1 className="text-fg text-2xl font-semibold tracking-tight">
+            {t('settings.appearance.title')}
+          </h1>
+          <p className="text-muted text-sm leading-relaxed">{t('settings.appearance.subtitle')}</p>
+        </header>
+        <section className="bg-surface border-border flex flex-col gap-6 rounded-2xl border p-6">
+          <AppearanceChoice<ThemeSource>
+            label={t('theme.label')}
+            description={t('settings.appearance.theme.description')}
+            value={theme}
+            options={[
+              { value: 'system', label: t('theme.system') },
+              { value: 'light', label: t('theme.light') },
+              { value: 'dark', label: t('theme.dark') }
+            ]}
+            onChange={(next) => void setTheme(next)}
+          />
+          <div className="border-border/60 border-t" />
+          <AppearanceChoice<SupportedLocale>
+            label={t('locale.label')}
+            description={t('settings.appearance.language.description')}
+            value={locale}
+            options={[
+              { value: 'en', label: t('locale.en') },
+              { value: 'ar', label: t('locale.ar') }
+            ]}
+            onChange={(next) => void setLocale(next)}
+          />
+        </section>
+      </div>
+    </div>
+  )
+}
+
+function AppearanceChoice<T extends string>({
+  label,
+  description,
+  value,
+  options,
+  onChange
+}: {
+  label: string
+  description: string
+  value: T
+  options: ReadonlyArray<{ value: T; label: string }>
+  onChange: (next: T) => void
+}): React.JSX.Element {
+  return (
+    <div className="flex flex-col gap-2">
+      <div className="flex items-center justify-between gap-4">
+        <span className="text-fg text-sm font-medium">{label}</span>
+        <div
+          role="tablist"
+          className="border-border bg-bg/40 inline-flex shrink-0 items-center rounded-lg border p-0.5"
+        >
+          {options.map((opt) => {
+            const active = opt.value === value
+            return (
+              <button
+                key={opt.value}
+                role="tab"
+                type="button"
+                aria-selected={active}
+                onClick={() => onChange(opt.value)}
+                className={cn(
+                  'rounded-md px-3 py-1 text-xs font-medium',
+                  'focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
+                  active
+                    ? 'bg-primary text-primary-fg shadow-sm'
+                    : 'text-muted hover:text-fg cursor-pointer'
+                )}
+              >
+                {opt.label}
+              </button>
+            )
+          })}
+        </div>
+      </div>
+      <p className="text-muted text-xs leading-relaxed">{description}</p>
+    </div>
+  )
+}

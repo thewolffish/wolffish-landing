@@ -41,3 +41,13 @@ public/fonts/               IBM Plex Sans Arabic .ttf files
 - The 3D ocean scene is client-only (`next/dynamic` with `ssr: false`). Never import `OceanScene.tsx` directly — use `OceanSceneClient.tsx`.
 - The logo (`icon_transparent.png`) is displayed next to the title via `next/image` in `LandingOverlay.tsx`.
 - Deployed on Vercel — pushes to `main` trigger production builds.
+
+## Cloud playground (`/cloud/playground`)
+
+The `/cloud` hero embeds a browser replica of the Wolffish Cloud desktop app in an iframe. It lives under `src/playground/`:
+
+- `data/` — the demo fixtures (Younes Alturkey at Wolffish Inc; conversations built with `data/conversations/dsl.ts`, timestamps relative to `data/clock.ts`). Adding a conversation is one module plus an entry in `data/conversations/index.ts`.
+- `providers/PlaygroundProvider.tsx` — app state; `useDemo()` for data and settings, `useDemoAction()` for buttons that cannot act in a demo (one toast).
+- `pages/`, `components/` — faithful ports of `wolffish-cloud/apps/desktop/src/renderer/src`; `i18n/en.json` and `i18n/ar.json` are verbatim copies of the desktop's locale files.
+- Binary sample files are served through `src/app/api/playground/sample/[name]/route.ts` (a proxy for `cdn.wolffi.sh/samples`); text deliverables carry inline content.
+- The desktop's design tokens live in `src/app/globals.css` (`@theme`) and `src/app/cloud/playground/playground.css`.

@@ -44,7 +44,6 @@ function parse(body: unknown): ScheduleRequest | { error: string } {
   const company = field(b, "company", 160);
   const role = field(b, "role", 120);
   const seats = field(b, "seats", 40);
-  const when = field(b, "when", 300);
   const message = field(b, "message", 3000);
   const locale: ScheduleLocale = b.locale === "ar" ? "ar" : "en";
 
@@ -54,7 +53,7 @@ function parse(body: unknown): ScheduleRequest | { error: string } {
   if (!EMAIL_RE.test(email)) return { error: "Invalid email address." };
   if (!SEATS.has(seats)) return { error: "Invalid seat band." };
 
-  return { name, email, company, role, seats, when, message, locale };
+  return { name, email, company, role, seats, message, locale };
 }
 
 export async function POST(request: Request) {

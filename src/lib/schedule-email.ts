@@ -18,7 +18,6 @@ export interface ScheduleRequest {
   company: string;
   role: string;
   seats: string;
-  when: string;
   message: string;
   locale: ScheduleLocale;
 }
@@ -96,7 +95,6 @@ function summaryTable(req: ScheduleRequest, labels: Record<keyof Omit<ScheduleRe
     [labels.company, req.company],
     [labels.role, req.role],
     [labels.seats, req.seats],
-    [labels.when, req.when],
     [labels.message, req.message],
   ];
   const dir = req.locale === "ar" ? "rtl" : "ltr";
@@ -130,7 +128,6 @@ const LABELS = {
     company: "Company",
     role: "Role",
     seats: "Knowledge workers",
-    when: "Preferred time",
     message: "Notes",
   },
   ar: {
@@ -139,7 +136,6 @@ const LABELS = {
     company: "الشركة",
     role: "المنصب",
     seats: "العاملون المعرفيون",
-    when: "الوقت المفضل",
     message: "ملاحظات",
   },
 } as const;
@@ -174,7 +170,6 @@ export function buildConfirmationEmail(req: ScheduleRequest) {
       `${labels.company}: ${req.company}`,
       `${labels.role}: ${req.role}`,
       `${labels.seats}: ${req.seats}`,
-      req.when ? `${labels.when}: ${req.when}` : "",
       req.message ? `${labels.message}: ${req.message}` : "",
       "",
       "وإن تبيّن في المكالمة أننا لسنا الخيار المناسب لكم، سأقولها لكم بصراحة.",
@@ -212,7 +207,6 @@ export function buildConfirmationEmail(req: ScheduleRequest) {
     `${labels.company}: ${req.company}`,
     `${labels.role}: ${req.role}`,
     `${labels.seats}: ${req.seats}`,
-    req.when ? `${labels.when}: ${req.when}` : "",
     req.message ? `${labels.message}: ${req.message}` : "",
     "",
     "If it turns out on the call that we are not the right fit for you, I will say so plainly.",
@@ -250,7 +244,6 @@ export function buildNotificationEmail(req: ScheduleRequest) {
     `${labels.company}: ${req.company}`,
     `${labels.role}: ${req.role}`,
     `${labels.seats}: ${req.seats}`,
-    req.when ? `${labels.when}: ${req.when}` : "",
     req.message ? `${labels.message}: ${req.message}` : "",
     "",
     `Reply to this email to reach ${firstName(req.name)} directly. A confirmation has already gone to ${req.email}.`,

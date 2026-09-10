@@ -17,8 +17,6 @@ export interface ScheduleFormUi {
   seats: string;
   seatsOptions: string[];
   seatsNote: string;
-  when: string;
-  whenPlaceholder: string;
   message: string;
   messagePlaceholder: string;
   submit: string;
@@ -239,19 +237,6 @@ export default function ScheduleCallForm({
               {ui.seatsNote}
             </p>
           )}
-        </div>
-        <div className="sm:col-span-2">
-          <label htmlFor="sc-when" className={LABEL}>
-            {ui.when}
-          </label>
-          <input
-            id="sc-when"
-            name="when"
-            type="text"
-            maxLength={300}
-            placeholder={ui.whenPlaceholder}
-            className={FIELD}
-          />
         </div>
         <div className="sm:col-span-2">
           <label htmlFor="sc-message" className={LABEL}>

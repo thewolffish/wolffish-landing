@@ -49,6 +49,7 @@ import {
 } from "./ContactCard";
 import { SiOpensourceinitiative } from "react-icons/si";
 import ScheduleCallForm, { type ScheduleFormUi } from "./ScheduleCallForm";
+import CloudPlayground, { type CloudPlaygroundUi } from "./CloudPlayground";
 
 /* ---------- data shapes (read from messages/*.json "cloud" in app/cloud/page.tsx) ---------- */
 
@@ -169,6 +170,7 @@ export interface CloudData {
     form: ScheduleFormUi;
   };
   floating: FloatingContactUi;
+  playground: CloudPlaygroundUi;
 }
 
 /* ---------- constants ---------- */
@@ -360,6 +362,7 @@ export default function CloudView({
     founder,
     schedule,
     floating,
+    playground,
   } = data;
   const router = useRouter();
   const [, startTransition] = useTransition();
@@ -441,6 +444,11 @@ export default function CloudView({
             </span>
           ))}
         </div>
+      </section>
+
+      {/* The desktop app itself, on demo data — every page, setting and file. */}
+      <section className="w-full max-w-6xl mx-auto px-4 md:px-6 pt-10 md:pt-14">
+        <CloudPlayground ui={playground} locale={locale} />
       </section>
 
       {/* The three pillars */}
