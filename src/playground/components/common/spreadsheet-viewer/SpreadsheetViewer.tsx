@@ -5,8 +5,10 @@ import { cn } from '@/playground/lib/cn'
 import { fileExt, useFileBytes } from '@/playground/lib/files'
 import { useDemoAction } from '@/playground/providers/PlaygroundProvider'
 import { Download01Icon, File01Icon, FolderOpenIcon, LinkSquare02Icon } from 'hugeicons-react'
-import { useMemo, useState } from 'react'
-import * as XLSX from 'xlsx'
+import { useEffect, useMemo, useState } from 'react'
+import type { WorkBook } from 'xlsx'
+
+type XlsxModule = typeof import('xlsx')
 
 export type SpreadsheetViewerProps = {
   filePath: string
@@ -48,7 +50,7 @@ function Deleted({ fileName }: { fileName: string }): React.JSX.Element {
 
 /** Delimited text (a conversation's inline .csv/.tsv) parses from a string;
  *  real workbooks (.xlsx/.xls) parse from the sample's bytes. */
-function parseWorkbook(bytes: ArrayBuffer, ext: string): XLSX.WorkBook {
+function parseWorkbook(XLSX: XlsxModule, bytes: ArrayBuffer, ext: string): WorkBook {
   if (ext === 'csv' || ext === 'tsv') {
     const text = new TextDecoder().decode(bytes)
     return XLSX.read(text, { type: 'string', raw: false })
@@ -61,27 +63,39 @@ function Active({ filePath, fileName }: { filePath: string; fileName: string }):
   const [activeSheet, setActiveSheet] = useState(0)
   const { bytes, error: bytesError } = useFileBytes(filePath)
   const demoAction = useDemoAction()
+  // The parser (~900 KB) loads the first time a workbook is on screen.
+  const [XLSX, setXlsx] = useState<XlsxModule | null>(null)
+  useEffect(() => {
+    if (!bytes || XLSX) return
+    let cancelled = false
+    void import('xlsx').then((mod) => {
+      if (!cancelled) setXlsx(mod)
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [bytes, XLSX])
 
-  // Parsing is synchronous once the bytes are in hand, so the workbook is
-  // derived rather than parked in state.
+  // Parsing is synchronous once the bytes and the parser are in hand, so
+  // the workbook is derived rather than parked in state.
   const parsed = useMemo(() => {
-    if (!bytes) return null
+    if (!bytes || !XLSX) return null
     try {
-      return { workbook: parseWorkbook(bytes, fileExt(filePath)), error: false as const }
+      return { workbook: parseWorkbook(XLSX, bytes, fileExt(filePath)), error: false as const }
     } catch {
       return { workbook: null, error: true as const }
     }
-  }, [bytes, filePath])
+  }, [XLSX, bytes, filePath])
 
   const workbook = parsed?.workbook ?? null
   const sheetNames = workbook?.SheetNames ?? []
 
   const html = useMemo(() => {
-    if (!workbook) return null
+    if (!workbook || !XLSX) return null
     const name = workbook.SheetNames[Math.min(activeSheet, workbook.SheetNames.length - 1)]
     const sheet = name ? workbook.Sheets[name] : undefined
     return sheet ? XLSX.utils.sheet_to_html(sheet) : null
-  }, [workbook, activeSheet])
+  }, [XLSX, workbook, activeSheet])
 
   if (bytesError || parsed?.error) return <Deleted fileName={fileName} />
 

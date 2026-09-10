@@ -12,14 +12,52 @@ import { ToastProvider, ToastViewport } from '@/playground/components/core/toast
 import { FloatingChrome } from '@/playground/components/common/floating-chrome/FloatingChrome'
 import { PlaygroundProvider, useDemo, type Screen } from '@/playground/providers/PlaygroundProvider'
 import type { SupportedLocale } from '@/playground/i18n'
+import dynamic from 'next/dynamic'
 import { Chat } from '@/playground/pages/Chat'
-import { Settings } from '@/playground/pages/settings/Settings'
-import { ViewerPage } from '@/playground/pages/ViewerPage'
-import { History } from '@/playground/pages/History'
-import { Library } from '@/playground/pages/Library'
-import { Customization } from '@/playground/pages/Customization'
-import { Leaderboard } from '@/playground/pages/Leaderboard'
-import { Admin } from '@/playground/pages/Admin'
+
+// Every screen but the chat is a separate chunk: the first paint carries the
+// chat alone, and the rest is warmed in the background once the restore is
+// through (see PlaygroundApp), so navigation still lands instantly.
+const PAGE_LOADERS = {
+  settings: () => import('@/playground/pages/settings/Settings').then((m) => ({ default: m.Settings })),
+  viewerpage: () => import('@/playground/pages/ViewerPage').then((m) => ({ default: m.ViewerPage })),
+  history: () => import('@/playground/pages/History').then((m) => ({ default: m.History })),
+  library: () => import('@/playground/pages/Library').then((m) => ({ default: m.Library })),
+  customization: () => import('@/playground/pages/Customization').then((m) => ({ default: m.Customization })),
+  leaderboard: () => import('@/playground/pages/Leaderboard').then((m) => ({ default: m.Leaderboard })),
+  admin: () => import('@/playground/pages/Admin').then((m) => ({ default: m.Admin }))
+}
+function Blank(): React.JSX.Element {
+  return <div className="bg-bg h-full w-full" aria-hidden />
+}
+const Settings = dynamic(() => import('@/playground/pages/settings/Settings').then((m) => ({ default: m.Settings })), {
+  ssr: false,
+  loading: Blank
+})
+const ViewerPage = dynamic(() => import('@/playground/pages/ViewerPage').then((m) => ({ default: m.ViewerPage })), {
+  ssr: false,
+  loading: Blank
+})
+const History = dynamic(() => import('@/playground/pages/History').then((m) => ({ default: m.History })), {
+  ssr: false,
+  loading: Blank
+})
+const Library = dynamic(() => import('@/playground/pages/Library').then((m) => ({ default: m.Library })), {
+  ssr: false,
+  loading: Blank
+})
+const Customization = dynamic(() => import('@/playground/pages/Customization').then((m) => ({ default: m.Customization })), {
+  ssr: false,
+  loading: Blank
+})
+const Leaderboard = dynamic(() => import('@/playground/pages/Leaderboard').then((m) => ({ default: m.Leaderboard })), {
+  ssr: false,
+  loading: Blank
+})
+const Admin = dynamic(() => import('@/playground/pages/Admin').then((m) => ({ default: m.Admin })), {
+  ssr: false,
+  loading: Blank
+})
 import { LockScreen } from '@/playground/pages/LockScreen'
 import { RestoreSkeleton, RESTORE_MS } from '@/playground/pages/RestoreSkeleton'
 
@@ -82,12 +120,22 @@ function Screens(): React.JSX.Element {
   )
 }
 
-export default function PlaygroundApp({ locale }: { locale: SupportedLocale }): React.JSX.Element {
+export default function PlaygroundApp({
+  locale
+}: {
+  locale: SupportedLocale
+}): React.JSX.Element {
   const [restored, setRestored] = useState(false)
   useEffect(() => {
     const id = setTimeout(() => setRestored(true), RESTORE_MS)
     return () => clearTimeout(id)
   }, [])
+  // Warm every page chunk once the chat is up, so the first tap on Settings or
+  // Admin does not wait on the network.
+  useEffect(() => {
+    if (!restored) return
+    for (const load of Object.values(PAGE_LOADERS)) void load().catch(() => {})
+  }, [restored])
   return (
     <ToastProvider viewport={false}>
       <PlaygroundProvider initialLocale={locale}>

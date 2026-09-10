@@ -5,7 +5,6 @@ import { cn } from '@/playground/lib/cn'
 import { useFileBytes } from '@/playground/lib/files'
 import { useDemoAction } from '@/playground/providers/PlaygroundProvider'
 import { Download01Icon, File01Icon, FolderOpenIcon, LinkSquare02Icon } from 'hugeicons-react'
-import mammoth from 'mammoth'
 import { useEffect, useState } from 'react'
 
 export type DocxViewerProps = {
@@ -54,8 +53,9 @@ function Active({ filePath, fileName }: { filePath: string; fileName: string }):
   useEffect(() => {
     if (!bytes) return
     let cancelled = false
-    void mammoth
-      .convertToHtml({ arrayBuffer: bytes })
+    // mammoth (~500 KB) loads the first time a Word file is on screen.
+    void import('mammoth')
+      .then((m) => m.default.convertToHtml({ arrayBuffer: bytes }))
       .then((result) => {
         if (!cancelled) setHtml(result.value)
       })
