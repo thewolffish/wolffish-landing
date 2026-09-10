@@ -1134,9 +1134,9 @@
           "desc": "An alert tells you the budget is gone. A cap means it never was. Finance sets it, and it holds."
         },
         {
-          "icon": "comment",
-          "title": "Microsoft's assistant is cheaper per seat.",
-          "desc": "We say it first. If drafting is enough, buy it. If agents must reach real systems, compare permissions."
+          "icon": "bolt",
+          "title": "Cheaper landed than a cloud assistant suite.",
+          "desc": "No inference margin, no per-feature add-ons, and a cap finance sets. Count everything and the bill lands lower, with agents that reach your systems instead of a chat box."
         }
       ]
     },
