@@ -1147,12 +1147,12 @@
         {
           "icon": "bolt",
           "title": "At least double the output.",
-          "desc": "Used daily, an agent finishes work a person only starts. Hours back every day, and the quality goes up with it."
+          "desc": "Used daily, an agent finishes work a person only starts. Hours come back every day, and the quality of the work goes up with them."
         },
         {
           "icon": "coins",
-          "title": "Breakeven at 0.77 percent.",
-          "desc": "At 300 seats the landed cost is SAR 464,400 a year against roughly SAR 60 million of knowledge-worker value. Replace our modelled SAR 200,000 per worker with your own figure."
+          "title": "Breakeven at 0.77%.",
+          "desc": "At 300 seats it costs SAR 464,400 a year against roughly SAR 60 million of knowledge-worker value. Swap in your own figure."
         },
         {
           "icon": "shield",
@@ -1160,7 +1160,7 @@
           "desc": "One enforcement decision under the personal data law reaches SAR 5 million. Weigh it after the architecture, not before."
         }
       ],
-      "note": "Microsoft's own users report twenty to forty percent reductions in administrative task time from a product that only drafts. Agents that execute go further."
+      "note": "Microsoft's own users report twenty to forty percent reductions in administrative task time from a product that only drafts. Agents that execute go further. The SAR 60 million above models each knowledge worker at SAR 200,000 of value."
     },
     "compare": {
       "label": "Against the cloud assistants",

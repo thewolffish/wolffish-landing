@@ -293,7 +293,7 @@ function FeatureCard({ item }: { item: CloudIconItem }) {
       <div className="text-[15px] font-semibold text-neutral-900 leading-snug">
         {item.title}
       </div>
-      <p className="text-[13px] leading-relaxed text-neutral-500">{item.desc}</p>
+      <p className="text-[13px] leading-relaxed text-pretty text-neutral-500">{item.desc}</p>
     </div>
   );
 }
@@ -315,7 +315,7 @@ function StatusCard({
           </div>
           <StatusChip status={item.status} labels={labels} />
         </div>
-        <p className="mt-1 text-[13px] leading-relaxed text-neutral-500">
+        <p className="mt-1 text-[13px] leading-relaxed text-pretty text-neutral-500">
           {item.desc}
         </p>
       </div>
@@ -464,7 +464,7 @@ export default function CloudView({
               <div className="text-lg font-bold text-neutral-900 leading-snug tracking-tight">
                 {item.title}
               </div>
-              <p className="text-[13.5px] leading-relaxed text-neutral-600">
+              <p className="text-[13.5px] leading-relaxed text-pretty text-neutral-600">
                 {item.desc}
               </p>
             </div>
@@ -487,7 +487,7 @@ export default function CloudView({
                   <div className="text-[15px] font-semibold text-neutral-900 leading-snug">
                     {card.title}
                   </div>
-                  <p className="mt-1 text-[13px] leading-relaxed text-neutral-500">
+                  <p className="mt-1 text-[13px] leading-relaxed text-pretty text-neutral-500">
                     {card.desc}
                   </p>
                 </div>
@@ -521,7 +521,7 @@ export default function CloudView({
                     <div className="text-[15px] font-semibold leading-snug">
                       {point.title}
                     </div>
-                    <p className="mt-1 text-[13px] leading-relaxed text-white/55">
+                    <p className="mt-1 text-[13px] leading-relaxed text-pretty text-white/55">
                       {point.desc}
                     </p>
                   </div>
@@ -553,7 +553,7 @@ export default function CloudView({
               <div className="text-[15px] font-semibold text-neutral-900 leading-snug">
                 {layer.title}
               </div>
-              <p className="text-[13px] leading-relaxed text-neutral-500">
+              <p className="text-[13px] leading-relaxed text-pretty text-neutral-500">
                 {layer.desc}
               </p>
             </div>
@@ -574,7 +574,7 @@ export default function CloudView({
                 </span>
                 <StatusChip status={caution.status} labels={ui.status} />
               </div>
-              <p className="text-[13px] leading-relaxed text-neutral-600">
+              <p className="text-[13px] leading-relaxed text-pretty text-neutral-600">
                 {caution.desc}
               </p>
             </div>
@@ -603,14 +603,14 @@ export default function CloudView({
                     {step.time}
                   </span>
                 </div>
-                <p className="mt-1.5 text-[13.5px] leading-relaxed text-neutral-600">
+                <p className="mt-1.5 text-[13.5px] leading-relaxed text-pretty text-neutral-600">
                   {step.desc}
                 </p>
               </div>
             </div>
           ))}
         </div>
-        <p className="mt-4 text-[13px] leading-relaxed text-neutral-500 max-w-3xl">
+        <p className="mt-4 text-[13px] leading-relaxed text-pretty text-neutral-500 max-w-3xl">
           {how.note}
         </p>
       </Section>
@@ -649,7 +649,7 @@ export default function CloudView({
               <div className="text-[14px] font-semibold text-neutral-900 leading-snug">
                 {group.title}
               </div>
-              <p className="text-[13px] leading-relaxed text-neutral-600">
+              <p className="text-[13px] leading-relaxed text-pretty text-neutral-600">
                 {group.desc}
               </p>
             </div>
@@ -676,7 +676,7 @@ export default function CloudView({
                   {row.amount}
                 </div>
               </div>
-              <p className="text-[13.5px] leading-relaxed text-neutral-600 md:pt-0.5">
+              <p className="text-[13.5px] leading-relaxed text-pretty text-neutral-600 md:pt-0.5">
                 {row.desc}
               </p>
             </div>
@@ -699,7 +699,7 @@ export default function CloudView({
             <FeatureCard key={card.title} item={card} />
           ))}
         </div>
-        <p className="mt-4 text-[13px] leading-relaxed text-neutral-500 max-w-3xl">
+        <p className="mt-4 text-[13px] leading-relaxed text-pretty text-neutral-500 max-w-3xl">
           {roi.note}
         </p>
       </Section>
@@ -762,7 +762,7 @@ export default function CloudView({
             <div className="text-[15px] font-semibold text-neutral-900 leading-snug">
               {compare.national.title}
             </div>
-            <p className="mt-1.5 text-[13.5px] leading-relaxed text-neutral-600">
+            <p className="mt-1.5 text-[13.5px] leading-relaxed text-pretty text-neutral-600">
               {compare.national.body}
             </p>
           </div>
@@ -837,7 +837,7 @@ export default function CloudView({
             </ul>
           </div>
         </div>
-        <p className="mt-4 text-[13px] leading-relaxed text-neutral-500 max-w-3xl">
+        <p className="mt-4 text-[13px] leading-relaxed text-pretty text-neutral-500 max-w-3xl">
           {fit.closing}
         </p>
       </Section>
@@ -852,7 +852,7 @@ export default function CloudView({
                 <span className="text-[15px] font-semibold text-neutral-900">
                   {item.title}
                 </span>{" "}
-                <span className="text-[13.5px] leading-relaxed text-neutral-600">
+                <span className="text-[13.5px] leading-relaxed text-pretty text-neutral-600">
                   {item.desc}
                 </span>
               </div>
@@ -919,7 +919,7 @@ export default function CloudView({
                 {schedule.aside.map((line) => (
                   <li key={line} className="flex items-start gap-2.5">
                     <FaCheck className="w-3.5 h-3.5 mt-1 text-emerald-600 shrink-0" />
-                    <span className="text-[13.5px] leading-relaxed text-neutral-600">
+                    <span className="text-[13.5px] leading-relaxed text-pretty text-neutral-600">
                       {line}
                     </span>
                   </li>
