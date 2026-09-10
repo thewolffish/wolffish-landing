@@ -1,3 +1,5 @@
+import { USER, USER_AVATAR } from '@/playground/data/identity'
+
 function initialsOf(name: string): string {
   const parts = name.trim().split(/\s+/).filter(Boolean)
   const first = parts[0]?.[0] ?? ''
@@ -14,11 +16,15 @@ export function Avatar({
   size?: number
   src?: string | null
 }): React.JSX.Element {
-  if (src) {
+  // The signed-in user carries a real photo everywhere they appear — the
+  // sidebar card, the profile, the lock screen, the leaderboard and admin
+  // rows — without every call site having to know where it lives.
+  const resolved = src ?? (name === USER.name ? USER_AVATAR : null)
+  if (resolved) {
     return (
       // eslint-disable-next-line @next/next/no-img-element -- a data URL avatar, not a site asset
       <img
-        src={src}
+        src={resolved}
         alt=""
         aria-hidden
         draggable={false}

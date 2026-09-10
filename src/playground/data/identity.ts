@@ -14,6 +14,9 @@ export const USER: AuthUser = {
 
 export const USER_ID = 'usr_demo_000'
 
+/** The signed-in user's photo — the same official portrait the site uses. */
+export const USER_AVATAR = 'https://cdn.wolffi.sh/generic/younes-official.jpeg'
+
 export const PROFILE: CloudProfile = {
   name: USER.name,
   email: USER.email,
@@ -23,7 +26,7 @@ export const PROFILE: CloudProfile = {
   role: 'owner',
   orgName: ORG_NAME,
   pinSet: true,
-  hasAvatar: false
+  hasAvatar: true
 }
 
 export const USER_CREATED_AT = iso(daysAgo(212))
