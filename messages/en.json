@@ -1465,8 +1465,7 @@
       "title": "Wolffish Cloud — Younes Alturkey",
       "badge": "Interactive demo",
       "open": "Open full screen",
-      "hint": "A replica of the desktop app on demo data: every page, setting and file opens; nothing runs. Twenty real engineering conversations, the settings, the automations and the admin layer, exactly as an employee sees them.",
-      "loading": "Loading the desktop…"
+      "hint": "A replica of the desktop app on demo data: every page, setting and file opens; nothing runs. Twenty real engineering conversations, the settings, the automations and the admin layer, exactly as an employee sees them."
     }
   }
 }

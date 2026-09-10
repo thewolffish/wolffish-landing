@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
+import { DEMO_STRINGS } from '@/playground/i18n/demo'
 import { FaArrowUpRightFromSquare } from 'react-icons/fa6'
 
 export interface CloudPlaygroundUi {
@@ -11,7 +12,6 @@ export interface CloudPlaygroundUi {
   badge: string
   open: string
   hint: string
-  loading: string
 }
 
 /**
@@ -56,14 +56,25 @@ export default function CloudPlayground({
           <FaArrowUpRightFromSquare className="h-3 w-3" />
         </a>
       </div>
-      <PlaygroundFrame key={locale} ui={ui} href={href} />
+      <PlaygroundFrame key={locale} ui={ui} href={href} locale={locale === 'ar' ? 'ar' : 'en'} />
     </div>
   )
 }
 
 /** The window itself; remounted per locale so the loading state resets with the reload. */
-function PlaygroundFrame({ ui, href }: { ui: CloudPlaygroundUi; href: string }): React.JSX.Element {
+function PlaygroundFrame({
+  ui,
+  href,
+  locale
+}: {
+  ui: CloudPlaygroundUi
+  href: string
+  locale: 'en' | 'ar'
+}): React.JSX.Element {
   const [loaded, setLoaded] = useState(false)
+  // The app's own restore screen, frozen at its first frame — so the frame
+  // never shows a second loading screen, only the restore the app continues.
+  const restore = DEMO_STRINGS[locale].restore
   const frameRef = useRef<HTMLIFrameElement>(null)
 
   // The server-rendered iframe can finish loading before React hydrates, in
@@ -120,19 +131,33 @@ function PlaygroundFrame({ ui, href }: { ui: CloudPlaygroundUi; href: string }):
           <div
             role="status"
             aria-live="polite"
-            className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-6 bg-[#f0f4f8] px-6 pt-10 text-center"
+            dir={locale === 'ar' ? 'rtl' : 'ltr'}
+            className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-[#f0f4f8] px-6 text-[#0d1117]"
           >
-            <Image
-              src="/icon_transparent.png"
-              alt=""
-              aria-hidden
-              width={80}
-              height={80}
-              className="h-20 w-20 animate-pulse object-contain"
-            />
-            <p className="text-sm font-medium text-neutral-700">{ui.loading}</p>
-            <div className="h-1.5 w-full max-w-xs overflow-hidden rounded-full bg-[#d5dde5]">
-              <div className="wf-indeterminate h-full w-2/5 rounded-full bg-[#1b365d]" />
+            <div className="flex w-full max-w-sm flex-col items-center gap-6 text-center">
+              <Image
+                src="/icon_transparent.png"
+                alt=""
+                aria-hidden
+                width={80}
+                height={80}
+                className="h-20 w-20 animate-pulse object-contain"
+              />
+              <div className="flex flex-col gap-1.5">
+                <h3 className="text-2xl font-semibold tracking-tight">{restore.title}</h3>
+                <p className="text-sm leading-relaxed text-[#5b6778]">{restore.subtitle}</p>
+              </div>
+              <div className="flex w-full flex-col gap-2.5">
+                <div className="h-1.5 w-full overflow-hidden rounded-full bg-[#d5dde5]/60">
+                  <div className="h-full w-[4%] rounded-full bg-[#1b365d]" />
+                </div>
+                <div className="flex items-center justify-between gap-3 text-xs text-[#5b6778]">
+                  <span className="min-w-0 truncate">{restore.steps[0]}…</span>
+                  <span className="shrink-0 tabular-nums" dir="ltr">
+                    0%
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         )}

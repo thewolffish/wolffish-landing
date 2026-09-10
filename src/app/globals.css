@@ -56,17 +56,3 @@
     scroll-behavior: smooth;
   }
 }
-
-/* The hero playground's loading bar — an indeterminate sweep. */
-@keyframes wf-indeterminate {
-  0% {
-    transform: translateX(-250%);
-  }
-  100% {
-    transform: translateX(350%);
-  }
-}
-
-.wf-indeterminate {
-  animation: wf-indeterminate 1.4s ease-in-out infinite;
-}
