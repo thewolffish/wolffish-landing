@@ -79,8 +79,14 @@ export function readChartTheme(isDark: boolean): ChartTheme {
     border: cssVar(styles, '--color-border', isDark ? '#2a313c' : '#d5dde5'),
     surface: cssVar(styles, '--color-surface', isDark ? '#161b22' : '#ffffff'),
     deemphasis: isDark ? CHART_DEEMPHASIS.dark : CHART_DEEMPHASIS.light,
+    // The page's real font (next/font's IBM Plex Sans Arabic), not the
+    // site-wide --font-sans token. Double quotes are swapped for single
+    // ones: ECharts writes the family straight into the tooltip's inline
+    // cssText, and a double-quoted name there swallows every declaration
+    // after it — padding included.
     fontFamily:
-      cssVar(styles, '--font-sans', '').replace(/^["']|["']$/g, '') ||
-      'system-ui, -apple-system, sans-serif'
+      (getComputedStyle(document.body).fontFamily || cssVar(styles, '--font-sans', ''))
+        .replace(/"/g, "'")
+        .trim() || 'system-ui, -apple-system, sans-serif'
   }
 }
