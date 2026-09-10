@@ -31,7 +31,7 @@ export const INITIAL_CONFIG: WorkspaceConfig = {
   compaction: { dailyHour: 16, weeklyDay: 4, weeklyHour: 17, cards: false },
   reflection: { hour: 3, quietHours: 12, cards: false },
   locale: 'en',
-  theme: 'system',
+  theme: 'light',
   onboardingCompleted: true
 }
 

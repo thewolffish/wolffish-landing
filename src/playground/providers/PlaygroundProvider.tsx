@@ -238,7 +238,7 @@ export function PlaygroundProvider({
   const toast = useToast()
   const [screen, setScreen] = useState<Screen>('chat')
   const [locale, setLocaleState] = useState<SupportedLocale>(initialLocale)
-  const [theme, setThemeState] = useState<ThemeSource>('system')
+  const [theme, setThemeState] = useState<ThemeSource>(INITIAL_CONFIG.theme)
   const [systemDark, setSystemDark] = useState<boolean>(() => prefersDark())
   const [config, setConfig] = useState<WorkspaceConfig>(() => ({
     ...INITIAL_CONFIG,
