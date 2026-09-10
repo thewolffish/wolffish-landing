@@ -127,9 +127,7 @@ export interface CloudData {
     label: string;
     title: string;
     body: string[];
-    columns: string[];
-    rows: { label: string; amount: string; billedBy: string; margin: string }[];
-    landed: { label: string; value: string };
+    rows: { label: string; amount: string; desc: string }[];
     note: string;
     cards: CloudIconItem[];
   };
@@ -664,58 +662,25 @@ export default function CloudView({
         <div className="mt-6 max-w-3xl">
           <Prose paragraphs={pricing.body} />
         </div>
-        <div className="mt-8 rounded-2xl bg-white border border-neutral-200 overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[640px] text-[13px]">
-              <thead>
-                <tr className="border-b border-neutral-200">
-                  {pricing.columns.map((column) => (
-                    <th
-                      key={column}
-                      className="text-start px-5 py-3.5 font-semibold text-neutral-700"
-                    >
-                      {column}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-neutral-100">
-                {pricing.rows.map((row) => (
-                  <tr key={row.label}>
-                    <th
-                      scope="row"
-                      className="text-start px-5 py-3.5 font-semibold text-neutral-900 align-top"
-                    >
-                      {row.label}
-                    </th>
-                    <td className="px-5 py-3.5 align-top leading-relaxed text-neutral-700">
-                      {row.amount}
-                    </td>
-                    <td className="px-5 py-3.5 align-top leading-relaxed text-neutral-600">
-                      {row.billedBy}
-                    </td>
-                    <td className="px-5 py-3.5 align-top leading-relaxed text-neutral-600">
-                      {row.margin}
-                    </td>
-                  </tr>
-                ))}
-                <tr className="bg-emerald-50">
-                  <th
-                    scope="row"
-                    className="text-start px-5 py-3.5 font-bold text-emerald-900 align-top"
-                  >
-                    {pricing.landed.label}
-                  </th>
-                  <td
-                    colSpan={3}
-                    className="px-5 py-3.5 align-top font-semibold text-emerald-900"
-                  >
-                    {pricing.landed.value}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+        <div className="mt-8 rounded-2xl bg-white border border-neutral-200 divide-y divide-neutral-100">
+          {pricing.rows.map((row) => (
+            <div
+              key={row.label}
+              className="grid gap-1.5 px-5 py-4 md:grid-cols-[minmax(0,1.1fr)_minmax(0,2.2fr)] md:gap-6 md:px-6 md:py-5"
+            >
+              <div>
+                <div className="text-[15px] font-semibold text-neutral-900 leading-snug">
+                  {row.label}
+                </div>
+                <div className="mt-0.5 text-[15px] font-bold text-emerald-700 tracking-tight">
+                  {row.amount}
+                </div>
+              </div>
+              <p className="text-[13.5px] leading-relaxed text-neutral-600 md:pt-0.5">
+                {row.desc}
+              </p>
+            </div>
+          ))}
         </div>
         <p className="mt-3 text-[12.5px] leading-relaxed text-neutral-500 max-w-3xl">
           {pricing.note}

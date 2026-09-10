@@ -86,10 +86,17 @@ export default async function CloudPage() {
         offers: [
           {
             "@type": "Offer",
+            name: "Paid pilot",
+            price: "25000",
+            priceCurrency: "SAR",
+            description: "One department, one workflow, three weeks. Counts in full toward the deployment on company-wide rollout. Excludes 15 percent VAT.",
+          },
+          {
+            "@type": "Offer",
             name: "Deployment, one time",
             price: "60000",
             priceCurrency: "SAR",
-            description: "Half at signature and half at go-live. Excludes 15 percent VAT.",
+            description: "Standard setup. Advanced deployments are scoped before signature and run up to SAR 150,000. Excludes 15 percent VAT.",
           },
           {
             "@type": "Offer",

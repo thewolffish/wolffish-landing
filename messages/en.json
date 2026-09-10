@@ -1100,41 +1100,28 @@
     },
     "pricing": {
       "label": "What it costs",
-      "title": "Three lines. Two of them are ours. We publish all three.",
+      "title": "A paid pilot, one deployment fee, one seat price. Published.",
       "body": [
-        "Most of this market quotes on request. We publish, because a seat price on its own understates what you will spend by about a third, and you would find that out eventually."
-      ],
-      "columns": [
-        "Line",
-        "Amount",
-        "Billed by",
-        "Wolffish margin"
+        "We publish the numbers because a seat price on its own understates what you will spend. The detail belongs in the call, not on the page."
       ],
       "rows": [
         {
+          "label": "Paid pilot",
+          "amount": "SAR 25,000",
+          "desc": "One department, one workflow, three weeks inside your perimeter. The whole amount counts toward the deployment when you roll out company-wide."
+        },
+        {
           "label": "Deployment, one time",
-          "amount": "SAR 60,000, half at signature and half at go-live",
-          "billedBy": "Wolffish",
-          "margin": "Yes"
+          "amount": "SAR 60,000",
+          "desc": "The standard setup for a typical company. Advanced deployments with more systems to reach are scoped before signature and run up to SAR 150,000."
         },
         {
           "label": "Platform seat",
-          "amount": "SAR 79 per employee per month, quarterly in advance, twelve-month term",
-          "billedBy": "Wolffish",
-          "margin": "Yes"
-        },
-        {
-          "label": "Inference and infrastructure",
-          "amount": "SAR 45 to 55 per seat per month",
-          "billedBy": "Your own providers",
-          "margin": "Zero, never resold"
+          "amount": "SAR 79 per employee per month",
+          "desc": "Flat at every volume, on a twelve-month term. Inference and infrastructure, about SAR 45 to 55 per seat, bill to your own providers at zero Wolffish margin."
         }
       ],
-      "landed": {
-        "label": "Landed cost",
-        "value": "SAR 124 to 184 per employee per month, everything counted"
-      },
-      "note": "All figures exclude the fifteen percent value-added tax. Minimum 200 seats. The seat price is flat at every volume, and we concede on term, never on the seat.",
+      "note": "Landed cost SAR 124 to 184 per employee per month, everything counted. All figures exclude the fifteen percent value-added tax. Minimum 200 seats.",
       "cards": [
         {
           "icon": "coins",
@@ -1287,7 +1274,7 @@
       "title": "Not a project that ends. A product that keeps arriving.",
       "body": [
         "Your integrator can build this, and they will build it well, once. Then the second use case is a new statement of work, the fourth is a new procurement cycle, and by year three you are maintaining a bespoke platform with people who have moved to another account.",
-        "Wolffish is a Saudi engineering team and a product at the same time. The deployment is fixed at SAR 60,000, the platform is SAR 79 per employee per month, new capabilities are scoped and delivered inside the quarter, and when a better model ships you switch endpoint rather than rebuild. Two people built it, which is why source access and escrow sit in the contract rather than in the objection script."
+        "Wolffish is a Saudi engineering team and a product at the same time. Deployment starts at SAR 60,000, the platform is SAR 79 per employee per month, new capabilities are scoped and delivered inside the quarter, and when a better model ships you switch endpoint rather than rebuild. Two people built it, which is why source access and escrow sit in the contract rather than in the objection script."
       ],
       "questionsLabel": "Three questions to ask, either way",
       "questions": [
