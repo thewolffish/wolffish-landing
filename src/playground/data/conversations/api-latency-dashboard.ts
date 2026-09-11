@@ -1,4 +1,4 @@
-import { VISION } from '../catalog'
+import { FLASH } from '../catalog'
 import { at } from '../clock'
 import { PROJECT_PLATFORM } from '../projects'
 import { conversation, send, text, tool } from './dsl'
@@ -157,7 +157,7 @@ export const apiLatencyDashboard = conversation({
     {
       user: 'Pull the last 14 days of p50 and p95 per endpoint off the Grafana board and tell me whether we are inside budget. Sheet and charts, please.',
       at: at(8, 16, 2),
-      model: VISION,
+      model: FLASH,
       steps: [
         text('Pulling the series from Prometheus through the Grafana proxy rather than reading numbers off a dashboard image.'),
         tool(

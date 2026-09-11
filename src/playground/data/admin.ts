@@ -10,7 +10,7 @@ import type {
   TokenPlan
 } from './types'
 import { daysAgo, drawer, hoursAgo, iso, isoDay, minutesAgo, NOW } from './clock'
-import { FLASH, PRO, VISION } from './catalog'
+import { FLASH, PRO } from './catalog'
 import { ORG_NAME, USER, USER_ID } from './identity'
 import { ROSTER, personById, type Person } from './roster'
 
@@ -44,11 +44,18 @@ function planFor(p: Person): TokenPlan {
   return 'standard'
 }
 
+/**
+ * Who sees what in the model picker. Both owners and both admins hold the
+ * full catalog by an explicit row — an owner locked out of a model the org
+ * runs cannot administer it — which is the same list as the baseline today;
+ * the row is the shape, kept for the day the catalog grows. 021-030 were the
+ * vision pilot until 2026-09-11; V4.1 Flash sees for every account, so the
+ * grant retired with the model and they are back on the plain baseline.
+ */
 function allowedModelsFor(p: Person): string[] | null {
-  if (p.n === 0 || p.n === 50 || p.role === 'admin') return [FLASH, PRO, VISION]
+  if (p.n === 0 || p.n === 50 || p.role === 'admin') return [FLASH, PRO]
   if (p.n >= 5 && p.n <= 14) return [FLASH]
-  if (p.n >= 15 && p.n <= 20) return null
-  if (p.n >= 21 && p.n <= 30) return [FLASH, PRO, VISION]
+  if (p.n >= 15 && p.n <= 30) return null
   return [FLASH, PRO]
 }
 
@@ -62,9 +69,9 @@ function rosterPerson(p: Person): RosterPerson {
   const tokensCached = Math.round(tokensIn * (0.28 + rnd() * 0.2))
   const pro = 0.1 + rnd() * 0.1
   const cost =
-    ((tokensIn - tokensCached) * (80_000 * (1 - pro) + 1_300_000 * pro) +
-      tokensCached * (16_000 * (1 - pro) + 100_000 * pro) +
-      tokensOut * (180_000 * (1 - pro) + 2_600_000 * pro)) /
+    ((tokensIn - tokensCached) * (200_000 * (1 - pro) + 1_300_000 * pro) +
+      tokensCached * (6_000 * (1 - pro) + 100_000 * pro) +
+      tokensOut * (600_000 * (1 - pro) + 2_600_000 * pro)) /
     1_000_000
   const monthFraction = Math.min(1, (NOW - monthStart()) / (ROSTER_DAYS * 86_400_000))
   const me = p.id === USER_ID
@@ -139,7 +146,7 @@ export const ORG_GATES: Record<string, unknown> = {
 
 const AUDIT_ACTIONS: Array<[string, string, string]> = [
   ['user.invite', 'usr_demo_049', 'Invited ruba.alsanea@wolffi.sh as employee'],
-  ['policy.set', 'usr_demo_027', 'Allowed models set to [Flash, Pro, Flash-Vision]'],
+  ['policy.set', 'usr_demo_027', 'Allowed models cleared to the org baseline — the vision pilot ended'],
   ['user.suspend', 'usr_demo_048', 'Suspended talal.alkhathlan@wolffi.sh — contractor offboarded'],
   ['org.patch', 'org', 'user_daily_token_cap 6,000,000 → 8,000,000'],
   ['plan.set', 'usr_demo_011', 'Plan standard → high'],
@@ -148,7 +155,7 @@ const AUDIT_ACTIONS: Array<[string, string, string]> = [
   ['capability.grant', 'computer-use', 'Granted to team platform'],
   ['policy.set', 'usr_demo_008', 'daily_search_cap set to 100'],
   ['user.role', 'usr_demo_002', 'Role support → admin'],
-  ['org.patch', 'org', 'default_allowed_models set to [Flash, Pro]'],
+  ['org.patch', 'org', 'default_model set to DeepSeek V4.1 Flash — it sees, so no vision grant'],
   ['user.invite', 'usr_demo_047', 'Invited abrar.almogbel@wolffi.sh as employee'],
   ['password.reset', 'usr_demo_036', 'Temporary password issued'],
   ['capability.publish', 'pdf-design', 'Published pdf-design 1.3.0 to the registry'],
@@ -298,9 +305,9 @@ export function adminUserOverview(userId: string): AdminUserOverview | null {
       cost_microusd: isSearch
         ? 5_000
         : Math.round(
-            ((tokensIn - cached) * (model === PRO ? 1_300_000 : 80_000) +
-              cached * (model === PRO ? 100_000 : 16_000) +
-              tokensOut * (model === PRO ? 2_600_000 : 180_000)) /
+            ((tokensIn - cached) * (model === PRO ? 1_300_000 : 200_000) +
+              cached * (model === PRO ? 100_000 : 6_000) +
+              tokensOut * (model === PRO ? 2_600_000 : 600_000)) /
               1_000_000
           ),
       latency_ms: Math.round(isSearch ? 280 + rnd() * 400 : 900 + rnd() * 9_000),

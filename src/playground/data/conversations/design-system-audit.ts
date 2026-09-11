@@ -1,4 +1,4 @@
-import { VISION } from '../catalog'
+import { FLASH } from '../catalog'
 import { at } from '../clock'
 import { PROJECT_DOCS } from '../projects'
 import { conversation, send, text, tool } from './dsl'
@@ -110,9 +110,8 @@ const MOCKUP_HTML = `<!-- Settings panel, house tokens applied. Every number her
       <div class="help">Used for every new conversation.</div>
     </div>
     <select aria-label="Default model">
-      <option>DeepSeek V4 Flash</option>
+      <option>DeepSeek V4.1 Flash</option>
       <option>DeepSeek V4 Pro</option>
-      <option>DeepSeek V4 Flash Vision</option>
     </select>
   </div>
 
@@ -163,7 +162,7 @@ export const designSystemAudit = conversation({
   title: 'Settings panel audit against the house style',
   channel: 'electron',
   projectId: PROJECT_DOCS,
-  model: VISION,
+  model: FLASH,
   files: {
     'files/reports/2026-09/design-audit-settings.md': AUDIT_MD,
     'files/charts/design-audit-severity.chart.json': SEVERITY_CHART,

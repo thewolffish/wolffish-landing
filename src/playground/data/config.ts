@@ -1,5 +1,5 @@
 import type { WorkspaceConfig } from './types'
-import { FLASH, PRO, VISION } from './catalog'
+import { FLASH, PRO } from './catalog'
 
 /** The workspace config as the desktop holds it after the org overlay. */
 export const INITIAL_CONFIG: WorkspaceConfig = {
@@ -8,7 +8,7 @@ export const INITIAL_CONFIG: WorkspaceConfig = {
   llm: {
     model: FLASH,
     mode: 'single',
-    thinkingModes: { [FLASH]: 'high', [PRO]: 'max', [VISION]: 'high' }
+    thinkingModes: { [FLASH]: 'high', [PRO]: 'max' }
   },
   safety: { bypassPermissions: false, blockCredentials: true },
   weekStartsOn: 0,

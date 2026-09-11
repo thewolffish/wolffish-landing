@@ -1,20 +1,26 @@
 import type { CatalogModelEntry, ThinkingMode } from './types'
 
 /**
- * The org's model catalog — the frontier DeepSeek V4 line on DeepInfra, the
- * same three ids the API seeds for Wolffish Inc (apps/api/src/lib/models.ts).
- * Prices are microUSD per 1M tokens.
+ * The org's model catalog — the frontier DeepSeek line on DeepInfra, the same
+ * two ids the API seeds for Wolffish Inc (apps/api/src/lib/models.ts).
+ *
+ * V4.1 Flash replaced V4 Flash-0731 on 2026-09-11: DeepSeek's new Flash, and
+ * the first one that sees. It carries no dated id upstream. It also retired
+ * Flash-Vision-Exp — the experimental stopgap that gave a named pilot group
+ * image input — because the baseline Flash now does that for every account,
+ * so the catalog is back to a two-model baseline and no one needs a vision
+ * grant. Prices are microUSD per 1M tokens.
  */
 export const CATALOG: CatalogModelEntry[] = [
   {
-    id: 'deepseek-ai/DeepSeek-V4-Flash-0731',
-    name: 'DeepSeek V4 Flash',
+    id: 'deepseek-ai/DeepSeek-V4.1-Flash',
+    name: 'DeepSeek V4.1 Flash',
     reasoning: true,
-    vision: false,
+    vision: true,
     contextWindow: 1_048_576,
-    inPerMtokMicroUsd: 80_000,
-    outPerMtokMicroUsd: 180_000,
-    cachedInPerMtokMicroUsd: 16_000,
+    inPerMtokMicroUsd: 200_000,
+    outPerMtokMicroUsd: 600_000,
+    cachedInPerMtokMicroUsd: 6_000,
     default: true
   },
   {
@@ -27,23 +33,11 @@ export const CATALOG: CatalogModelEntry[] = [
     outPerMtokMicroUsd: 2_600_000,
     cachedInPerMtokMicroUsd: 100_000,
     default: false
-  },
-  {
-    id: 'deepseek-ai/DeepSeek-V4-Flash-Vision-Exp',
-    name: 'DeepSeek V4 Flash Vision',
-    reasoning: true,
-    vision: true,
-    contextWindow: 1_048_576,
-    inPerMtokMicroUsd: 215_600,
-    outPerMtokMicroUsd: 646_800,
-    cachedInPerMtokMicroUsd: 68_600,
-    default: false
   }
 ]
 
 export const FLASH = CATALOG[0].id
 export const PRO = CATALOG[1].id
-export const VISION = CATALOG[2].id
 
 export const PROVIDER = 'cloud'
 

@@ -1,4 +1,4 @@
-import { VISION } from '../catalog'
+import { FLASH } from '../catalog'
 import { at } from '../clock'
 import { conversation, edit, reasoning, run, send, text, todo, tool } from './dsl'
 
@@ -9,7 +9,7 @@ export const rtlChipRow = conversation({
   title: 'Chips run the wrong way in Arabic',
   channel: 'mobile',
   icon: '🔤',
-  model: VISION,
+  model: FLASH,
   workingFolder: [DESKTOP],
   turns: [
     {

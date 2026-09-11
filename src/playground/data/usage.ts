@@ -1,6 +1,6 @@
 import type { UsageDailyEntry, UsageStats, UsageSummary, UsageTimeRange } from './types'
 import { daysAgo, drawer, isoDay, NOW } from './clock'
-import { costUsd, FLASH, PRO, VISION } from './catalog'
+import { costUsd, FLASH, PRO } from './catalog'
 
 /**
  * Younes's usage ledger — 210 days of per-model token rows, read back from the
@@ -54,17 +54,6 @@ function buildDays(): UsageDay[] {
         outputTokens: proOut,
         cost: costUsd(PRO, proIn, proOut, Math.round(proIn * 0.25)),
         entries: Math.round((2 + rnd() * 5) * scale)
-      })
-    }
-    if (rnd() < 0.2) {
-      const vIn = Math.round((30_000 + rnd() * 60_000) * scale)
-      const vOut = Math.round((4_000 + rnd() * 8_000) * scale)
-      models.push({
-        model: VISION,
-        inputTokens: vIn,
-        outputTokens: vOut,
-        cost: costUsd(VISION, vIn, vOut, 0),
-        entries: Math.round(1 + rnd() * 3)
       })
     }
     out.push({
