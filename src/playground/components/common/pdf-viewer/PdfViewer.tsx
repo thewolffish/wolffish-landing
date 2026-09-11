@@ -19,22 +19,35 @@ export type PdfViewerProps = {
   fileExists: boolean
   fileName: string
   sizeBytes: number
+  /**
+   * Page surfaces (the workspace viewer) already carry the file name and the
+   * reveal/download actions in their own header, so the card around the media
+   * and its footer would be a second copy of both. `bare` drops them and hands
+   * the whole pane to the file itself.
+   */
+  bare?: boolean
 }
 
-export function PdfViewer({ filePath, fileExists, fileName }: PdfViewerProps): React.JSX.Element {
+export function PdfViewer({
+  filePath,
+  fileExists,
+  fileName,
+  bare = false
+}: PdfViewerProps): React.JSX.Element {
   if (!fileExists) {
-    return <DeletedPdf fileName={fileName} />
+    return <DeletedPdf fileName={fileName} bare={bare} />
   }
 
-  return <ActivePdf filePath={filePath} fileName={fileName} />
+  return <ActivePdf filePath={filePath} fileName={fileName} bare={bare} />
 }
 
-function DeletedPdf({ fileName }: { fileName: string }): React.JSX.Element {
+function DeletedPdf({ fileName, bare }: { fileName: string; bare?: boolean }): React.JSX.Element {
   const { t } = useTranslation()
   return (
     <div
       className={cn(
-        'border-border bg-surface flex w-full max-w-[85%] max-sm:max-w-full items-center gap-3 self-start',
+        'border-border bg-surface flex w-full items-center gap-3 self-start',
+        !bare && 'max-w-[85%] max-sm:max-w-full',
         'rounded-2xl border px-4 py-3 opacity-50'
       )}
     >
@@ -53,10 +66,12 @@ function DeletedPdf({ fileName }: { fileName: string }): React.JSX.Element {
 
 function ActivePdf({
   filePath,
-  fileName
+  fileName,
+  bare
 }: {
   filePath: string
   fileName: string
+  bare?: boolean
 }): React.JSX.Element {
   const { t } = useTranslation()
   const { url, error } = useFileUrl(filePath, 'application/pdf')
@@ -64,7 +79,20 @@ function ActivePdf({
   const demoAction = useDemoAction()
 
   if (error) {
-    return <DeletedPdf fileName={fileName} />
+    return <DeletedPdf fileName={fileName} bare={bare} />
+  }
+
+  // The native viewer keeps its own toolbar, thumbnails and download — that IS
+  // the built-in chrome, so the document simply takes the pane at full width
+  // and full height. A PDF has no ratio to preserve; its own viewer scrolls.
+  if (bare) {
+    return url ? (
+      <iframe src={url} title={fileName} className="h-full w-full border-0" />
+    ) : (
+      <div className="flex h-full w-full items-center justify-center">
+        <span className="text-muted animate-pulse text-xs">{t('chat.pdfViewer.loading')}</span>
+      </div>
+    )
   }
 
   return (

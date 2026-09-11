@@ -12,19 +12,32 @@ export type DocxViewerProps = {
   fileExists: boolean
   fileName: string
   sizeBytes: number
+  /**
+   * Page surfaces (the workspace viewer) already carry the file name and the
+   * reveal/download actions in their own header, so the card around the file
+   * and its footer would be a second copy of both. `bare` drops them and hands
+   * the whole pane to the file itself.
+   */
+  bare?: boolean
 }
 
-export function DocxViewer({ filePath, fileExists, fileName }: DocxViewerProps): React.JSX.Element {
-  if (!fileExists) return <Deleted fileName={fileName} />
-  return <Active filePath={filePath} fileName={fileName} />
+export function DocxViewer({
+  filePath,
+  fileExists,
+  fileName,
+  bare = false
+}: DocxViewerProps): React.JSX.Element {
+  if (!fileExists) return <Deleted fileName={fileName} bare={bare} />
+  return <Active filePath={filePath} fileName={fileName} bare={bare} />
 }
 
-function Deleted({ fileName }: { fileName: string }): React.JSX.Element {
+function Deleted({ fileName, bare }: { fileName: string; bare?: boolean }): React.JSX.Element {
   const { t } = useTranslation()
   return (
     <div
       className={cn(
-        'border-border bg-surface flex w-full max-w-[85%] max-sm:max-w-full items-center gap-3 self-start',
+        'border-border bg-surface flex w-full items-center gap-3 self-start',
+        !bare && 'max-w-[85%] max-sm:max-w-full',
         'rounded-2xl border px-4 py-3 opacity-50'
       )}
     >
@@ -41,7 +54,15 @@ function Deleted({ fileName }: { fileName: string }): React.JSX.Element {
   )
 }
 
-function Active({ filePath, fileName }: { filePath: string; fileName: string }): React.JSX.Element {
+function Active({
+  filePath,
+  fileName,
+  bare
+}: {
+  filePath: string
+  fileName: string
+  bare?: boolean
+}): React.JSX.Element {
   const { t } = useTranslation()
   const { bytes, error: bytesError } = useFileBytes(filePath)
   const [html, setHtml] = useState<string | null>(null)
@@ -69,7 +90,22 @@ function Active({ filePath, fileName }: { filePath: string; fileName: string }):
 
   const demoAction = useDemoAction()
 
-  if (error || bytesError) return <Deleted fileName={fileName} />
+  if (error || bytesError) return <Deleted fileName={fileName} bare={bare} />
+
+  // On a page the document takes the whole pane and scrolls in it, with no
+  // card around it and no 400px ceiling.
+  if (bare) {
+    return html !== null ? (
+      <div
+        className="bg-surface text-fg h-full w-full overflow-auto p-4 text-sm"
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
+    ) : (
+      <div className="flex h-full w-full items-center justify-center">
+        <span className="text-muted animate-pulse text-xs">{t('chat.docxViewer.loading')}</span>
+      </div>
+    )
+  }
 
   return (
     <div

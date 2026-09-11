@@ -647,6 +647,14 @@ export function ViewerPage(): React.JSX.Element {
  * renderers. The replica hands each type to the same component the chat feed
  * uses, so a PDF opened from a conversation and the same PDF opened from the
  * tree are one viewer with one set of controls.
+ *
+ * Each goes in `bare`: in the feed the card is what tells a file apart from
+ * the message around it, but this page already names the file, dates it and
+ * carries reveal/download/resync in its header — and every one of these
+ * formats brings its own controls besides (the PDF's native toolbar, `<video>`
+ * and the audio transport, the workbook's sheet tabs). So the card, the
+ * duplicate footer and the 85% width all come off, and the file takes the pane
+ * at full width with its own ratio setting the height.
  */
 function WorkspaceMediaViewer({
   relativePath,
@@ -663,27 +671,31 @@ function WorkspaceMediaViewer({
   switch (mediaType) {
     case 'image':
       return (
-        <div className="flex min-h-0 flex-1 flex-col overflow-y-auto p-4">
+        <div className="flex min-h-0 w-full flex-1 flex-col overflow-y-auto">
           <ImageViewer
             filePath={relativePath}
             fileExists={exists}
             mimeType={mime}
             fileName={fileName}
+            bare
           />
         </div>
       )
     case 'video':
       return (
-        <div className="flex min-h-0 flex-1 flex-col overflow-y-auto p-4">
+        <div className="flex min-h-0 w-full flex-1 flex-col overflow-y-auto">
           <VideoPlayer
             filePath={relativePath}
             fileExists={exists}
             mimeType={mime}
             fileName={fileName}
+            bare
           />
         </div>
       )
     case 'audio':
+      // An audio file has nothing to show, so its transport stays centred in
+      // the pane rather than stretching across it.
       return (
         <div className="flex min-h-0 flex-1 items-center justify-center p-6">
           <AudioPlayer
@@ -692,39 +704,43 @@ function WorkspaceMediaViewer({
             mimeType={mime}
             fileName={fileName}
             source="file"
+            bare
           />
         </div>
       )
     case 'pdf':
       return (
-        <div className="flex min-h-0 flex-1 flex-col overflow-hidden p-4">
+        <div className="min-h-0 w-full flex-1 overflow-hidden">
           <PdfViewer
             filePath={relativePath}
             fileExists={exists}
             fileName={fileName}
             sizeBytes={sizeBytes}
+            bare
           />
         </div>
       )
     case 'docx':
       return (
-        <div className="flex min-h-0 flex-1 flex-col overflow-auto p-4">
+        <div className="min-h-0 w-full flex-1 overflow-hidden">
           <DocxViewer
             filePath={relativePath}
             fileExists={exists}
             fileName={fileName}
             sizeBytes={sizeBytes}
+            bare
           />
         </div>
       )
     case 'spreadsheet':
       return (
-        <div className="flex min-h-0 flex-1 flex-col overflow-auto p-4">
+        <div className="min-h-0 w-full flex-1 overflow-hidden">
           <SpreadsheetViewer
             filePath={relativePath}
             fileExists={exists}
             fileName={fileName}
             sizeBytes={sizeBytes}
+            bare
           />
         </div>
       )

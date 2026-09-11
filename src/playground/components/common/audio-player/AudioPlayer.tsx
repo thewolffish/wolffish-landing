@@ -33,6 +33,13 @@ export type AudioPlayerProps = {
    * controls are identical either way.
    */
   source?: AudioSource
+  /**
+   * Page surfaces (the workspace viewer) already carry the file name and the
+   * reveal/download actions in their own header, so the card around the file
+   * and its footer would be a second copy of both. `bare` drops them and hands
+   * the whole pane to the file itself.
+   */
+  bare?: boolean
 }
 
 /**
@@ -44,13 +51,20 @@ export function AudioPlayer({
   fileExists,
   mimeType,
   fileName,
-  source = 'upload'
+  source = 'upload',
+  bare = false
 }: AudioPlayerProps): React.JSX.Element {
   if (!fileExists) {
     return <DeletedPlayer />
   }
   return (
-    <ActivePlayer filePath={filePath} mimeType={mimeType} fileName={fileName} source={source} />
+    <ActivePlayer
+      filePath={filePath}
+      mimeType={mimeType}
+      fileName={fileName}
+      source={source}
+      bare={bare}
+    />
   )
 }
 
@@ -75,12 +89,14 @@ function ActivePlayer({
   filePath,
   mimeType,
   fileName,
-  source
+  source,
+  bare
 }: {
   filePath: string
   mimeType: string
   fileName: string
   source: AudioSource
+  bare?: boolean
 }): React.JSX.Element {
   void source
   const { t } = useTranslation()
@@ -164,13 +180,16 @@ function ActivePlayer({
   return (
     <div
       className={cn(
-        'border-border bg-surface flex w-full max-w-[85%] max-sm:max-w-full flex-col gap-1 self-start',
+        'border-border bg-surface flex w-full flex-col gap-1 self-start',
+        !bare && 'max-w-[85%] max-sm:max-w-full',
         'rounded-2xl border px-4 py-3'
       )}
     >
-      <div className="text-muted truncate text-[11px] font-medium" title={fileName}>
-        {fileName}
-      </div>
+      {!bare && (
+        <div className="text-muted truncate text-[11px] font-medium" title={fileName}>
+          {fileName}
+        </div>
+      )}
       <div className="flex items-center gap-3">
         {url && <audio ref={audioRef} src={url} preload="metadata" />}
 
@@ -218,28 +237,32 @@ function ActivePlayer({
           {playbackRate}x
         </button>
 
-        <button
-          type="button"
-          onClick={demoAction}
-          title={t('chat.fileCard.reveal')}
-          className={cn(
-            'text-muted hover:text-fg flex shrink-0 cursor-pointer items-center justify-center rounded p-1',
-            'focus-visible:ring-2 focus-visible:ring-accent'
-          )}
-        >
-          <FolderOpenIcon size={14} />
-        </button>
-        <button
-          type="button"
-          onClick={demoAction}
-          title={t('chat.fileCard.download')}
-          className={cn(
-            'text-muted hover:text-fg flex shrink-0 cursor-pointer items-center justify-center rounded p-1',
-            'focus-visible:ring-2 focus-visible:ring-accent'
-          )}
-        >
-          <Download01Icon size={14} />
-        </button>
+        {!bare && (
+          <>
+            <button
+              type="button"
+              onClick={demoAction}
+              title={t('chat.fileCard.reveal')}
+              className={cn(
+                'text-muted hover:text-fg flex shrink-0 cursor-pointer items-center justify-center rounded p-1',
+                'focus-visible:ring-2 focus-visible:ring-accent'
+              )}
+            >
+              <FolderOpenIcon size={14} />
+            </button>
+            <button
+              type="button"
+              onClick={demoAction}
+              title={t('chat.fileCard.download')}
+              className={cn(
+                'text-muted hover:text-fg flex shrink-0 cursor-pointer items-center justify-center rounded p-1',
+                'focus-visible:ring-2 focus-visible:ring-accent'
+              )}
+            >
+              <Download01Icon size={14} />
+            </button>
+          </>
+        )}
       </div>
     </div>
   )

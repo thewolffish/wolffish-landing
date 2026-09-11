@@ -19,6 +19,13 @@ export type VideoPlayerProps = {
   fileExists: boolean
   mimeType: string
   fileName: string
+  /**
+   * Page surfaces (the workspace viewer) already carry the file name and the
+   * reveal/download actions in their own header, so the card around the media
+   * and its footer would be a second copy of both. `bare` drops them and hands
+   * the whole pane to the file itself.
+   */
+  bare?: boolean
 }
 
 /**
@@ -29,20 +36,22 @@ export function VideoPlayer({
   filePath,
   fileExists,
   mimeType,
-  fileName
+  fileName,
+  bare = false
 }: VideoPlayerProps): React.JSX.Element {
   if (!fileExists) {
-    return <DeletedVideo />
+    return <DeletedVideo bare={bare} />
   }
-  return <ActiveVideo filePath={filePath} mimeType={mimeType} fileName={fileName} />
+  return <ActiveVideo filePath={filePath} mimeType={mimeType} fileName={fileName} bare={bare} />
 }
 
-function DeletedVideo(): React.JSX.Element {
+function DeletedVideo({ bare }: { bare?: boolean }): React.JSX.Element {
   const { t } = useTranslation()
   return (
     <div
       className={cn(
-        'border-border bg-surface relative flex w-full max-w-[85%] max-sm:max-w-full flex-col gap-2 self-start',
+        'border-border bg-surface relative flex w-full flex-col gap-2 self-start',
+        !bare && 'max-w-[85%] max-sm:max-w-full',
         'aspect-video items-center justify-center rounded-2xl border opacity-50'
       )}
     >
@@ -55,11 +64,13 @@ function DeletedVideo(): React.JSX.Element {
 function ActiveVideo({
   filePath,
   mimeType,
-  fileName
+  fileName,
+  bare
 }: {
   filePath: string
   mimeType: string
   fileName: string
+  bare?: boolean
 }): React.JSX.Element {
   const { t } = useTranslation()
   const { url, error } = useFileUrl(filePath, mimeType)
@@ -67,7 +78,23 @@ function ActiveVideo({
   const demoAction = useDemoAction()
 
   if (error) {
-    return <DeletedVideo />
+    return <DeletedVideo bare={bare} />
+  }
+
+  // `<video controls>` already carries play, scrub, volume, fullscreen, speed
+  // and download. On a page it takes the full width and lets its own ratio set
+  // the height — no 60vh cap, because nothing is competing for the pane.
+  if (bare) {
+    return url ? (
+      <video src={url} controls preload="metadata" className="h-auto w-full bg-black" />
+    ) : (
+      <div
+        className="bg-border/30 flex w-full items-center justify-center"
+        style={{ aspectRatio: '16 / 9' }}
+      >
+        <span className="text-muted animate-pulse text-xs">{t('demo.media.loadingVideo')}</span>
+      </div>
+    )
   }
 
   return (

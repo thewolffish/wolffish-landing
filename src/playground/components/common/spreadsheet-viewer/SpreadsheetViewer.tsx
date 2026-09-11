@@ -15,23 +15,32 @@ export type SpreadsheetViewerProps = {
   fileExists: boolean
   fileName: string
   sizeBytes: number
+  /**
+   * Page surfaces (the workspace viewer) already carry the file name and the
+   * reveal/download actions in their own header, so the card around the file
+   * and its footer would be a second copy of both. `bare` drops them and hands
+   * the whole pane to the file itself.
+   */
+  bare?: boolean
 }
 
 export function SpreadsheetViewer({
   filePath,
   fileExists,
-  fileName
+  fileName,
+  bare = false
 }: SpreadsheetViewerProps): React.JSX.Element {
-  if (!fileExists) return <Deleted fileName={fileName} />
-  return <Active filePath={filePath} fileName={fileName} />
+  if (!fileExists) return <Deleted fileName={fileName} bare={bare} />
+  return <Active filePath={filePath} fileName={fileName} bare={bare} />
 }
 
-function Deleted({ fileName }: { fileName: string }): React.JSX.Element {
+function Deleted({ fileName, bare }: { fileName: string; bare?: boolean }): React.JSX.Element {
   const { t } = useTranslation()
   return (
     <div
       className={cn(
-        'border-border bg-surface flex w-full max-w-[85%] max-sm:max-w-full items-center gap-3 self-start',
+        'border-border bg-surface flex w-full items-center gap-3 self-start',
+        !bare && 'max-w-[85%] max-sm:max-w-full',
         'rounded-2xl border px-4 py-3 opacity-50'
       )}
     >
@@ -58,7 +67,15 @@ function parseWorkbook(XLSX: XlsxModule, bytes: ArrayBuffer, ext: string): WorkB
   return XLSX.read(new Uint8Array(bytes), { type: 'array' })
 }
 
-function Active({ filePath, fileName }: { filePath: string; fileName: string }): React.JSX.Element {
+function Active({
+  filePath,
+  fileName,
+  bare
+}: {
+  filePath: string
+  fileName: string
+  bare?: boolean
+}): React.JSX.Element {
   const { t } = useTranslation()
   const [activeSheet, setActiveSheet] = useState(0)
   const { bytes, error: bytesError } = useFileBytes(filePath)
@@ -97,22 +114,32 @@ function Active({ filePath, fileName }: { filePath: string; fileName: string }):
     return sheet ? XLSX.utils.sheet_to_html(sheet) : null
   }, [XLSX, workbook, activeSheet])
 
-  if (bytesError || parsed?.error) return <Deleted fileName={fileName} />
+  if (bytesError || parsed?.error) return <Deleted fileName={fileName} bare={bare} />
 
   return (
     <div
       className={cn(
-        'border-border bg-surface flex w-full max-w-[85%] max-sm:max-w-full flex-col self-start',
-        'overflow-hidden rounded-2xl border'
+        'border-border bg-surface flex w-full flex-col self-start',
+        bare
+          ? 'h-full'
+          : 'max-w-[85%] overflow-hidden rounded-2xl border max-sm:max-w-full'
       )}
     >
       {html !== null ? (
         <div
-          className="spreadsheet-preview bg-surface text-fg max-h-[400px] overflow-auto p-4 text-xs"
+          className={cn(
+            'spreadsheet-preview bg-surface text-fg overflow-auto p-4 text-xs',
+            bare ? 'min-h-0 flex-1' : 'max-h-[400px]'
+          )}
           dangerouslySetInnerHTML={{ __html: html }}
         />
       ) : (
-        <div className="flex h-[200px] w-full items-center justify-center">
+        <div
+          className={cn(
+            'flex w-full items-center justify-center',
+            bare ? 'min-h-0 flex-1' : 'h-[200px]'
+          )}
+        >
           <span className="text-muted animate-pulse text-xs">
             {t('chat.spreadsheetViewer.loading')}
           </span>
@@ -137,12 +164,14 @@ function Active({ filePath, fileName }: { filePath: string; fileName: string }):
           ))}
         </div>
       )}
-      <Footer
-        fileName={fileName}
-        onOpenExternal={demoAction}
-        onReveal={demoAction}
-        onDownload={demoAction}
-      />
+      {!bare && (
+        <Footer
+          fileName={fileName}
+          onOpenExternal={demoAction}
+          onReveal={demoAction}
+          onDownload={demoAction}
+        />
+      )}
     </div>
   )
 }

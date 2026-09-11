@@ -15,6 +15,13 @@ export type ImageViewerProps = {
   fileName: string
   width?: number
   height?: number
+  /**
+   * Page surfaces (the workspace viewer) already carry the file name and the
+   * reveal/download actions in their own header, so the card around the media
+   * and its footer would be a second copy of both. `bare` drops them and hands
+   * the whole pane to the file itself.
+   */
+  bare?: boolean
 }
 
 /**
@@ -27,7 +34,8 @@ export function ImageViewer({
   mimeType,
   fileName,
   width,
-  height
+  height,
+  bare = false
 }: ImageViewerProps): React.JSX.Element {
   if (!fileExists) {
     return <DeletedImage width={width} height={height} />
@@ -39,6 +47,7 @@ export function ImageViewer({
       fileName={fileName}
       width={width}
       height={height}
+      bare={bare}
     />
   )
 }
@@ -80,13 +89,15 @@ function ActiveImage({
   mimeType,
   fileName,
   width,
-  height
+  height,
+  bare
 }: {
   filePath: string
   mimeType: string
   fileName: string
   width?: number
   height?: number
+  bare?: boolean
 }): React.JSX.Element {
   const { t } = useTranslation()
   const { url, error } = useFileUrl(filePath, mimeType)
@@ -98,6 +109,52 @@ function ActiveImage({
 
   if (error) {
     return <DeletedImage width={width} height={height} />
+  }
+
+  // On a page the picture takes the full width and its own ratio sets the
+  // height. Click-to-zoom stays — it is the image's own affordance, not a
+  // second copy of the header's reveal/download.
+  if (bare) {
+    return (
+      <>
+        {url ? (
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            className="block w-full cursor-zoom-in"
+            aria-label={t('demo.media.openFull')}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={url}
+              alt={fileName}
+              className="block h-auto w-full"
+              draggable={false}
+              onLoad={(e) => {
+                const { naturalWidth, naturalHeight } = e.currentTarget
+                if (naturalWidth && naturalHeight) setRatio(naturalWidth / naturalHeight)
+              }}
+            />
+          </button>
+        ) : (
+          <div
+            className="bg-border/30 flex w-full items-center justify-center"
+            style={{ aspectRatio: width && height ? `${width} / ${height}` : '4 / 3' }}
+          >
+            <span className="text-muted text-xs">{t('demo.media.loadingImage')}</span>
+          </div>
+        )}
+        {url && (
+          <ImageLightbox
+            open={open}
+            onClose={() => setOpen(false)}
+            url={url}
+            fileName={fileName}
+            ratio={ratio}
+          />
+        )}
+      </>
+    )
   }
 
   return (
