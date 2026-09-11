@@ -1151,8 +1151,8 @@
         },
         {
           "icon": "coins",
-          "title": "0.77% more output pays for all of it.",
-          "desc": "At 300 seats it costs SAR 464,400 a year against roughly SAR 60 million of knowledge-worker value. Swap in your own figure."
+          "title": "SAR 7 a day per person.",
+          "desc": "At 300 seats it lands at about seven riyals per person each working day. An hour of that person's time is worth roughly SAR 114."
         },
         {
           "icon": "shield",
@@ -1160,7 +1160,7 @@
           "desc": "One enforcement decision under the personal data law reaches SAR 5 million. Weigh it after the architecture, not before."
         }
       ],
-      "note": "Microsoft's own users report twenty to forty percent reductions in administrative task time from a product that only drafts. Agents that execute go further. The SAR 60 million above models each knowledge worker at SAR 200,000 of value."
+      "note": "Microsoft's own users report twenty to forty percent reductions in administrative task time from a product that only drafts. Agents that execute go further. The figures above model a knowledge worker at SAR 200,000 a year over 220 working days."
     },
     "compare": {
       "label": "Against the cloud assistants",
