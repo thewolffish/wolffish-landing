@@ -53,7 +53,7 @@ function PinField({
 }
 
 export function LockScreen(): React.JSX.Element {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { unlock } = useDemo()
   const demoAction = useDemoAction()
   const [pin, setPin] = useState('')
@@ -69,7 +69,11 @@ export function LockScreen(): React.JSX.Element {
     }
   }, [pin, unlock])
 
-  const title = t('auth.lock.title', { name: `, ${USER.name.split(' ')[0]}` })
+  // The desktop composes this greeting with a hardcoded Latin comma; Arabic
+  // punctuates with ، (U+060C), so the separator follows the locale here
+  // rather than the port.
+  const comma = i18n.language === 'ar' ? '،' : ','
+  const title = t('auth.lock.title', { name: `${comma} ${USER.name.split(' ')[0]}` })
 
   return (
     <main className="bg-bg flex min-h-full w-full items-center justify-center px-6 py-12">
