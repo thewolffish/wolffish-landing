@@ -35,7 +35,9 @@ import { ProviderErrorCards } from '@/playground/components/common/provider-erro
 import { QuestionCard } from '@/playground/components/common/question-card/QuestionCard'
 import { ReasoningCard } from '@/playground/components/common/reasoning-card/ReasoningCard'
 import { SpreadsheetViewer } from '@/playground/components/common/spreadsheet-viewer/SpreadsheetViewer'
+import { TodoCard } from '@/playground/components/common/todo-card/TodoCard'
 import { ToolCard } from '@/playground/components/common/tool-card/ToolCard'
+import { TouchedFolders } from '@/playground/components/common/touched-folders/TouchedFolders'
 import { TurnFooter } from '@/playground/components/common/turn-footer/TurnFooter'
 import { VideoPlayer } from '@/playground/components/common/video-player/VideoPlayer'
 import { WorkflowCard } from '@/playground/components/common/workflow-card/WorkflowCard'
@@ -60,11 +62,14 @@ import type {
   Segment,
   ThinkingMode,
   TimelineEntry,
+  TodoItem,
   ToolResultSegment,
   ToolTiming,
   ApprovalCardState,
   WorkflowSnapshot
 } from '@/playground/data/types'
+import { CODE_ACTIVITY_TOOLS } from '@/playground/data/types'
+import { collectTouchedFolders } from '@/playground/lib/touched-folders'
 import { RTL_LOCALES, makeT, useLocale, useTranslation, type TFunction } from '@/playground/i18n'
 import { cn } from '@/playground/lib/cn'
 import { docMimeType, fileAvailable, normalizePath } from '@/playground/lib/files'
@@ -81,7 +86,9 @@ import {
   extractToolResultMedia,
   extractToolResultPage,
   extractToolResultPaths,
-  isFileContentResult
+  isFileContentResult,
+  latestTodoLists,
+  todoListId
 } from '@/playground/lib/markers'
 import { pageTopPadding } from '@/playground/lib/platform'
 import {
@@ -106,6 +113,7 @@ import {
   PlusSignIcon,
   Settings02Icon,
   StopCircleIcon,
+  Task01Icon,
   WorkflowSquare03Icon
 } from 'hugeicons-react'
 import {
@@ -386,7 +394,27 @@ export function Chat({ sessionKey, visible }: ChatProps): React.JSX.Element {
 
   // Reference folders this conversation's turns are told about. Read-only in
   // the replica: picking and dropping folders is a machine act.
-  const workingFolders = session?.file?.workingFolder ?? []
+  const workingFolders = useMemo(() => session?.file?.workingFolder ?? [], [session])
+
+  // Every task list in its latest state, keyed by list id (broca
+  // latestTodoLists): a later turn's todo_write that continues an earlier
+  // list resolves THAT card in place, at its original position.
+  const todoLists = useMemo(
+    () => latestTodoLists(messages.map((m) => (m.role === 'assistant' ? m.segments : undefined))),
+    [messages]
+  )
+  // The folders this conversation changed files in — chips over the
+  // transcript's top edge. Derived from the persisted segments so the strip
+  // is the same live, after the turn and on a reopened conversation.
+  const touchedFolders = useMemo(
+    () => collectTouchedFolders(messages, workingFolders),
+    [messages, workingFolders]
+  )
+  // Plan mode: a read-only turn that may only write the conversation's plan
+  // file. A stance for the next turns, not a property of the transcript —
+  // the desktop keeps it per conversation for the session and never persists
+  // it, so the replica keeps it in local state and starts every chat off.
+  const [planMode, setPlanMode] = useState(false)
 
   // ── Send / stop / queue ───────────────────────────────────────
   const send = useCallback(() => {
@@ -547,6 +575,9 @@ export function Chat({ sessionKey, visible }: ChatProps): React.JSX.Element {
           {t('chat.dropToAttach')}
         </div>
       )}
+      {/* The folders this conversation changed files in — chips on the row
+          the FloatingChrome owns, between its two glass discs. */}
+      <TouchedFolders folders={touchedFolders} />
       <div
         ref={scrollerRef}
         className="relative flex flex-1 flex-col-reverse overflow-x-hidden overflow-y-auto px-6 py-8 max-sm:px-3 max-sm:py-5"
@@ -644,6 +675,7 @@ export function Chat({ sessionKey, visible }: ChatProps): React.JSX.Element {
                   key={m.id}
                   message={m}
                   t={rowT}
+                  todoLists={todoLists}
                   awaitingApproval={awaitingApproval}
                   awaitingAsk={awaitingAsk}
                   onApprovalDecision={respondApproval}
@@ -799,6 +831,31 @@ export function Chat({ sessionKey, visible }: ChatProps): React.JSX.Element {
             {/* Spacer on desktop; on phones it takes a whole line so the
                 action buttons break onto their own row. */}
             <div className="min-w-0 flex-1 max-sm:basis-full" />
+            {/* Plan mode, leading the end-edge cluster beside the draft
+                editor button. A stance for the next turns: the turn runs
+                read-only and writes a plan the user approves before anything
+                changes. Kept per conversation for the session, never
+                persisted — a reopened chat starts with it off. */}
+            {hasAnyModel && (
+              <button
+                type="button"
+                onClick={() => setPlanMode(!planMode)}
+                aria-pressed={planMode}
+                title={planMode ? t('chat.planMode.onTitle') : t('chat.planMode.offTitle')}
+                className={cn(
+                  'me-1 flex h-7 shrink-0 cursor-pointer items-center gap-1 rounded-full border px-2 text-xs font-medium',
+                  // Leads the wrapped action row on phones, the way the draft
+                  // editor button did before this chip sat in front of it.
+                  'max-sm:ms-auto',
+                  planMode
+                    ? 'border-accent/40 bg-accent/10 text-accent'
+                    : 'border-border bg-surface text-muted hover:text-fg'
+                )}
+              >
+                <Task01Icon size={14} aria-hidden />
+                {t('chat.planMode.label')}
+              </button>
+            )}
             {/* Opens the draft in the full-height CodeMirror sheet — leads the
                 end-edge cluster. It names the sheet it opens, the way the
                 automation, project and procedure editors name theirs. */}
@@ -807,10 +864,11 @@ export function Chat({ sessionKey, visible }: ChatProps): React.JSX.Element {
               onClick={() => setDraftExpanded(true)}
               title={t('chat.expandDraft')}
               aria-label={t('chat.expandDraft')}
-              // Leads the second row on phones, so `ms-auto` pushes the whole
-              // action cluster to the end edge while the model chip row above
-              // stays at the start, under the prompt.
-              className="text-muted hover:text-fg hover:bg-border/40 flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-lg max-sm:ms-auto"
+              // The plan chip in front of it leads the wrapped row on phones
+              // and carries the `ms-auto`; this button follows it in the same
+              // cluster. Without a model there is no chip, and the cluster
+              // simply starts at the row's start edge.
+              className="text-muted hover:text-fg hover:bg-border/40 flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-lg"
             >
               <Edit02Icon size={16} />
             </button>
@@ -1572,6 +1630,8 @@ function useRelativeTime(ts: number | undefined): string | null {
 type ChatItemProps = {
   message: ChatMessage
   t: TFunction
+  /** Every task list in its latest state — see Chat's todoLists memo. */
+  todoLists: Map<string, TodoItem[]>
   awaitingApproval: boolean
   awaitingAsk: boolean
   onApprovalDecision: (id: string, decision: 'approved' | 'denied') => void
@@ -1586,6 +1646,7 @@ const ChatItem = memo(
   function ChatItem({
     message,
     t,
+    todoLists,
     awaitingApproval,
     awaitingAsk,
     onApprovalDecision,
@@ -1607,6 +1668,7 @@ const ChatItem = memo(
     return (
       <AssistantBubble
         message={message}
+        todoLists={todoLists}
         awaitingApproval={awaitingApproval}
         awaitingAsk={awaitingAsk}
         onApprovalDecision={onApprovalDecision}
@@ -1621,6 +1683,8 @@ const ChatItem = memo(
     // that was actually mutated (new segment, approval/ask update, status flip).
     if (prev.message !== next.message) return false
     if (prev.t !== next.t) return false
+    // A todo_write anywhere in the conversation may resolve THIS row's card.
+    if (prev.todoLists !== next.todoLists) return false
     if (prev.onApprovalDecision !== next.onApprovalDecision) return false
     if (prev.onAskRespond !== next.onAskRespond) return false
     // Flips between undefined and a stable callback as the row gains/loses
@@ -1707,6 +1771,7 @@ export function UserBubble({
 
 export function AssistantBubble({
   message,
+  todoLists,
   awaitingApproval,
   awaitingAsk,
   onApprovalDecision,
@@ -1714,6 +1779,7 @@ export function AssistantBubble({
   onTryAgain
 }: {
   message: AssistantMessage
+  todoLists: Map<string, TodoItem[]>
   awaitingApproval: boolean
   awaitingAsk: boolean
   onApprovalDecision: (id: string, decision: 'approved' | 'denied') => void
@@ -1777,7 +1843,8 @@ export function AssistantBubble({
     onApprovalDecision,
     onAskRespond,
     verbose,
-    showReasoning
+    showReasoning,
+    todoLists
   )
   const showThinking = isStreaming && renderable.empty
   const fullText = useMemo(() => collectText(message.segments), [message.segments])
@@ -1863,7 +1930,8 @@ function renderSegments(
   onApprovalDecision: (id: string, decision: 'approved' | 'denied') => void,
   onAskRespond: (askId: string, response: AskUserResponse) => void,
   verbose: boolean,
-  showReasoning: boolean
+  showReasoning: boolean,
+  todoLists: Map<string, TodoItem[]> = new Map()
 ): RenderResult {
   const blocks: ReactNode[] = []
   let textBuffer = ''
@@ -1979,6 +2047,16 @@ function renderSegments(
       // would split one streamed run into a card per tick.
       flushTextOnly()
       reasoningBuffer += seg.delta
+    } else if (seg.kind === 'todo') {
+      // The model's task list: one checklist card per LIST, at the turn that
+      // created it, in its latest state — a later turn's write that continues
+      // the list (listId ≠ turnId) resolves this card in place and draws
+      // nothing of its own. Output FOR the user — renders on the clean feed.
+      if (todoListId(seg) !== seg.turnId) continue
+      flushText()
+      blocks.push(
+        <TodoCard key={`todo-${seg.turnId}`} items={todoLists.get(seg.turnId) ?? seg.items} />
+      )
     } else if (seg.kind === 'workflow') {
       // The workflow card: one full-width, deterministic, collapsible block per
       // run. Snapshots are upserted by workflowId, so exactly one segment (the
@@ -2025,11 +2103,23 @@ function renderSegments(
       // what the model produces FOR the user: prose plus the file viewers and
       // location cards below, which render in their own branches regardless of
       // this flag. Tool mechanics, including failures, are verbose-only.
-      const cardVisible = verbose
+      // The code tools are the one exception: an edit, a write or a shell run
+      // is a change the user can see in their project, so the clean feed
+      // shows it as a compact activity row (status, file or command, +N −M
+      // or exit code) expandable to the diff or output — never hidden.
+      const cardVisible = verbose || CODE_ACTIVITY_TOOLS.has(seg.name)
 
       if (voiceData) {
         if (cardVisible) {
-          blocks.push(<ToolCard key={seg.segmentId} call={seg} result={result} timing={timing} />)
+          blocks.push(
+            <ToolCard
+              key={seg.segmentId}
+              call={seg}
+              result={result}
+              timing={timing}
+              compact={!verbose}
+            />
+          )
         }
         // Render every voice_generate asset, but for the voice_respond REPLY
         // only the final one — a redone reply must not show as a second memo.
@@ -2057,10 +2147,26 @@ function renderSegments(
           />
         )
         if (approval.decision !== undefined && cardVisible) {
-          blocks.push(<ToolCard key={seg.segmentId} call={seg} result={result} timing={timing} />)
+          blocks.push(
+            <ToolCard
+              key={seg.segmentId}
+              call={seg}
+              result={result}
+              timing={timing}
+              compact={!verbose}
+            />
+          )
         }
       } else if (cardVisible) {
-        blocks.push(<ToolCard key={seg.segmentId} call={seg} result={result} timing={timing} />)
+        blocks.push(
+          <ToolCard
+            key={seg.segmentId}
+            call={seg}
+            result={result}
+            timing={timing}
+            compact={!verbose}
+          />
+        )
       }
 
       const fileContent = isFileContentResult(seg, result)

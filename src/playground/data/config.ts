@@ -22,14 +22,14 @@ export const INITIAL_CONFIG: WorkspaceConfig = {
     { name: 'DATADOG_API_KEY', value: '4f1c8b2e9a7d4c3f8e6b1a2d5c9f7e3b', sensitive: true },
     { name: 'CLOUDFLARE_API_TOKEN', value: 'cfk_Qm9vayBhIGNhbGwgd2l0aCBZb3VuZXM', sensitive: true }
   ],
-  inapp: { verbose: false, runCards: true, reasoning: false },
+  inapp: { verbose: false, reasoning: false },
   stt: { defaultModel: 'base', language: 'auto' },
   tts: { defaultVoice: 'af_bella', defaultSpeed: '1.0', voiceReplies: true },
   computerUse: { screenshotMaxWidth: 1280, screenshotFormat: 'jpeg' },
   browserExtension: { port: 23152, screenshotMaxWidth: 1280, screenshotFormat: 'jpeg', screenshotQuality: 80 },
   updates: { enabled: true },
-  compaction: { dailyHour: 16, weeklyDay: 4, weeklyHour: 17, cards: false },
-  reflection: { hour: 3, quietHours: 12, cards: false },
+  compaction: { dailyHour: 16, weeklyDay: 4, weeklyHour: 17 },
+  reflection: { hour: 3, quietHours: 12 },
   locale: 'en',
   theme: 'light',
   onboardingCompleted: true

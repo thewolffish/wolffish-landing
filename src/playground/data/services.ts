@@ -105,7 +105,6 @@ export const MOBILE_STATUS: MobileStatus = {
   offer: null,
   verbose: false,
   notificationsEnabled: true,
-  runCards: false,
   apiBase: API_BASE
 }
 

@@ -18,6 +18,8 @@
 
   --color-bg: #f0f4f8;
   --color-surface: #ffffff;
+  /* Recessed surface for a block inside a card — the diff view's ground. */
+  --color-surface-2: #f8fafc;
   --color-fg: #0d1117;
   --color-muted: #5b6778;
   --color-border: #d5dde5;

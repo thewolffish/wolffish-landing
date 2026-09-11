@@ -17,6 +17,7 @@ import type {
   MessageAttachment,
   MessageAttachmentType,
   Segment,
+  TodoItem,
   ToolCallSegment,
   ToolResultSegment
 } from '@/playground/data/types'
@@ -30,6 +31,31 @@ export const WORKFLOW_TOOL_NAMES: ReadonlySet<string> = new Set([
   'agents_await',
   'agent_cancel'
 ])
+
+/** The list a todo write belongs to — its own turn on the creating write. */
+export function todoListId(segment: Extract<Segment, { kind: 'todo' }>): string {
+  return segment.listId ?? segment.turnId
+}
+
+/**
+ * Every task list in a conversation in its LATEST state, keyed by list id,
+ * walking the messages' segments in order (a later write replaces an earlier
+ * one). Renderers draw each list once, on the card of the turn that created
+ * it, with these items — so a continuation write in a later turn resolves
+ * the earlier card in place. Ported from the desktop's broca.
+ */
+export function latestTodoLists(
+  segmentLists: Array<ReadonlyArray<Segment> | undefined>
+): Map<string, TodoItem[]> {
+  const out = new Map<string, TodoItem[]>()
+  for (const segments of segmentLists) {
+    if (!segments) continue
+    for (const segment of segments) {
+      if (segment.kind === 'todo') out.set(todoListId(segment), segment.items)
+    }
+  }
+  return out
+}
 
 const DELIVERY_MARKER_ONLY_RE =
   /^\[wolffish-output:\s*[^\]]+?\s+\((?:image|audio|video|document|file|chart)\)\]$/

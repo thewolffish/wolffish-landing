@@ -20,6 +20,8 @@ import type {
   RiskLevel,
   Segment,
   TimelineEntry,
+  TodoItem,
+  ToolResultMeta,
   WorkflowSnapshot
 } from '../types'
 import { compactionAtFor, contextWindowFor, costUsd, FLASH, PROVIDER } from '../catalog'
@@ -40,6 +42,8 @@ export type Step =
       error?: string
       /** Wall-clock the call took, ms. */
       ms?: number
+      /** UI-only facts the tool recorded: a diff, an exit code, a label. */
+      meta?: ToolResultMeta
       approval?: {
         reason: string
         level?: 'confirm' | 'destructive'
@@ -72,6 +76,12 @@ export type Step =
       answers: Array<{ option: number } | { custom: string }>
       /** How long the user took to answer, ms. */
       ms?: number
+    }
+  | {
+      kind: 'todo'
+      items: TodoItem[]
+      /** The turn that created the list, when this write continues one. */
+      listId?: string
     }
   | { kind: 'workflow'; snapshot: Omit<WorkflowSnapshot, 'workflowId'> & { workflowId?: string } }
   | { kind: 'separator' }
@@ -147,6 +157,89 @@ export const workflow = (snapshot: Extract<Step, { kind: 'workflow' }>['snapshot
   kind: 'workflow',
   snapshot
 })
+/**
+ * A todo_write. Within a turn the builder upserts by turn — exactly like the
+ * desktop — so an author can write the list as it evolves and the card still
+ * renders once, in its final state, at the first write's position. Pass
+ * `listId` (an earlier turn's id, `t1`, `t2`, …) to continue THAT list from a
+ * later turn: the card at the original turn resolves in place.
+ */
+export const todo = (items: TodoItem[], listId?: string): Step => ({ kind: 'todo', items, listId })
+
+/** Additions and deletions of a unified diff, counted rather than declared. */
+function countDiff(patch: string): { additions: number; deletions: number } {
+  let additions = 0
+  let deletions = 0
+  for (const line of patch.split('\n')) {
+    if (line.startsWith('+++') || line.startsWith('---')) continue
+    if (line.startsWith('+')) additions++
+    else if (line.startsWith('-')) deletions++
+  }
+  return { additions, deletions }
+}
+
+/**
+ * A file-changing call that carries its change as a diff — the compact
+ * activity row on the clean feed, the DiffView when it is expanded. The
+ * counts come from the patch, so a card can never disagree with its own
+ * diff, and `file` is absolute so the touched-folder chips resolve.
+ */
+export const edit = (
+  file: string,
+  patch: string,
+  opts: {
+    tool?: 'file_edit' | 'file_write' | 'file_patch'
+    kind?: 'edit' | 'create' | 'overwrite'
+    output?: string
+    label?: string
+    ms?: number
+    args?: Record<string, unknown>
+  } = {}
+): Step => {
+  const { additions, deletions } = countDiff(patch)
+  const kind = opts.kind ?? 'edit'
+  const name = opts.tool ?? (kind === 'create' ? 'file_write' : 'file_edit')
+  const verb = kind === 'create' ? 'Created' : kind === 'overwrite' ? 'Rewrote' : 'Edited'
+  return {
+    kind: 'tool',
+    name,
+    args: { path: file, ...(opts.args ?? {}) },
+    output: opts.output ?? `${verb} ${file} — +${additions} −${deletions}.`,
+    ms: opts.ms ?? 90 + additions * 6,
+    meta: {
+      diff: { file, patch, additions, deletions, kind },
+      ...(opts.label ? { label: opts.label } : {})
+    }
+  }
+}
+
+/**
+ * A shell run: the command is the headline, the exit code is the chip, and
+ * the measured duration fills the elapsed slot on a reopened conversation.
+ */
+export const run = (
+  command: string,
+  output: string,
+  opts: { exitCode?: number; ms?: number; label?: string; cwd?: string; outputPath?: string } = {}
+): Step => {
+  const exitCode = opts.exitCode ?? 0
+  const ms = opts.ms ?? 1_200
+  return {
+    kind: 'tool',
+    name: 'shell_exec',
+    args: { command, ...(opts.cwd ? { cwd: opts.cwd } : {}) },
+    output,
+    status: exitCode === 0 ? 'success' : 'failed',
+    ms,
+    meta: {
+      exitCode,
+      durationMs: ms,
+      ...(opts.label ? { label: opts.label } : {}),
+      ...(opts.cwd ? { cwd: opts.cwd } : {}),
+      ...(opts.outputPath ? { outputPath: opts.outputPath } : {})
+    }
+  }
+}
 export const separator = (): Step => ({ kind: 'separator' })
 export const compaction = (c: Omit<Extract<Step, { kind: 'compaction' }>, 'kind'>): Step => ({
   kind: 'compaction',
@@ -315,7 +408,8 @@ export function conversation(spec: ConversationSpec): ConversationFile {
             toolCallId: callId,
             status,
             output: step.output,
-            ...(step.error ? { error: step.error } : {})
+            ...(step.error ? { error: step.error } : {}),
+            ...(step.meta ? { meta: step.meta } : {})
           })
           timeline.push({
             id: nextId('tl'),
@@ -394,6 +488,32 @@ export function conversation(spec: ConversationSpec): ConversationFile {
           clock += ms + 900
           toolCalls += 1
           iterations += 1
+          break
+        }
+        case 'todo': {
+          // Replace-by-turn, exactly like the desktop's upsertTodoSegment:
+          // a turn carries ONE checklist segment, at the position of its
+          // first write, holding the latest state.
+          const seg: Segment = {
+            kind: 'todo',
+            turnId,
+            segmentId: sid(),
+            items: step.items,
+            ...(step.listId ? { listId: step.listId } : {})
+          }
+          const existing = segments.findIndex((x) => x.kind === 'todo' && x.turnId === turnId)
+          if (existing >= 0) segments[existing] = { ...seg, segmentId: segments[existing].segmentId }
+          else segments.push(seg)
+          const done = step.items.filter((i) => i.status === 'completed').length
+          timeline.push({
+            id: nextId('tl'),
+            timestamp: clock,
+            kind: 'tool.completed',
+            summary: 'todo_write',
+            detail: `${done}/${step.items.length} done`
+          })
+          clock += 220
+          outputChars += step.items.reduce((n, i) => n + i.content.length + 16, 0)
           break
         }
         case 'workflow': {

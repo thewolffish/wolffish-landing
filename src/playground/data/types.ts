@@ -81,6 +81,62 @@ export type NoProviderAvailableInfo = {
   totalDurationMs: number
 }
 
+/**
+ * The change a file tool made, as the plugin recorded it (broca
+ * ToolResultDiff). UI-only: the model sees the tool's text output.
+ */
+export type ToolResultDiff = {
+  file: string
+  /** Standard unified diff text (`--- a/…`, `+++ b/…`, `@@` hunks). */
+  patch: string
+  additions: number
+  deletions: number
+  kind: 'edit' | 'create' | 'overwrite'
+}
+
+/**
+ * Structured facts about a tool result, for the UI only — the model reads
+ * `output`, the user sees what `meta` renders. Optional on every result.
+ */
+export type ToolResultMeta = {
+  diff?: ToolResultDiff
+  /** Shell exit code, null when killed. */
+  exitCode?: number | null
+  durationMs?: number
+  /** Absolute path of the full output when it was spilled to disk. */
+  outputPath?: string
+  truncated?: boolean
+  /** The directory a command ran in. */
+  cwd?: string
+  /** A short human label chosen by the tool (e.g. "Run tests"). */
+  label?: string
+}
+
+/**
+ * The tools whose call changes the user's project — an edit, a write, a
+ * shell run. Every clean feed shows these as a compact activity row even
+ * with verbose off; every other tool call stays mechanics.
+ */
+export const CODE_ACTIVITY_TOOLS: ReadonlySet<string> = new Set([
+  'file_edit',
+  'file_write',
+  'file_patch',
+  'shell_exec'
+])
+
+export type TodoStatus = 'pending' | 'in_progress' | 'completed' | 'cancelled'
+
+/**
+ * One item of the model's task list (todo_write). The whole list rides every
+ * `todo` segment; consumers upsert by turnId so a turn shows exactly ONE
+ * checklist card, at the position of its first write, in its latest state.
+ */
+export type TodoItem = {
+  content: string
+  status: TodoStatus
+  priority?: 'high' | 'medium' | 'low'
+}
+
 export type Segment =
   | { kind: 'text'; turnId: string; segmentId: string; delta: string; worker?: SegmentWorker }
   | { kind: 'reasoning'; turnId: string; segmentId: string; delta: string; worker?: SegmentWorker }
@@ -101,7 +157,29 @@ export type Segment =
       status: ToolResultStatus
       output: string
       error?: string
+      /** UI-only structured facts (diff, exit code, duration). See ToolResultMeta. */
+      meta?: ToolResultMeta
       worker?: SegmentWorker
+    }
+  | {
+      /**
+       * The model's task list after a todo_write call (see TodoItem).
+       * Replace-by-turnId semantics — NOT append — so a turn carries one
+       * checklist card in its latest state. Display-only: the model keeps
+       * the list through the todo_write result it already has.
+       */
+      kind: 'todo'
+      turnId: string
+      segmentId: string
+      items: TodoItem[]
+      /**
+       * The list this write belongs to — the turnId of the turn that created
+       * it. Absent (or equal to turnId) on the creating write. A later turn
+       * that continues an open list writes with the ORIGINAL list id, and
+       * every renderer draws that card, at its original position, in the
+       * latest state (latestTodoLists).
+       */
+      listId?: string
     }
   | { kind: 'active_model'; turnId: string; segmentId: string; provider: string; model: string }
   | {
@@ -146,7 +224,7 @@ export type ToolResultSegment = Extract<Segment, { kind: 'tool_result' }>
 // ── Approvals and ask cards ──────────────────────────────────────────────
 
 export type DangerLevel = 'safe' | 'warn' | 'confirm' | 'destructive' | 'block'
-export type ApprovalDecision = 'approved' | 'denied'
+export type ApprovalDecision = 'approved' | 'denied' | 'approved_session'
 export type RiskLevel = 'low' | 'medium' | 'high'
 
 export type ApprovalDescription = {
@@ -358,7 +436,7 @@ export type WeekStartsOn = 0 | 1
 
 export type SafetyConfig = { bypassPermissions: boolean; blockCredentials: boolean }
 
-export type InAppConfig = { verbose: boolean; runCards: boolean; reasoning: boolean }
+export type InAppConfig = { verbose: boolean; reasoning: boolean }
 
 export type SttConfig = { defaultModel: string; language: string }
 
@@ -379,7 +457,6 @@ export type CompactionConfig = {
   dailyHour: number
   weeklyDay: number
   weeklyHour: number
-  cards: boolean
 }
 
 export type CompactionRunRecord = {
@@ -399,7 +476,7 @@ export type CompactionRuns = {
   deepClean?: CompactionRunRecord | null
 }
 
-export type ReflectionConfig = { hour: number; quietHours: number; cards: boolean }
+export type ReflectionConfig = { hour: number; quietHours: number }
 
 export type WorkspaceConfig = {
   version: 1
@@ -949,7 +1026,6 @@ export type MobileStatus = {
   offer: { mode: 'qr' | 'code'; payload: string | null; code: string | null; expiresAt: number } | null
   verbose: boolean
   notificationsEnabled: boolean
-  runCards: boolean
   apiBase: string
 }
 

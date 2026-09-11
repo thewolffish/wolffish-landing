@@ -99,7 +99,6 @@ export function MobilePanel(): React.JSX.Element {
     [t]
   )
   const verbose = status?.verbose ?? null
-  const runCards = status?.runCards ?? null
 
   // The three display switches are the phone's own preferences, so they move
   // here the way they would on the handset.
@@ -348,14 +347,6 @@ export function MobilePanel(): React.JSX.Element {
             options={toggleOptions}
             disabled={busy || !loaded}
             onChange={(value) => patch({ verbose: value })}
-          />
-          <Toggle
-            title={t('settings.mobile.runCards')}
-            hint={t('settings.mobile.runCardsHint')}
-            value={runCards}
-            options={toggleOptions}
-            disabled={busy || !loaded}
-            onChange={(value) => patch({ runCards: value })}
           />
         </section>
       </div>

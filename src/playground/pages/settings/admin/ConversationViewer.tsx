@@ -6,6 +6,7 @@ import type { AdminTranscript, ChatMessage } from '@/playground/data/types'
 import { mapConversationMessages, useDemo } from '@/playground/providers/PlaygroundProvider'
 import { ADMIN_ROSTER, adminConversationsFor } from '@/playground/data/admin'
 import { USER, USER_ID } from '@/playground/data/identity'
+import { latestTodoLists } from '@/playground/lib/markers'
 import { AssistantBubble, UserBubble } from '@/playground/pages/Chat'
 import { ArrowLeft02Icon, ArrowRight02Icon } from 'hugeicons-react'
 import { useEffect, useMemo, useState } from 'react'
@@ -200,6 +201,15 @@ function TranscriptView({
 }): React.JSX.Element {
   const { t } = useTranslation()
   const noop = (): void => undefined
+  // Each task list once, in its latest state — the chat page's own rule
+  // (a later turn's todo_write resolves the earlier card in place).
+  const todoLists = useMemo(
+    () =>
+      latestTodoLists(
+        (messages ?? []).map((m) => (m.role === 'assistant' ? m.segments : undefined))
+      ),
+    [messages]
+  )
 
   if (loading || messages === null) return <TranscriptSkeleton />
 
@@ -227,6 +237,7 @@ function TranscriptView({
           <AssistantBubble
             key={m.id}
             message={m}
+            todoLists={todoLists}
             awaitingApproval={false}
             awaitingAsk={false}
             onApprovalDecision={noop}

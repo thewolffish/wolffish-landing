@@ -133,6 +133,18 @@ A full translation, not a summary. Keep every code block, path, flag and command
     updatedAt: at(6, 10, 5)
   },
   {
+    id: 'prc_bisect_regression',
+    title: 'Bisect a regression',
+    prompt: `Find the commit that caused the regression I describe, between the two refs I name.
+
+Write a probe that answers good/bad on its own — never eyeball it commit by commit. Run git bisect with that probe, then read the commit it lands on and say what in it caused the regression. Draft a fix, run whatever check proves it, and hand it back. Do not push and do not merge.`,
+    mode: 'single',
+    icon: '🔍',
+    directories: ['~/dev/wolffish-cloud/apps/desktop'],
+    createdAt: at(41, 16, 20),
+    updatedAt: at(6, 17, 10)
+  },
+  {
     id: 'prc_weekly_digest',
     title: 'Weekly engineering digest',
     prompt: `Write the week's engineering digest for Thursday 17:00.

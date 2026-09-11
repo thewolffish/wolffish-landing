@@ -23,7 +23,7 @@ export function CompactionPanel(): React.JSX.Element {
 
   const config: CompactionConfig | null = workspace.compaction
   const runs: CompactionRuns | null = COMPACTION_RUNS
-  const saving: 'daily' | 'weekly' | 'cards' | null = null
+  const saving: 'daily' | 'weekly' | null = null
   const resyncing = false
   const [now, setNow] = useState(() => Date.now())
 
@@ -141,83 +141,12 @@ export function CompactionPanel(): React.JSX.Element {
             <NextRun ms={nextWeeklyMs(config.weeklyDay, config.weeklyHour, now)} locale={locale} />
           </div>
 
-          <div className="border-border/60 border-t" />
-
-          {/* The floating card a running compaction pass draws over the chat —
-              here and on the paired phone, one switch for both. Off (default)
-              hides the card only: the passes still run on the schedule above,
-              and the last-run cards below still report them. */}
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex flex-col gap-1">
-              <span className="text-fg text-sm font-medium">
-                {t('settings.knowledge.compaction.cards.label')}
-              </span>
-              <p className="text-muted text-xs leading-relaxed">
-                {t('settings.knowledge.compaction.cards.description')}
-              </p>
-            </div>
-            <OnOffToggle
-              value={config.cards === true}
-              disabled={saving === 'cards'}
-              onChange={(value) => persist({ cards: value })}
-            />
-          </div>
         </section>
 
         {/* Last-run cards — absent entirely until a job has actually run. */}
         {runs?.daily && <LastRunCard kind="daily" record={runs.daily} locale={locale} />}
         {runs?.weekly && <LastRunCard kind="weekly" record={runs.weekly} locale={locale} />}
       </div>
-    </div>
-  )
-}
-
-// ── Small controls ───────────────────────────────────────────────────
-
-/** The segmented on/off control, worded exactly as the reflection panel's. */
-function OnOffToggle({
-  value,
-  disabled,
-  onChange
-}: {
-  value: boolean
-  disabled?: boolean
-  onChange: (value: boolean) => void
-}): React.JSX.Element {
-  const { t } = useTranslation()
-  const options: Array<{ value: boolean; label: string }> = [
-    { value: true, label: t('settings.knowledge.compaction.on') },
-    { value: false, label: t('settings.knowledge.compaction.off') }
-  ]
-  return (
-    <div
-      role="tablist"
-      className="border-border bg-bg/40 inline-flex shrink-0 items-center self-start rounded-lg border p-0.5"
-    >
-      {options.map((opt) => {
-        const active = opt.value === value
-        return (
-          <button
-            key={String(opt.value)}
-            role="tab"
-            type="button"
-            aria-selected={active}
-            disabled={disabled}
-            onClick={() => onChange(opt.value)}
-            className={cn(
-              'rounded-md px-3 py-1 text-xs font-medium',
-              'focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
-              disabled
-                ? 'text-muted/50 cursor-not-allowed'
-                : active
-                  ? 'bg-primary text-primary-fg shadow-sm'
-                  : 'text-muted hover:text-fg cursor-pointer'
-            )}
-          >
-            {opt.label}
-          </button>
-        )
-      })}
     </div>
   )
 }

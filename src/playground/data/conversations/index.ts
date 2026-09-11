@@ -1,6 +1,9 @@
 import type { ConversationFile, ConversationMeta } from '../types'
 import { apiLatencyDashboard } from './api-latency-dashboard'
+import { bisectColdStart } from './bisect-cold-start'
+import { cacheKeyUndo } from './cache-key-undo'
 import { churnCohortAnalysis } from './churn-cohort-analysis'
+import { ciTimezoneFailure } from './ci-timezone-failure'
 import { cloudflareBillAnomaly } from './cloudflare-bill-anomaly'
 import { demoVideoToGif } from './demo-video-to-gif'
 import { dependencySweep } from './dependency-sweep'
@@ -8,15 +11,22 @@ import { designSystemAudit } from './design-system-audit'
 import { docsArabicTranslation } from './docs-arabic-translation'
 import { githubActionsMigration } from './github-actions-migration'
 import { incidentPostmortem } from './incident-postmortem'
+import { listJankA56 } from './list-jank-a56'
+import { migrationDeviceLabels } from './migration-device-labels'
 import { mobileCrashTriage } from './mobile-crash-triage'
 import { outboxReplayBugfix } from './outbox-replay-bugfix'
+import { planModeRetryBudget } from './plan-mode-retry-budget'
 import { q3OkrProgress } from './q3-okr-progress'
 import { q4InfraCostForecast } from './q4-infra-cost-forecast'
 import { releaseNotes214 } from './release-notes-2-14'
+import { rtlChipRow } from './rtl-chip-row'
 import { slowQueryAudit } from './slow-query-audit'
 import { sprintVelocity } from './sprint-velocity'
+import { strictIndexAccess } from './strict-index-access'
 import { takeHomeReview } from './take-home-review'
 import { testFlakinessReport } from './test-flakiness-report'
+import { turnFlowTrace } from './turn-flow-trace'
+import { usageDailyEndpoint } from './usage-daily-endpoint'
 import { voiceMemoActionItems } from './voice-memo-action-items'
 import { weeklyEngineeringDigest } from './weekly-engineering-digest'
 
@@ -27,7 +37,10 @@ import { weeklyEngineeringDigest } from './weekly-engineering-digest'
  */
 export const CONVERSATIONS: ConversationFile[] = [
   apiLatencyDashboard,
+  bisectColdStart,
+  cacheKeyUndo,
   churnCohortAnalysis,
+  ciTimezoneFailure,
   cloudflareBillAnomaly,
   demoVideoToGif,
   dependencySweep,
@@ -35,15 +48,22 @@ export const CONVERSATIONS: ConversationFile[] = [
   docsArabicTranslation,
   githubActionsMigration,
   incidentPostmortem,
+  listJankA56,
+  migrationDeviceLabels,
   mobileCrashTriage,
   outboxReplayBugfix,
+  planModeRetryBudget,
   q3OkrProgress,
   q4InfraCostForecast,
   releaseNotes214,
+  rtlChipRow,
   slowQueryAudit,
   sprintVelocity,
+  strictIndexAccess,
   takeHomeReview,
   testFlakinessReport,
+  turnFlowTrace,
+  usageDailyEndpoint,
   voiceMemoActionItems,
   weeklyEngineeringDigest
 ].sort((a, b) => b.updatedAt - a.updatedAt)
