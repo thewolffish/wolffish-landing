@@ -36,8 +36,6 @@ export const DEMO_STRINGS = {
       loading: 'Loading the desktop…'
     },
     lock: {
-      title: 'Locked',
-      subtitle: 'Enter your PIN to continue',
       hint: 'Any four digits unlock the demo.'
     },
     files: {
@@ -151,8 +149,6 @@ export const DEMO_STRINGS = {
       loading: 'جارٍ تحميل سطح المكتب…'
     },
     lock: {
-      title: 'مقفل',
-      subtitle: 'أدخل رمز PIN للمتابعة',
       hint: 'أي أربعة أرقام تفتح العرض.'
     },
     files: {

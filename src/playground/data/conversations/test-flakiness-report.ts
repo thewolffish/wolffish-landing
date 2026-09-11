@@ -1,6 +1,6 @@
 import { at } from '../clock'
 import { PROJECT_MOBILE } from '../projects'
-import { ask, conversation, send, text, tool } from './dsl'
+import { ask, conversation, edit, send, text, tool } from './dsl'
 
 const CI_RUNS_JSON = `[
 {"run_id":18342137,"workflow":"mobile-ci","branch":"main","commit":"bccbc94","started_at":"2026-08-10T07:12:00Z","conclusion":"success","duration_s":843,"attempts":3,"tests":{"total":486,"failed":[{"test":"offlineQueue.test.ts › drains after reconnect","attempts":3,"final":"pass"},{"test":"voiceNote.test.ts › retries a failed transcript","attempts":2,"final":"pass"}],"absent":["pairingCamera.test.tsx › falls back when permission is denied","leaderboardSheet.test.tsx › sorts by tokens","settingsPanel.test.tsx › saves the model chip"]}},
@@ -279,47 +279,32 @@ Neither hard failure is a test — both are the EAS credentials step, which is B
           52_000
         ),
         text('Tagging the three, then filing one bug each on Reem.'),
-        tool(
-          'file_patch',
-          {
-            path: 'apps/mobile/src/__tests__/attachmentsSheet.test.tsx',
-            find: "it('renders queued uploads', async () => {",
-            replace: "it('renders queued uploads @flaky', async () => {"
-          },
-          `Patched apps/mobile/src/__tests__/attachmentsSheet.test.tsx (1 replacement).
-
-@@ -5,7 +5,7 @@ describe('AttachmentsSheet', () => {
+        edit(
+          'apps/mobile/src/__tests__/attachmentsSheet.test.tsx',
+          `--- a/apps/mobile/src/__tests__/attachmentsSheet.test.tsx
++++ b/apps/mobile/src/__tests__/attachmentsSheet.test.tsx
+@@ -5,1 +5,1 @@ describe('AttachmentsSheet', () => {
 -  it('renders queued uploads', async () => {
 +  it('renders queued uploads @flaky', async () => {`,
-          { ms: 120 }
+          { tool: 'file_patch', ms: 120 }
         ),
-        tool(
-          'file_patch',
-          {
-            path: 'apps/mobile/src/__tests__/offlineQueue.test.ts',
-            find: "it('drains after reconnect', async () => {",
-            replace: "it('drains after reconnect @flaky', async () => {"
-          },
-          `Patched apps/mobile/src/__tests__/offlineQueue.test.ts (1 replacement).
-
-@@ -5,7 +5,7 @@ describe('offline queue', () => {
+        edit(
+          'apps/mobile/src/__tests__/offlineQueue.test.ts',
+          `--- a/apps/mobile/src/__tests__/offlineQueue.test.ts
++++ b/apps/mobile/src/__tests__/offlineQueue.test.ts
+@@ -5,1 +5,1 @@ describe('offline queue', () => {
 -  it('drains after reconnect', async () => {
 +  it('drains after reconnect @flaky', async () => {`,
-          { ms: 100 }
+          { tool: 'file_patch', ms: 100 }
         ),
-        tool(
-          'file_patch',
-          {
-            path: 'apps/mobile/src/__tests__/pairingCamera.test.tsx',
-            find: "it('falls back when permission is denied', async () => {",
-            replace: "it('falls back when permission is denied @flaky', async () => {"
-          },
-          `Patched apps/mobile/src/__tests__/pairingCamera.test.tsx (1 replacement).
-
-@@ -5,7 +5,7 @@ describe('PairingScreen', () => {
+        edit(
+          'apps/mobile/src/__tests__/pairingCamera.test.tsx',
+          `--- a/apps/mobile/src/__tests__/pairingCamera.test.tsx
++++ b/apps/mobile/src/__tests__/pairingCamera.test.tsx
+@@ -5,1 +5,1 @@ describe('PairingScreen', () => {
 -  it('falls back when permission is denied', async () => {
 +  it('falls back when permission is denied @flaky', async () => {`,
-          { ms: 110 }
+          { tool: 'file_patch', ms: 110 }
         ),
         tool(
           'shell_exec',

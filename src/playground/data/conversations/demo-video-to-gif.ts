@@ -1,6 +1,6 @@
 import { at } from '../clock'
 import { PROJECT_DOCS } from '../projects'
-import { conversation, send, text, tool } from './dsl'
+import { conversation, edit, send, text, tool } from './dsl'
 
 const PAIRING_MD = `---
 title: Pair your phone
@@ -241,17 +241,11 @@ Wrote nothing yet — transcript returned inline.`,
 -rw-r--r--  1 younes  staff   2.1M Sep  9 16:18 apps/site/docs/assets/pairing-poster.png`,
           { ms: 540 }
         ),
-        tool(
-          'file_patch',
-          {
-            path: 'apps/site/docs/en/pairing.md',
-            find: 'Pairing links the mobile app to the desktop agent on your machine. Once paired, the phone\nsends prompts to the same agent, with the same files and the same conversations — the phone\nis a second window onto one agent, not a second agent.\n\n## Before you start',
-            replace:
-              'Pairing links the mobile app to the desktop agent on your machine. Once paired, the phone\nsends prompts to the same agent, with the same files and the same conversations — the phone\nis a second window onto one agent, not a second agent.\n\n![Pairing a phone with the desktop agent](/assets/pairing-demo.gif)\n\n<video src="/assets/pairing-demo.webm" poster="/assets/pairing-poster.png" controls muted loop />\n\n## Before you start'
-          },
-          `Patched apps/site/docs/en/pairing.md (1 replacement, +4 lines).
-
-@@ -12,6 +12,10 @@
+        edit(
+          'apps/site/docs/en/pairing.md',
+          `--- a/apps/site/docs/en/pairing.md
++++ b/apps/site/docs/en/pairing.md
+@@ -12,3 +12,7 @@ sends prompts to the same agent, with the same files and the same conversations
  is a second window onto one agent, not a second agent.
 
 +![Pairing a phone with the desktop agent](/assets/pairing-demo.gif)
@@ -259,7 +253,7 @@ Wrote nothing yet — transcript returned inline.`,
 +<video src="/assets/pairing-demo.webm" poster="/assets/pairing-poster.png" controls muted loop />
 +
  ## Before you start`,
-          { ms: 260 }
+          { tool: 'file_patch', ms: 260 }
         ),
         send('files/media/pairing-demo.gif'),
         send('files/media/pairing-demo.webm'),

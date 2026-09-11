@@ -1,7 +1,7 @@
 import { PRO } from '../catalog'
 import { at } from '../clock'
 import { PROJECT_PLATFORM } from '../projects'
-import { compaction, conversation, reasoning, send, text, tool } from './dsl'
+import { compaction, conversation, edit, reasoning, send, text, tool } from './dsl'
 
 const SYNC_TS = `import { Hono } from 'hono'
 import type { Env, SessionVars } from '../types'
@@ -302,32 +302,13 @@ The comment on line 25 is the contract: the test was written for the re-pair cas
         text(
           '`9c41e07`, merged at 02:14 last night. It fixed a collision that cannot happen — item ids are client-minted UUIDv7, so two phones do not share one — and broke the case that does happen: a re-paired phone gets a new device id and replays its whole outbox. The test comment on line 25 says exactly that. Reverting the key, keeping `device_id` as an audit column.'
         ),
-        tool(
-          'file_patch',
-          {
-            path: 'apps/api/src/routes/sync.ts',
-            find: `/**
- * The key a replay is deduplicated by. Scoped per device so two phones on
- * the same account do not collide on a shared item id.
- */
-function dedupKey(userId: string, deviceId: string, item: OutboxItem): string {
-  return \`\${userId}:\${deviceId}:\${item.id}\`
-}`,
-            replace: `/**
- * The key a replay is deduplicated by.
- *
- * Scoped to the user and the client-minted item id — deliberately NOT to the
- * device. A re-paired phone mints a fresh device id, so a device-scoped key
- * makes every item it ever queued look new and the whole outbox replays.
- * See WFC-1425 and the seam test "outbox replays an idempotent batch".
- */
-function dedupKey(userId: string, item: OutboxItem): string {
-  return \`\${userId}:\${item.id}\`
-}`
-          },
-          `Patched apps/api/src/routes/sync.ts (1 replacement, +6 −4).
+        edit(
+          'apps/api/src/routes/sync.ts',
+          `--- a/apps/api/src/routes/sync.ts
++++ b/apps/api/src/routes/sync.ts
+@@ -23,11 +23,15 @@ export type OutboxItem = {
+ }
 
-@@ -25,7 +25,10 @@
 -/**
 - * The key a replay is deduplicated by. Scoped per device so two phones on
 - * the same account do not collide on a shared item id.
@@ -345,28 +326,42 @@ function dedupKey(userId: string, item: OutboxItem): string {
 + */
 +function dedupKey(userId: string, item: OutboxItem): string {
 +  return \`\${userId}:\${item.id}\`
-+}`,
-          { ms: 340 }
++}
+
+ sync.post('/outbox', async (c) => {`,
+          { tool: 'file_patch', ms: 340 }
         ),
-        tool(
-          'file_patch',
+        edit(
+          'apps/api/src/routes/sync.ts',
+          `--- a/apps/api/src/routes/sync.ts
++++ b/apps/api/src/routes/sync.ts
+@@ -46,4 +46,4 @@ sync.post('/outbox', async (c) => {
+   }
+
+-  const keys = body.items.map((item) => dedupKey(user.id, body.deviceId, item))
++  const keys = body.items.map((item) => dedupKey(user.id, item))
+   const seen = await c.env.DB.prepare(`,
           {
-            path: 'apps/api/src/routes/sync.ts',
-            find: 'const keys = body.items.map((item) => dedupKey(user.id, body.deviceId, item))',
-            replace: 'const keys = body.items.map((item) => dedupKey(user.id, item))'
-          },
-          'Patched apps/api/src/routes/sync.ts (1 replacement) — call site at line 48.',
-          { ms: 190 }
+            tool: 'file_patch',
+            output: 'Patched apps/api/src/routes/sync.ts (1 replacement) — call site at line 48.',
+            ms: 190
+          }
         ),
-        tool(
-          'file_patch',
+        edit(
+          'apps/api/src/routes/sync.ts',
+          `--- a/apps/api/src/routes/sync.ts
++++ b/apps/api/src/routes/sync.ts
+@@ -60,3 +60,3 @@ sync.post('/outbox', async (c) => {
+   for (const item of body.items) {
+-    const key = dedupKey(user.id, body.deviceId, item)
++    const key = dedupKey(user.id, item)
+     if (already.has(key)) {`,
           {
-            path: 'apps/api/src/routes/sync.ts',
-            find: '    const key = dedupKey(user.id, body.deviceId, item)',
-            replace: '    const key = dedupKey(user.id, item)'
-          },
-          'Patched apps/api/src/routes/sync.ts (1 replacement) — call site at line 61. No other call sites: `grep -rn "dedupKey" src/` returns 3 lines, all in this file.',
-          { ms: 200 }
+            tool: 'file_patch',
+            output:
+              'Patched apps/api/src/routes/sync.ts (1 replacement) — call site at line 61. No other call sites: `grep -rn "dedupKey" src/` returns 3 lines, all in this file.',
+            ms: 200
+          }
         ),
         tool(
           'shell_exec',
@@ -409,7 +404,7 @@ function dedupKey(userId: string, item: OutboxItem): string {
           { command: 'git checkout -b fix/outbox-replay-key && git add apps/api/src/routes/sync.ts && git commit -m "fix(sync): drop deviceId from the outbox dedup key"', cwd: '~/dev/wolffish-cloud' },
           `Switched to a new branch 'fix/outbox-replay-key'
 [fix/outbox-replay-key 7ad2be1] fix(sync): drop deviceId from the outbox dedup key
- 1 file changed, 9 insertions(+), 7 deletions(-)`,
+ 1 file changed, 13 insertions(+), 9 deletions(-)`,
           { ms: 760 }
         ),
         tool(
@@ -429,7 +424,7 @@ branch 'fix/outbox-replay-key' set up to track 'origin/fix/outbox-replay-key'.`,
               reason: 'Pushing creates a branch on the shared remote.',
               level: 'confirm',
               title: 'Push fix/outbox-replay-key to origin?',
-              description: 'One commit, one file (apps/api/src/routes/sync.ts), 9 insertions and 7 deletions. New branch — nothing existing is moved.',
+              description: 'One commit, one file (apps/api/src/routes/sync.ts), 13 insertions and 9 deletions. New branch — nothing existing is moved.',
               command: 'git push -u origin fix/outbox-replay-key',
               impact: 'Creates a remote branch and triggers the CI workflow on it.',
               risk: 'low',
@@ -453,8 +448,8 @@ branch 'fix/outbox-replay-key' set up to track 'origin/fix/outbox-replay-key'.`,
   "state": "open",
   "head": "fix/outbox-replay-key",
   "base": "main",
-  "additions": 9,
-  "deletions": 7,
+  "additions": 13,
+  "deletions": 9,
   "changed_files": 1,
   "requested_reviewers": [],
   "checks": "queued"
@@ -478,42 +473,11 @@ Two things to watch:
       at: at(16, 11, 42),
       steps: [
         text('A test that asserts the shape of what lands in `outbox_applied` — two segments, no device id — so any future device scoping fails at the write, not at a replay three weeks later.'),
-        tool(
-          'file_patch',
-          {
-            path: 'apps/api/test/seams/outbox.test.ts',
-            find: `  it('refuses a batch over the cap', async () => {
-    const big = Array.from({ length: 201 }, (_, i) => ({ ...ITEMS[0], id: \`itm_b\${i}\` }))
-    const res = await postOutbox(seamEnv, { deviceId: 'dev_phone_1', items: big }, { raw: true })
-    expect(res.status).toBe(413)
-  })
-})`,
-            replace: `  it('refuses a batch over the cap', async () => {
-    const big = Array.from({ length: 201 }, (_, i) => ({ ...ITEMS[0], id: \`itm_b\${i}\` }))
-    const res = await postOutbox(seamEnv, { deviceId: 'dev_phone_1', items: big }, { raw: true })
-    expect(res.status).toBe(413)
-  })
-
-  it('never writes a device-scoped dedup key', async () => {
-    // Regression guard for 9c41e07: the key is user:item, with no device segment.
-    await postOutbox(seamEnv, { deviceId: 'dev_phone_1', items: ITEMS })
-    const rows = await seamEnv.DB.prepare('select key, device_id from outbox_applied').all()
-
-    expect(rows.results.map((r) => r.key)).toEqual([
-      'usr_seam:itm_a1',
-      'usr_seam:itm_a2',
-      'usr_seam:itm_a3'
-    ])
-    for (const row of rows.results) {
-      expect(row.key.split(':')).toHaveLength(2)
-      expect(row.key).not.toContain(row.device_id)
-    }
-  })
-})`
-          },
-          `Patched apps/api/test/seams/outbox.test.ts (1 replacement, +16 lines).
-
-@@ -33,4 +33,20 @@
+        edit(
+          'apps/api/test/seams/outbox.test.ts',
+          `--- a/apps/api/test/seams/outbox.test.ts
++++ b/apps/api/test/seams/outbox.test.ts
+@@ -33,3 +33,19 @@ describe('sync outbox', () => {
      expect(res.status).toBe(413)
    })
 +
@@ -533,7 +497,7 @@ Two things to watch:
 +    }
 +  })
  })`,
-          { ms: 300 }
+          { tool: 'file_patch', ms: 300 }
         ),
         tool(
           'shell_exec',

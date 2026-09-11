@@ -1,6 +1,6 @@
 import { at } from '../clock'
 import { PROJECT_DOCS } from '../projects'
-import { conversation, send, text, tool } from './dsl'
+import { conversation, edit, send, text, tool } from './dsl'
 
 const SOURCE_MD = `# Token and search quotas
 
@@ -194,15 +194,20 @@ quotas.md is absent from both the folder and the nav.`,
           'Wrote apps/site/docs/ar/quotas.md (3.7 KB, 54 lines). 2 fenced blocks and 15 code spans copied byte-for-byte from the source; 1 table; digits Western; the range written 1-31.',
           { ms: 260 }
         ),
-        tool(
-          'file_patch',
+        edit(
+          'apps/site/docs/ar/_meta.json',
+          `--- a/apps/site/docs/ar/_meta.json
++++ b/apps/site/docs/ar/_meta.json
+@@ -6,1 +6,2 @@
+-  "billing": "الفوترة"
++  "billing": "الفوترة",
++  "quotas": "الحصص"`,
           {
-            path: 'apps/site/docs/ar/_meta.json',
-            find: '  "billing": "الفوترة"',
-            replace: '  "billing": "الفوترة",\n  "quotas": "الحصص"'
-          },
-          'Patched apps/site/docs/ar/_meta.json (1 replacement). Nav now carries the page; the English _meta.json already had it.',
-          { ms: 90 }
+            tool: 'file_patch',
+            output:
+              'Patched apps/site/docs/ar/_meta.json (1 replacement). Nav now carries the page; the English _meta.json already had it.',
+            ms: 90
+          }
         ),
         tool(
           'shell_exec',
@@ -269,17 +274,45 @@ Two things to look at:
 6 occurrences, 2 of them plural (السقوف).`,
           { ms: 240 }
         ),
-        tool(
-          'file_patch',
-          { path: 'apps/site/docs/ar/quotas.md', find: 'السقوف', replace: 'الحدود القصوى' },
-          'Patched apps/site/docs/ar/quotas.md (2 replacements, lines 14 and 30). Plural form written out rather than mechanically substituted — a literal swap would have produced "الحدود الأقصى".',
-          { ms: 90 }
+        edit(
+          'apps/site/docs/ar/quotas.md',
+          `--- a/apps/site/docs/ar/quotas.md
++++ b/apps/site/docs/ar/quotas.md
+@@ -14,1 +14,1 @@
+-## السقوف الافتراضية
++## الحدود القصوى الافتراضية
+@@ -30,1 +30,1 @@
+-يعيد الطلب عدادات اليوم إلى جانب السقوف المقيسة عليها: \`tokens.used\` و\`tokens.cap\`، و\`searches.used\` و\`searches.cap\`، وكتلة \`org_month\` التي تحمل عدّادَي المؤسسة.
++يعيد الطلب عدادات اليوم إلى جانب الحدود القصوى المقيسة عليها: \`tokens.used\` و\`tokens.cap\`، و\`searches.used\` و\`searches.cap\`، وكتلة \`org_month\` التي تحمل عدّادَي المؤسسة.`,
+          {
+            tool: 'file_patch',
+            output:
+              'Patched apps/site/docs/ar/quotas.md (2 replacements, lines 14 and 30). Plural form written out rather than mechanically substituted — a literal swap would have produced "الحدود الأقصى".',
+            ms: 90
+          }
         ),
-        tool(
-          'file_patch',
-          { path: 'apps/site/docs/ar/quotas.md', find: 'السقف', replace: 'الحد الأقصى' },
-          'Patched apps/site/docs/ar/quotas.md (4 replacements, lines 3, 16, 32, 47). No code span, path or fenced block touched — none contained the word.',
-          { ms: 110 }
+        edit(
+          'apps/site/docs/ar/quotas.md',
+          `--- a/apps/site/docs/ar/quotas.md
++++ b/apps/site/docs/ar/quotas.md
+@@ -3,1 +3,1 @@
+-بعد قراءة هذه الصفحة يمكنك الاطلاع على حصتك، ومعرفة ما يحدث عند بلوغ السقف، ورفعه — إن كنت مشرف مؤسسة — لموظف واحد أو للمؤسسة كلها.
++بعد قراءة هذه الصفحة يمكنك الاطلاع على حصتك، ومعرفة ما يحدث عند بلوغ الحد الأقصى، ورفعه — إن كنت مشرف مؤسسة — لموظف واحد أو للمؤسسة كلها.
+@@ -16,1 +16,1 @@
+-| النطاق | السقف | النافذة | يغيّره |
++| النطاق | الحد الأقصى | النافذة | يغيّره |
+@@ -32,1 +32,1 @@
+-## ماذا يحدث عند بلوغ السقف
++## ماذا يحدث عند بلوغ الحد الأقصى
+@@ -47,1 +47,1 @@
+-- خفض السقف دون الاستهلاك الحالي لا يسترجع ما استُهلك؛ يسري ابتداءً من الطلب التالي.
++- خفض الحد الأقصى دون الاستهلاك الحالي لا يسترجع ما استُهلك؛ يسري ابتداءً من الطلب التالي.`,
+          {
+            tool: 'file_patch',
+            output:
+              'Patched apps/site/docs/ar/quotas.md (4 replacements, lines 3, 16, 32 and 47). No code span, path or fenced block touched — none contained the word.',
+            ms: 110
+          }
         ),
         tool(
           'shell_exec',
