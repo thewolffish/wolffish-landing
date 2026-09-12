@@ -337,12 +337,15 @@ export function ViewerPage(): React.JSX.Element {
   const language = selectedPath ? languageFor(selectedPath) : null
   const readOnly = selectedPath ? isReadOnlyPath(selectedPath) : false
   const isMarkdown = language === 'markdown'
+  const isHtml = language === 'html'
   const fileName = selectedPath ? (selectedPath.split('/').pop() ?? selectedPath) : null
   const hasContent = language || mediaType
+  // An HTML file opens on its rendered self — the page is the point of it, the
+  // same default the chat's HTML card takes. Edit still holds the markup.
   const viewMode: ViewMode =
     modeChoice?.path === selectedPath
       ? modeChoice.mode
-      : mediaType || readOnly
+      : mediaType || readOnly || isHtml
         ? 'preview'
         : 'edit'
   // The desktop surfaces the read error main sent back; the only failure that
@@ -578,6 +581,17 @@ export function ViewerPage(): React.JSX.Element {
                     relativePath={selectedPath}
                     fileName={fileName!}
                     mediaType={mediaType}
+                  />
+                ) : viewMode === 'preview' && isHtml ? (
+                  // The same sandboxed frame the chat's HTML card renders into:
+                  // an opaque origin (no allow-same-origin) so the page cannot
+                  // reach the app around it. Never add allow-same-origin beside
+                  // allow-scripts — that would defeat the sandbox.
+                  <iframe
+                    title={fileName ?? 'preview'}
+                    srcDoc={editorContent}
+                    sandbox="allow-scripts allow-popups allow-forms allow-modals"
+                    className="min-h-0 w-full min-w-0 flex-1 border-0 bg-white"
                   />
                 ) : viewMode === 'preview' ? (
                   <div className="bg-surface text-fg min-h-0 min-w-0 flex-1 overflow-y-auto px-6 py-5 text-sm max-sm:px-4 max-sm:py-4">
