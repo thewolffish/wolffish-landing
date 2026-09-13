@@ -6,7 +6,7 @@
   "hero": {
     "name": "Wolffish",
     "tagline": "The Personal AI Agent For Everyone",
-    "subtitle": "The personal AI agent that gets out of your way. It acts, automates, and remembers on Mac, Windows, and Linux — fully local or with the model of your choice.",
+    "subtitle": "Gets out of your way. Acts, automates, and remembers on Mac, Windows, and Linux — fully local or with any model you choose.",
     "version": "latest"
   },
   "launch": {
