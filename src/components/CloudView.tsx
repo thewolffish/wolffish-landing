@@ -72,6 +72,7 @@ export interface CloudTitled {
 
 export interface CloudUi {
   home: string;
+  wordmark: string;
   tag: string;
   eyebrow: string;
   primaryCta: string;
@@ -402,11 +403,8 @@ export default function CloudView({
           className="w-14 h-14 md:w-16 md:h-16 mx-auto"
           priority
         />
-        <div
-          dir="ltr"
-          className="mt-5 inline-flex items-center gap-2 text-lg md:text-xl font-bold text-neutral-900 tracking-tight"
-        >
-          Wolffish
+        <div className="mt-5 inline-flex items-center gap-2 text-lg md:text-xl font-bold text-neutral-900 tracking-tight">
+          {ui.wordmark}
           <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-[11px] font-semibold tracking-wide text-emerald-700 translate-y-px">
             {ui.tag}
           </span>
