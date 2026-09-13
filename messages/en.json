@@ -6,7 +6,7 @@
   "hero": {
     "name": "Wolffish",
     "tagline": "The Personal AI Agent For Everyone",
-    "subtitle": "Gets out of your way. Acts, automates, and remembers on Mac, Windows, and Linux — fully local or with any model you choose.",
+    "subtitle": "The personal AI agent that gets out of your way. It acts, automates, and remembers on Mac, Windows, and Linux — fully local or with the model of your choice.",
     "version": "latest"
   },
   "launch": {
@@ -826,7 +826,7 @@
       }
     },
     "hero": {
-      "title": "One agent per employee. On their own machine. Inside your perimeter. On a bill you set.",
+      "title": "One agent per employee. Their machine, your perimeter, a bill you set.",
       "lead": "Wolffish Cloud puts a persistent agent on each employee's own machine and sends inference to a zero-retention endpoint on your own account, so no prompt, file or output has a path to us. It is deployed by the engineers who built it, into the internal systems no connector catalogue supports, with a pilot cohort live in six to eight weeks for a standard scope.",
       "trust": [
         "No vendor-side data path",
