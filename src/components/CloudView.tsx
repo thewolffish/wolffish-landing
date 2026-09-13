@@ -414,7 +414,7 @@ export default function CloudView({
         <p className="mt-4 text-[11px] md:text-xs font-medium uppercase tracking-widest text-neutral-400">
           {ui.eyebrow}
         </p>
-        <h1 className="mt-3 max-w-4xl mx-auto text-3xl md:text-5xl font-bold text-neutral-900 tracking-tight leading-tight">
+        <h1 className="mt-3 max-w-4xl mx-auto text-2xl md:text-4xl font-bold text-neutral-900 tracking-tight leading-tight">
           {hero.title}
         </h1>
         <p className="mt-5 max-w-3xl mx-auto text-sm md:text-base text-neutral-600 leading-relaxed">
