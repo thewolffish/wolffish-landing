@@ -62,14 +62,14 @@ function frame(locale: ScheduleLocale, inner: string) {
 ${inner}
 </td></tr>
 </table>
-<p style="margin:16px 0 0;font-size:12px;color:#a3a3a3;font-family:${FONT};">Wolffish Cloud · <a href="${CLOUD_URL}" style="color:#a3a3a3;">wolffi.sh/cloud</a></p>
+<p style="margin:16px 0 0;font-size:12px;color:#a3a3a3;font-family:${FONT};">${locale === "ar" ? "وولفيش كلاود" : "Wolffish Cloud"} · <a href="${CLOUD_URL}" style="color:#a3a3a3;">wolffi.sh/cloud</a></p>
 </td></tr>
 </table>
 </body></html>`;
 }
 
 function avatarBlock(locale: ScheduleLocale) {
-  const role = locale === "ar" ? "المؤسس والمهندس، Wolffish" : "Founder & Engineer, Wolffish";
+  const role = locale === "ar" ? "شريك مؤسس، وولفيش" : "Co-founder, Wolffish";
   return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin-bottom:20px;">
 <tr>
 <td width="56" style="width:56px;vertical-align:middle;">
@@ -115,7 +115,7 @@ function signature(locale: ScheduleLocale) {
   const line = locale === "ar" ? "مع خالص التقدير،" : "Warm regards,";
   return `<p style="margin:18px 0 0;font-size:15px;line-height:1.65;color:#404040;">${line}<br>
 <strong style="color:#171717;">${FOUNDER_NAME}</strong><br>
-<span style="color:#737373;font-size:13px;">${locale === "ar" ? "المؤسس والمهندس، Wolffish" : "Founder & Engineer, Wolffish"}</span><br>
+<span style="color:#737373;font-size:13px;">${locale === "ar" ? "شريك مؤسس، وولفيش" : "Co-founder, Wolffish"}</span><br>
 <a href="mailto:${FOUNDER_EMAIL}" style="color:#059669;text-decoration:none;font-size:13px;">${FOUNDER_EMAIL}</a>
 <span style="color:#d4d4d4;">·</span>
 <a href="https://wa.me/${FOUNDER_PHONE.replace("+", "")}" style="color:#059669;text-decoration:none;font-size:13px;" dir="ltr">${FOUNDER_PHONE_DISPLAY}</a></p>`;
@@ -147,7 +147,7 @@ export function buildConfirmationEmail(req: ScheduleRequest) {
   const labels = LABELS[req.locale];
 
   if (req.locale === "ar") {
-    const subject = `مكالمتكم مع Wolffish Cloud، ${firstName(req.name)}`;
+    const subject = `مكالمتكم مع وولفيش كلاود، ${firstName(req.name)}`;
     const html = frame(
       "ar",
       avatarBlock("ar") +
@@ -176,7 +176,7 @@ export function buildConfirmationEmail(req: ScheduleRequest) {
       "",
       "مع خالص التقدير،",
       FOUNDER_NAME,
-      "المؤسس والمهندس، Wolffish",
+      "شريك مؤسس، وولفيش",
       `${FOUNDER_EMAIL} · ${FOUNDER_PHONE_DISPLAY}`,
     ]
       .filter((l) => l !== "")
@@ -213,7 +213,7 @@ export function buildConfirmationEmail(req: ScheduleRequest) {
     "",
     "Warm regards,",
     FOUNDER_NAME,
-    "Founder & Engineer, Wolffish",
+    "Co-founder, Wolffish",
     `${FOUNDER_EMAIL} · ${FOUNDER_PHONE_DISPLAY}`,
   ]
     .filter((l) => l !== "")

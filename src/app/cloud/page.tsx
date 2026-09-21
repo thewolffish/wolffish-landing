@@ -89,7 +89,7 @@ export default async function CloudPage() {
             name: "Paid pilot",
             price: "25000",
             priceCurrency: "SAR",
-            description: "One department, one workflow, three weeks. Counts in full toward the deployment on company-wide rollout. Excludes 15 percent VAT.",
+            description: "One department, one workflow, three weeks. Deducted in full from the total deployment cost on company-wide rollout. Excludes 15 percent VAT.",
           },
           {
             "@type": "Offer",

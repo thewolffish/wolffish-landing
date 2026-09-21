@@ -8,7 +8,7 @@ const OceanScene = dynamic(() => import("@/components/OceanScene"), {
 });
 
 // Routes that render a plain page without the 3D ocean background.
-const PLAIN_ROUTES = ["/start", "/blog", "/cloud"];
+const PLAIN_ROUTES = ["/start", "/blog", "/cloud", "/deck"];
 
 export default function OceanSceneClient() {
   const pathname = usePathname();

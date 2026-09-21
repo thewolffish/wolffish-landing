@@ -49,6 +49,7 @@ import {
 } from "./ContactCard";
 import { SiOpensourceinitiative } from "react-icons/si";
 import ScheduleCallForm, { type ScheduleFormUi } from "./ScheduleCallForm";
+import TeamCards, { type TeamData } from "./TeamCards";
 import CloudPlayground, { type CloudPlaygroundUi } from "./CloudPlayground";
 
 /* ---------- data shapes (read from messages/*.json "cloud" in app/cloud/page.tsx) ---------- */
@@ -160,6 +161,8 @@ export interface CloudData {
   provide: { label: string; title: string; items: CloudTitled[] };
   faq: { label: string; title: string; items: { q: string; a: string }[] };
   founder: FounderUi & { label: string; title: string };
+  team: TeamData;
+  deckCard: { badge: string; title: string; desc: string; cta: string };
   schedule: {
     label: string;
     title: string;
@@ -324,6 +327,62 @@ function StatusCard({
   );
 }
 
+/**
+ * The link out to /deck, styled like the deck itself: the same night ground,
+ * glow and emerald accent, drawn with gradients rather than the deck's
+ * particle canvas so this page loads nothing extra. Sits above the
+ * playground card, which it deliberately mirrors in layout.
+ */
+function DeckCard({
+  ui,
+}: {
+  ui: { badge: string; title: string; desc: string; cta: string };
+}) {
+  return (
+    <Link
+      href="/deck"
+      className="group relative mb-4 block overflow-hidden rounded-2xl border border-white/10 bg-[#040a18] p-5 transition-colors hover:border-emerald-400/40 md:p-6"
+    >
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(75% 120% at 50% 0%, rgba(56,189,248,0.20), transparent 62%), radial-gradient(60% 100% at 50% 100%, rgba(16,185,129,0.16), transparent 62%)",
+        }}
+      />
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-50"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle, rgba(255,255,255,0.55) 1px, transparent 1.3px)",
+          backgroundSize: "22px 22px",
+          maskImage: "radial-gradient(75% 75% at 50% 45%, black, transparent)",
+          WebkitMaskImage: "radial-gradient(75% 75% at 50% 45%, black, transparent)",
+        }}
+      />
+      <div className="relative flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-8">
+        <div className="min-w-0">
+          <div className="flex flex-wrap items-center gap-2.5">
+            <h2 className="text-lg font-bold tracking-tight text-white">{ui.title}</h2>
+            <span className="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2 py-0.5 text-[10.5px] font-semibold tracking-wide text-emerald-300 uppercase">
+              {ui.badge}
+            </span>
+          </div>
+          <p className="mt-1.5 max-w-2xl text-[13.5px] leading-relaxed text-pretty text-white/60">
+            {ui.desc}
+          </p>
+        </div>
+        <span className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-[#04121a] transition-colors group-hover:bg-emerald-400">
+          {ui.cta}
+          <FaArrowRight className="h-3 w-3 rtl:rotate-180" />
+        </span>
+      </div>
+    </Link>
+  );
+}
+
 function NumberBadge({ n }: { n: number }) {
   return (
     <div className="shrink-0 w-7 h-7 rounded-full bg-emerald-600 text-white text-xs font-semibold flex items-center justify-center">
@@ -359,8 +418,10 @@ export default function CloudView({
     provide,
     faq,
     founder,
+    team,
     schedule,
     floating,
+    deckCard,
     playground,
   } = data;
   const router = useRouter();
@@ -444,6 +505,7 @@ export default function CloudView({
 
       {/* The desktop app itself, on demo data — every page, setting and file. */}
       <section className="w-full max-w-6xl mx-auto px-4 md:px-6 pt-10 md:pt-14">
+        <DeckCard ui={deckCard} />
         <CloudPlayground ui={playground} locale={locale} />
       </section>
 
@@ -880,6 +942,16 @@ export default function CloudView({
       <Section id="contact" label={founder.label} title={founder.title}>
         <div className="mt-8">
           <FounderCard ui={founder} whatsappHref={whatsappHref} />
+        </div>
+      </Section>
+
+      {/* The team */}
+      <Section id="team" label={team.label} title={team.title}>
+        <p className="mt-4 max-w-3xl text-sm md:text-[15px] leading-relaxed text-neutral-600">
+          {team.lead}
+        </p>
+        <div className="mt-8">
+          <TeamCards team={team} theme="light" />
         </div>
       </Section>
 

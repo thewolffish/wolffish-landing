@@ -24,6 +24,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: `${SITE_URL}/deck`,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
       url: `${SITE_URL}/blog`,
       lastModified: newestPost ? new Date(newestPost) : undefined,
       changeFrequency: "weekly",

@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const post = getBlogPost(slug, locale);
   if (!post) return {};
 
-  const title = `${post.title} — Wolffish`;
+  const title = `${post.title} — ${locale === "ar" ? "وولفيش" : "Wolffish"}`;
   const image = post.image ?? "https://cdn.wolffi.sh/generic/banner.jpg";
   return {
     title,

@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   if (!doc) return {};
 
-  const title = `${doc.title} — Wolffish`;
+  const title = `${doc.title} — ${locale === "ar" ? "وولفيش" : "Wolffish"}`;
   return {
     title,
     description: doc.description,

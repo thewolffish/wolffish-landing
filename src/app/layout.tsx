@@ -43,8 +43,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
   const title =
     locale === "ar"
-      ? "وولف فيش: وكيل الذكاء الاصطناعي الشخصي للجميع"
-      : "Wolffish: The Personal AI Agent For Everyone";
+      ? "وولفيش: وكيل الذكاء الاصطناعي الشخصي للجميع"
+      : "وولفيش: The Personal AI Agent For Everyone";
   const description =
     locale === "ar"
       ? "وكيل ذكي يعمل على جهازك مباشرة. يفكّر، يُنفّذ، ويتفاعل مع ملفاتك وأدواتك. بلا سحابة. بلا حدود."
@@ -61,13 +61,13 @@ export async function generateMetadata(): Promise<Metadata> {
       title,
       description,
       url: "https://wolffi.sh",
-      siteName: "Wolffish",
+      siteName: "وولفيش",
       images: [
         {
           url: "https://cdn.wolffi.sh/generic/banner.jpg",
           width: 2540,
           height: 1520,
-          alt: "Wolffish",
+          alt: "وولفيش",
         },
       ],
       locale: locale === "ar" ? "ar_SA" : "en_US",
@@ -93,13 +93,12 @@ export default async function RootLayout({
 }) {
   const locale = await getLocale();
   const messages = await getMessages();
-  // The /start, /blog, and /cloud namespaces are consumed server-side by
-  // their routes only — keep them out of the client messages shipped with
+  // The /start, /blog, /cloud, and /deck namespaces are consumed server-side
+  // by their routes only — keep them out of the client messages shipped with
   // every page.
+  const SERVER_ONLY = new Set(["start", "blog", "cloud", "deck"]);
   const clientMessages = Object.fromEntries(
-    Object.entries(messages).filter(
-      ([key]) => key !== "start" && key !== "blog" && key !== "cloud"
-    )
+    Object.entries(messages).filter(([key]) => !SERVER_ONLY.has(key))
   ) as typeof messages;
 
   // Site-wide structured data for search engines and AI crawlers.
@@ -109,7 +108,7 @@ export default async function RootLayout({
       {
         "@type": "Organization",
         "@id": "https://wolffi.sh/#organization",
-        name: "Wolffish",
+        name: "وولفيش",
         url: "https://wolffi.sh",
         logo: "https://cdn.wolffi.sh/generic/icon.png",
         sameAs: [
@@ -124,7 +123,7 @@ export default async function RootLayout({
       {
         "@type": "WebSite",
         "@id": "https://wolffi.sh/#website",
-        name: "Wolffish",
+        name: "وولفيش",
         url: "https://wolffi.sh",
         publisher: { "@id": "https://wolffi.sh/#organization" },
         inLanguage: ["en", "ar"],

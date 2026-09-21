@@ -35,7 +35,7 @@ image: https://cdn.wolffi.sh/blog/openai-wiki-incident-agents/og.png
 
 ![حادثة الويكي في أوبن إيه آي — الخلاصة](https://cdn.wolffi.sh/blog/openai-wiki-incident-agents/takeaway.pdf)
 
-إذا أردت شرحًا مرئيًا بدل جولة نصية، ابدأ بدليل [البدء مع Wolffish](https://wolffi.sh/start#control) الذي يوضح كيفية تحديد وصول الوكيل لكل تشغيل.
+إذا أردت شرحًا مرئيًا بدل جولة نصية، ابدأ بدليل [البدء مع وولفيش](https://wolffi.sh/start#control) الذي يوضح كيفية تحديد وصول الوكيل لكل تشغيل.
 
 ## الخلاصة الصادقة
 

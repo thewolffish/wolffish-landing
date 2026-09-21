@@ -24,11 +24,11 @@ async function fetchVersion(): Promise<string | null> {
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
-  const title = locale === "ar" ? "انطلق وولف فيش" : "Wolffish is live";
+  const title = locale === "ar" ? "انطلق وولفيش" : "وولفيش is live";
   const description =
     locale === "ar"
-      ? "وولف فيش — وكيل الذكاء الاصطناعي الشخصي المحلي — متوفّر الآن لأنظمة ماك وويندوز ولينكس."
-      : "Wolffish — your local-first personal AI agent — is now available for macOS, Windows, and Linux.";
+      ? "وولفيش — وكيل الذكاء الاصطناعي الشخصي المحلي — متوفّر الآن لأنظمة ماك وويندوز ولينكس."
+      : "وولفيش — your local-first personal AI agent — is now available for macOS, Windows, and Linux.";
 
   return {
     title,
@@ -37,7 +37,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title,
       description,
       url: "https://wolffi.sh/launch",
-      siteName: "Wolffish",
+      siteName: "وولفيش",
       type: "website",
       images: [
         { url: "https://cdn.wolffi.sh/generic/banner.jpg", width: 2540, height: 1520 },

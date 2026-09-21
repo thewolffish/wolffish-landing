@@ -1109,7 +1109,7 @@
         {
           "label": "Paid pilot",
           "amount": "SAR 25,000",
-          "desc": "One department, one workflow, three weeks inside your perimeter. The whole amount counts toward the deployment when you roll out company-wide."
+          "desc": "One department, one workflow, three weeks inside your perimeter. The whole amount is deducted from your total deployment cost when you roll out company-wide."
         },
         {
           "label": "Deployment, one time",
@@ -1275,7 +1275,7 @@
       "title": "Not a project that ends. A product that keeps arriving.",
       "body": [
         "Your integrator can build this, and they will build it well, once. Then the second use case is a new statement of work, the fourth is a new procurement cycle, and by year three you are maintaining a bespoke platform with people who have moved to another account.",
-        "Wolffish is a Saudi engineering team and a product at the same time. Deployment starts at SAR 60,000, the platform is SAR 79 per employee per month, new capabilities are scoped and delivered inside the quarter, and when a better model ships you switch endpoint rather than rebuild. Two people built it, which is why source access and escrow sit in the contract rather than in the objection script."
+        "Wolffish is a Saudi engineering team and a product at the same time. Deployment starts at SAR 60,000, the platform is SAR 79 per employee per month, new capabilities are scoped and delivered inside the quarter, and when a better model ships you switch endpoint rather than rebuild. Three co-founders built it, which is why source access and escrow sit in the contract rather than in the objection script."
       ],
       "questionsLabel": "Three questions to ask, either way",
       "questions": [
@@ -1345,7 +1345,7 @@
           "a": "It is cheaper per seat, and you should not pay more without a reason. The reason is what each is allowed to do. Theirs drafts inside a document. Ours executes on the employee's machine with file and command permissions you scope, and writes an audit log into your own store. Their own reviewers name auditing as the gap. If drafting is what you need this year, buy the cheaper product."
         },
         {
-          "q": "You are two people. What happens if you disappear?",
+          "q": "You are three people. What happens if you disappear?",
           "a": "Source access and escrow are in the contract from day one, and you hold the deployment, the logs and the admin layer from the start. Your platform keeps running because the agents execute on your machines and inference runs on your account. Then ask your integrator the same question about the four named people on your account."
         },
         {
@@ -1392,16 +1392,63 @@
     },
     "founder": {
       "label": "Who you will be working with",
-      "title": "Two people built this. You hold the keys.",
+      "title": "Three co-founders built this. You hold the keys.",
       "body": [
-        "Wolffish is built and run by Younes Alturkey, founder and engineer, who wrote the harness, the control plane and the relay stack himself. The person who designs your deployment is the person who wrote the platform, and the person who answers every question, security included, live on the first call, with no pre-sales engineer and no escalation.",
+        "Wolffish is built and run by its three co-founders. Younes Alturkey, co-founder and AI agents consultant, wrote the harness, the control plane and the relay stack himself. The person who designs your deployment is the person who wrote the platform, and the person who answers every question, security included, live on the first call, with no pre-sales engineer and no escalation.",
         "A Saudi entity, on Saudi paper, one message away. If we are not a fit, we say so on the first call rather than in month four."
       ],
       "name": "Younes Alturkey",
-      "role": "Founder & Engineer",
+      "role": "Co-founder, AI Agents Consultant",
       "emailLabel": "Email",
       "phoneLabel": "Phone",
       "whatsapp": "Message on WhatsApp"
+    },
+    "team": {
+      "label": "The team",
+      "title": "Three co-founders. No account team in between.",
+      "lead": "The people who build, deploy and maintain your platform are the people you talk to.",
+      "linkedin": "LinkedIn",
+      "members": [
+        {
+          "key": "younes",
+          "name": "Younes Alturkey",
+          "roles": [
+            "Co-founder",
+            "AI Agents Consultant"
+          ],
+          "bio": "Builds AI agents that get real work done. Full-stack across web, mobile, desktop and APIs, now entirely on agentic systems. Wrote the Wolffish harness, control plane and relay, and designs every deployment.",
+          "linkedin": "https://www.linkedin.com/in/younes-alturkey/"
+        },
+        {
+          "key": "abdullah",
+          "name": "Abdullah Alhazmi",
+          "roles": [
+            "Co-founder",
+            "Infrastructure Consultant"
+          ],
+          "bio": "Infrastructure, GitOps and cloud adoption. Stands up the environment your Wolffish Cloud deployment lives in, inside your perimeter, and keeps every rollout repeatable. An engineer and team lead focused on agility.",
+          "linkedin": "https://www.linkedin.com/in/abdullah-alhazmi-52269511a/"
+        },
+        {
+          "key": "sana",
+          "name": "Sana Garah",
+          "roles": [
+            "Co-founder",
+            "Cloud Consultant"
+          ],
+          "bio": "Software engineering and cloud consultant with an eye for design. Shapes the side of Wolffish Cloud your employees see, across web, mobile and desktop, so the platform is one people actually use.",
+          "linkedin": "https://www.linkedin.com/in/sana-garah/"
+        },
+        {
+          "key": "team",
+          "name": "The delivery team",
+          "roles": [
+            "Integrations",
+            "Support"
+          ],
+          "bio": "Engineers and consultants around the three of us. They wire in your systems, train your staff, and answer support once the platform is live."
+        }
+      ]
     },
     "schedule": {
       "label": "Next step",
@@ -1409,9 +1456,7 @@
       "body": "Thirty minutes with whoever is championing this on your side. We talk about the work your people do, the systems the agents would reach, and what a first deployment would look like. Security questions are welcome at any point, and the architecture diagram arrives before the call so we can answer them properly.",
       "asideTitle": "What happens next",
       "aside": [
-        "I read every request myself and reply to confirm a time.",
-        "The architecture diagram arrives before the call.",
-        "Bring anyone you like. Security questions are welcome, and we are ready for them."
+        "The architecture diagram arrives before the call."
       ],
       "form": {
         "name": "Your name",
@@ -1445,7 +1490,13 @@
     },
     "floating": {
       "title": "Book a call with Younes",
-      "desc": "Founder and engineer. Tell me what you want agents to do, and we talk it through."
+      "desc": "Co-founder. Tell me what you want agents to do, and we talk it through."
+    },
+    "deckCard": {
+      "badge": "Five minutes",
+      "title": "The short version, as a story you scroll",
+      "desc": "The problem, the platform, and how it starts, in plain words.",
+      "cta": "Open the deck"
     },
     "playground": {
       "cardTitle": "Try the desktop app, on demo data",
@@ -1454,6 +1505,318 @@
       "badge": "Interactive demo",
       "open": "Open full screen",
       "hint": "A replica of the desktop app on demo data: every page, setting and file opens; nothing runs. Twenty real engineering conversations, the settings, the automations and the admin layer, exactly as an employee sees them."
+    }
+  },
+  "deck": {
+    "meta": {
+      "title": "Wolffish Cloud in five minutes",
+      "description": "An AI agent for every employee, built custom for your company and running on your own infrastructure. The problem, the platform, and how it starts, in five minutes.",
+      "ogTitle": "An AI agent for every employee. Built for your company. Owned by you.",
+      "ogDescription": "The short version of Wolffish Cloud: why now, what your people get, why it is not SaaS, and how it starts with a call and a paid pilot."
+    },
+    "ui": {
+      "home": "Home",
+      "wordmark": "Wolffish",
+      "tag": "Cloud",
+      "fullPage": "Full details",
+      "bookCall": "Book a call",
+      "begin": "Begin",
+      "scrollHint": "Scroll",
+      "progressLabel": "Deck progress",
+      "whatsappText": "Hi Younes, I went through the Wolffish Cloud deck and would like to talk.",
+      "footerLine": "Agents on your machines. Inference on your account. The record in your store.",
+      "badges": {
+        "saudiMade": "Saudi made",
+        "deepinfra": "Inference provider",
+        "openSource": "Open source project"
+      },
+      "links": {
+        "cloud": "The full Wolffish Cloud page",
+        "home": "Wolffish home",
+        "github": "GitHub"
+      }
+    },
+    "cover": {
+      "eyebrow": "Wolffish Cloud",
+      "title": "An AI agent for every employee.",
+      "subtitle": "Built for your company. Running on your own infrastructure. Owned by you.",
+      "lead": "Five minutes: the problem, the platform, and how it starts."
+    },
+    "now": {
+      "label": "Right now",
+      "title": "The AI shift is in full swing.",
+      "body": "Companies that put AI agents in every employee's hands will pull ahead. The ones that wait will fall behind, and some will not survive it.",
+      "stats": [
+        {
+          "value": 88,
+          "suffix": "%",
+          "text": "of companies already use AI somewhere"
+        },
+        {
+          "value": 7,
+          "suffix": "%",
+          "text": "have rolled it out across the whole company"
+        }
+      ],
+      "source": "McKinsey, 2025"
+    },
+    "options": {
+      "label": "The obvious options",
+      "title": "Strong tools, with a catch.",
+      "vendors": [
+        "Microsoft 365 Copilot",
+        "ChatGPT Enterprise",
+        "Claude Enterprise"
+      ],
+      "flow": {
+        "from": "Your company",
+        "to": "Their cloud"
+      },
+      "points": [
+        {
+          "title": "Your data runs on their cloud.",
+          "desc": "Every prompt, file and answer leaves your company."
+        },
+        {
+          "title": "The bill grows with use.",
+          "desc": "Priced per seat, and heavy use costs more. So finance ends up rationing the very thing you bought."
+        },
+        {
+          "title": "They stay at the surface.",
+          "desc": "Wiring them deep into your internal systems is hard, so the agent stays a chat window."
+        }
+      ]
+    },
+    "shadow": {
+      "label": "Meanwhile",
+      "title": "Your people already use AI. On personal accounts.",
+      "body": "Code, contracts and customer data in someone else's chat. Nothing logged.",
+      "tags": [
+        "Source code",
+        "Contracts",
+        "Customer data",
+        "Internal files",
+        "Financials",
+        "Emails"
+      ]
+    },
+    "problem": {
+      "label": "The core problem",
+      "title": "Three things, all true today.",
+      "items": [
+        {
+          "title": "Data is leaking.",
+          "desc": "Out of personal accounts and rented tools, with no record of it."
+        },
+        {
+          "title": "Safe AI, out of reach.",
+          "desc": "Too costly at scale, and too shallow to do real work."
+        },
+        {
+          "title": "Nobody is pushing.",
+          "desc": "No tools, no training. People are on their own."
+        }
+      ]
+    },
+    "answer": {
+      "label": "The answer",
+      "title": "Wolffish Cloud.",
+      "lead": "A complete, open-source AI agent platform. Built custom for your company. Deployed inside your own infrastructure.",
+      "chips": [
+        "Open source",
+        "Built for you",
+        "On your infrastructure",
+        "Owned by you"
+      ]
+    },
+    "get": {
+      "label": "What you get",
+      "title": "One agent per employee, wired into your company.",
+      "items": [
+        {
+          "title": "One agent for every employee.",
+          "desc": "On their own computer, doing real work: reading, writing, running tasks."
+        },
+        {
+          "title": "Connected to your internal systems.",
+          "desc": "The tools that actually run your company, with permissions you set."
+        },
+        {
+          "title": "Your data stays with you.",
+          "desc": "Platform, files and logs on your infrastructure. Model calls: zero data retention, on your account."
+        }
+      ],
+      "platforms": {
+        "title": "Everywhere your people work",
+        "desktop": "macOS, Windows and Linux",
+        "mobile": "Full companion app on iOS and Android"
+      }
+    },
+    "yours": {
+      "label": "Not a subscription",
+      "title": "This is not SaaS. It is yours.",
+      "items": [
+        {
+          "title": "Hosted by you.",
+          "desc": "Deployed on your servers and your own cloud accounts, behind your own security. Nothing of it runs on ours."
+        },
+        {
+          "title": "You pay your own usage.",
+          "desc": "Your provider bills you at cost. Wolffish adds nothing on top."
+        },
+        {
+          "title": "Budgets you set.",
+          "desc": "A token limit per employee or per team, or unlimited. Change it any time."
+        },
+        {
+          "title": "Owned from day one.",
+          "desc": "End the contract with us and the platform keeps running."
+        }
+      ]
+    },
+    "control": {
+      "label": "Full control",
+      "title": "See every token, every output, every command.",
+      "body": "A complete admin layer: who used what, what it did, what it cost.",
+      "panel": {
+        "title": "Audit log",
+        "live": "Live",
+        "stopped": "Stopped"
+      },
+      "log": [
+        {
+          "who": "Sara",
+          "action": "read file",
+          "what": "Q3-supplier-contract.pdf",
+          "kind": "read"
+        },
+        {
+          "who": "Faisal",
+          "action": "ran command",
+          "what": "export monthly report",
+          "kind": "run"
+        },
+        {
+          "who": "Noura",
+          "action": "drafted",
+          "what": "reply to customer 4412",
+          "kind": "draft"
+        },
+        {
+          "who": "Admin",
+          "action": "set budget",
+          "what": "Finance, 100M tokens a month",
+          "kind": "budget"
+        },
+        {
+          "who": "Khalid",
+          "action": "spent",
+          "what": "3.2M tokens",
+          "kind": "tokens"
+        },
+        {
+          "who": "Sara",
+          "action": "waiting for approval",
+          "what": "send email to vendor",
+          "kind": "approve"
+        },
+        {
+          "who": "Lama",
+          "action": "read file",
+          "what": "hiring-plan-2026.xlsx",
+          "kind": "read"
+        },
+        {
+          "who": "Faisal",
+          "action": "updated record",
+          "what": "invoice 8812 marked paid",
+          "kind": "run"
+        }
+      ],
+      "budget": {
+        "label": "Token budgets",
+        "rows": [
+          {
+            "name": "Finance",
+            "value": "100M / month",
+            "fill": 0.62
+          },
+          {
+            "name": "Sales",
+            "value": "150M / month",
+            "fill": 0.35
+          },
+          {
+            "name": "Engineering",
+            "value": "Unlimited",
+            "fill": 1
+          }
+        ],
+        "kill": "Stop all",
+        "resume": "Resume all",
+        "stoppedToast": "All agents stopped.",
+        "resumedToast": "All agents running again."
+      }
+    },
+    "wolffish": {
+      "label": "What you pay Wolffish for",
+      "title": "The know-how, not the software.",
+      "items": [
+        {
+          "title": "Build",
+          "desc": "Your platform, custom for your company."
+        },
+        {
+          "title": "Deploy",
+          "desc": "Inside your infrastructure, on your accounts."
+        },
+        {
+          "title": "Integrate",
+          "desc": "Your internal systems, one by one."
+        },
+        {
+          "title": "Train",
+          "desc": "Your staff, so no employee is left behind."
+        }
+      ],
+      "outro": "Then an annual contract: we maintain it and connect more systems."
+    },
+    "start": {
+      "label": "How it starts",
+      "title": "A call, a pilot, then everyone.",
+      "steps": [
+        {
+          "title": "A 30-minute call",
+          "time": "Day one",
+          "desc": "We learn what your people do and which systems matter."
+        },
+        {
+          "title": "A paid pilot",
+          "time": "6 to 8 weeks to live",
+          "desc": "One department, a few systems. Proof of at least double the output, on agreed criteria.",
+          "note": "SAR 25,000, deducted in full from your total deployment cost."
+        },
+        {
+          "title": "Company-wide rollout",
+          "time": "Then",
+          "desc": "Every employee gets their agent. Training included."
+        },
+        {
+          "title": "Annual contract",
+          "time": "Ongoing",
+          "desc": "We maintain your platform and integrate more systems. It is yours either way."
+        }
+      ],
+      "outro": "By the end, your company runs on an agent platform it owns. A cornerstone, from day one.",
+      "pricing": "Full pricing and details on the Wolffish Cloud page"
+    },
+    "contact": {
+      "label": "Let's talk",
+      "title": "Thirty minutes with Younes.",
+      "body": "Tell me what your people do. If we are not a fit, I will say so.",
+      "whatsapp": "Message on WhatsApp",
+      "emailLabel": "Email",
+      "phoneLabel": "Phone"
     }
   }
 }
