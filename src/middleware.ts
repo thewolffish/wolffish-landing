@@ -13,7 +13,7 @@ const COOKIE = "locale";
 const LOCALES = new Set(["en", "ar"]);
 const ONE_YEAR = 60 * 60 * 24 * 365;
 
-export function proxy(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const requested = request.nextUrl.searchParams.get(PARAM);
   if (!requested || !LOCALES.has(requested)) return NextResponse.next();
 
