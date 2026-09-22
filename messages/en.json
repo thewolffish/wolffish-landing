@@ -1492,6 +1492,11 @@
       "title": "Book a call with Younes",
       "desc": "Co-founder. Tell me what you want agents to do, and we talk it through."
     },
+    "video": {
+      "title": "Watch the pitch",
+      "desc": "Five minutes, recorded.",
+      "close": "Close"
+    },
     "deckCard": {
       "badge": "Five minutes",
       "title": "The short version, as a story you scroll",
@@ -1534,6 +1539,10 @@
         "cloud": "The full Wolffish Cloud page",
         "home": "Wolffish home",
         "github": "GitHub"
+      },
+      "video": {
+        "title": "Watch the pitch",
+        "close": "Close"
       }
     },
     "cover": {

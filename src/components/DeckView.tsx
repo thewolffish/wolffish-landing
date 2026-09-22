@@ -58,6 +58,7 @@ import {
 } from "./ContactCard";
 import type { DeckSceneState } from "./DeckScene";
 import ScheduleCallForm, { type ScheduleFormUi } from "./ScheduleCallForm";
+import { PitchVideoButton, type PitchVideoUi } from "./PitchVideo";
 import TeamCards, { type TeamData } from "./TeamCards";
 
 // The particle field is WebGL and client only.
@@ -93,6 +94,7 @@ export interface DeckData {
     footerLine: string;
     badges: { saudiMade: string; deepinfra: string; openSource: string };
     links: { cloud: string; home: string; github: string };
+    video: PitchVideoUi;
   };
   cover: { eyebrow: string; title: string; subtitle: string; lead: string };
   now: {
@@ -639,6 +641,7 @@ export default function DeckView({
             {pad2(current + 1)} / {SCENES.length}
           </span>
           <div className="flex items-center gap-2">
+            <PitchVideoButton ui={ui.video} />
             <a
               href="#contact"
               className="hidden sm:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-[#04121a] text-xs font-semibold transition-colors"

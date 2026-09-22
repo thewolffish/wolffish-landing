@@ -50,6 +50,7 @@ import {
 import { SiOpensourceinitiative } from "react-icons/si";
 import ScheduleCallForm, { type ScheduleFormUi } from "./ScheduleCallForm";
 import TeamCards, { type TeamData } from "./TeamCards";
+import { PitchVideoCard, type PitchVideoUi } from "./PitchVideo";
 import CloudPlayground, { type CloudPlaygroundUi } from "./CloudPlayground";
 
 /* ---------- data shapes (read from messages/*.json "cloud" in app/cloud/page.tsx) ---------- */
@@ -163,6 +164,7 @@ export interface CloudData {
   founder: FounderUi & { label: string; title: string };
   team: TeamData;
   deckCard: { badge: string; title: string; desc: string; cta: string };
+  video: PitchVideoUi;
   schedule: {
     label: string;
     title: string;
@@ -422,6 +424,7 @@ export default function CloudView({
     schedule,
     floating,
     deckCard,
+    video,
     playground,
   } = data;
   const router = useRouter();
@@ -1027,7 +1030,7 @@ export default function CloudView({
       </Section>
 
       {/* Footer, with extra bottom padding below xl to keep the links clear of the floating card */}
-      <footer className="w-full max-w-6xl mx-auto px-6 pb-24 xl:pb-10 pt-14 flex flex-col items-center gap-4 text-xs text-neutral-400">
+      <footer className="w-full max-w-6xl mx-auto px-6 pb-48 sm:pb-24 xl:pb-10 pt-14 flex flex-col items-center gap-4 text-xs text-neutral-400">
         <div className="flex flex-wrap items-stretch justify-center gap-3">
           <div className="rounded-2xl bg-white border border-neutral-200 px-5 py-3 flex flex-col items-center justify-center gap-1.5 min-w-[150px]">
             <Image
@@ -1100,6 +1103,9 @@ export default function CloudView({
 
       {/* Floating contact card: the founder, one tap away on every scroll position */}
       <FloatingContactCard ui={floating} name={founder.name} href="#schedule" />
+
+      {/* The recorded pitch, opposite the contact card */}
+      <PitchVideoCard ui={video} />
     </div>
   );
 }
