@@ -83,9 +83,9 @@ function VideoDialog({
 }
 
 /**
- * The floating banner on /cloud: bottom-start, so it sits opposite the
- * founder's contact card and above it on phones. Light themed like the rest
- * of that page, with the play tile in YouTube's own red.
+ * The floating banner on /cloud, at the bottom start and the only floating
+ * card on that page. Light themed like the rest of it, with the play tile in
+ * YouTube's own red.
  */
 export function PitchVideoCard({ ui }: { ui: PitchVideoUi }) {
   const [open, setOpen] = useState(false);
@@ -96,7 +96,7 @@ export function PitchVideoCard({ ui }: { ui: PitchVideoUi }) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="group fixed z-30 bottom-[7rem] inset-x-4 sm:inset-x-auto sm:bottom-5 sm:start-5 sm:max-w-[300px] flex items-center gap-3 rounded-2xl bg-white/90 backdrop-blur-md border border-neutral-200 hover:border-red-300 shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:shadow-[0_12px_36px_rgba(0,0,0,0.16)] transition-all px-4 py-3 text-start cursor-pointer"
+        className="group fixed z-30 bottom-4 inset-x-4 sm:inset-x-auto sm:bottom-5 sm:start-5 sm:max-w-[300px] flex items-center gap-3 rounded-2xl bg-white/90 backdrop-blur-md border border-neutral-200 hover:border-red-300 shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:shadow-[0_12px_36px_rgba(0,0,0,0.16)] transition-all px-4 py-3 text-start cursor-pointer"
       >
         <span
           className="w-10 h-10 shrink-0 rounded-xl text-white flex items-center justify-center"

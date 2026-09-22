@@ -1488,13 +1488,9 @@
         "privacy": "This form sends one email to you and one to Younes. Nothing else is stored."
       }
     },
-    "floating": {
-      "title": "Book a call with Younes",
-      "desc": "Co-founder. Tell me what you want agents to do, and we talk it through."
-    },
     "video": {
       "title": "Watch the pitch",
-      "desc": "Five minutes, recorded.",
+      "desc": "The same story, on video.",
       "close": "Close"
     },
     "deckCard": {

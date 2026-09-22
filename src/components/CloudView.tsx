@@ -37,14 +37,12 @@ import {
   FaXmark,
 } from "react-icons/fa6";
 import {
-  FloatingContactCard,
   FounderCard,
   FOUNDER_EMAIL,
   FOUNDER_IMAGE,
   FOUNDER_PHONE,
   FOUNDER_PHONE_DISPLAY,
   whatsappUrl,
-  type FloatingContactUi,
   type FounderUi,
 } from "./ContactCard";
 import { SiOpensourceinitiative } from "react-icons/si";
@@ -173,7 +171,6 @@ export interface CloudData {
     aside: string[];
     form: ScheduleFormUi;
   };
-  floating: FloatingContactUi;
   playground: CloudPlaygroundUi;
 }
 
@@ -422,7 +419,6 @@ export default function CloudView({
     founder,
     team,
     schedule,
-    floating,
     deckCard,
     video,
     playground,
@@ -1029,8 +1025,8 @@ export default function CloudView({
         <p className="mt-4 text-xs text-neutral-400">{ui.micro}</p>
       </Section>
 
-      {/* Footer, with extra bottom padding below xl to keep the links clear of the floating card */}
-      <footer className="w-full max-w-6xl mx-auto px-6 pb-48 sm:pb-24 xl:pb-10 pt-14 flex flex-col items-center gap-4 text-xs text-neutral-400">
+      {/* Footer, with extra bottom padding below xl to keep the links clear of the video banner */}
+      <footer className="w-full max-w-6xl mx-auto px-6 pb-24 xl:pb-10 pt-14 flex flex-col items-center gap-4 text-xs text-neutral-400">
         <div className="flex flex-wrap items-stretch justify-center gap-3">
           <div className="rounded-2xl bg-white border border-neutral-200 px-5 py-3 flex flex-col items-center justify-center gap-1.5 min-w-[150px]">
             <Image
@@ -1101,10 +1097,7 @@ export default function CloudView({
         </div>
       </footer>
 
-      {/* Floating contact card: the founder, one tap away on every scroll position */}
-      <FloatingContactCard ui={floating} name={founder.name} href="#schedule" />
-
-      {/* The recorded pitch, opposite the contact card */}
+      {/* The recorded pitch: the page's one floating card */}
       <PitchVideoCard ui={video} />
     </div>
   );
