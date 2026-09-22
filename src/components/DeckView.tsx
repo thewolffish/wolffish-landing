@@ -497,6 +497,16 @@ export default function DeckView({
 
   const switchLocale = (next: string) => {
     setLocaleCookie(next);
+    // A `?locale=` in the URL wins over the cookie on the server, so drop it
+    // when the reader switches by hand, or the page would come back unchanged.
+    const url = new URL(window.location.href);
+    if (url.searchParams.has("locale")) {
+      url.searchParams.delete("locale");
+      // A soft navigation leaves the root layout, and with it `lang` and
+      // `dir`, untouched. Reload so the document switches direction too.
+      window.location.replace(url.pathname + url.search + url.hash);
+      return;
+    }
     startTransition(() => router.refresh());
   };
 
